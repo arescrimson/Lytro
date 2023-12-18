@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "jikan4.js": "^1.5.9"
+  }
+}
