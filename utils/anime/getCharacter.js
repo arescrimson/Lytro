@@ -11,12 +11,14 @@ const { JIKAN_CLIENT } = require('../jikan/jikanClient')
 
 class AnimeCharacterSearch {
 
-    constructor(characterName, animeID) { 
-        this.characterArr = []; 
-        this.characterEmbed = null; 
-        this.characterName = characterName; 
-        this.animeID = animeID; 
-        this.characterCounter = 0; 
+    constructor(characterName, animeID) {
+        this.characterArr = [];
+        this.characterEmbed = null;
+        this.characterName = characterName;
+        this.animeID = animeID;
+        this.characterCounter = 0;
+        this.animeName = "";
+        this.voiceActors = "";
     }
 
     /**
@@ -61,23 +63,23 @@ class AnimeCharacterSearch {
             this.characterArr = this.getCharacter(jikanCharacterArray);
             if (!this.characterArr.length) return;
 
-            const animeName = anime.title.default;
+            this.animeName = anime.title.default;
 
-            const voiceActors = 
-            this.characterArr[this.characterCounter]?.voiceActors[this.characterCounter]?.person.name;
+            this.voiceActors =
+                this.characterArr[this.characterCounter]?.voiceActors[this.characterCounter]?.person.name;
 
-            const jikanCharacterAbout = 
-            await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].character.id);
-            
+            const jikanCharacterAbout =
+                await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].character.id);
+
             const characterAbout = this.getDescription(jikanCharacterAbout.about);
 
             this.characterEmbed = this.createCharacterEmbed(
                 this.characterArr[this.characterCounter].character.name,
                 this.characterArr[this.characterCounter].character.url,
-                animeName ?? 'animeName',
+                this.animeName ?? 'animeName',
                 this.characterArr[this.characterCounter].role ?? 'role',
                 characterAbout,
-                voiceActors ?? 'va',
+                this.voiceActors ?? 'va',
                 this.characterArr[this.characterCounter]?.character.image.webp.default
             );
 
@@ -99,7 +101,7 @@ class AnimeCharacterSearch {
             }
             //if character name is sup, indexes ALL SUPPORTING CHARACTERS. Temporary limit of 5 indexes until 
             //functionality to advance indexes is added.  
-            else if (this.characterName === 'sup') {
+            else if (this.characterName === 'side') {
                 if (jikanCharacterArr[i].role === 'Supporting') {
                     this.characterArr.push(jikanCharacterArr[i]);
                 }
@@ -158,16 +160,51 @@ class AnimeCharacterSearch {
         return res;
     }
 
+    async updateCharacterEmbed(updateRight) {
+        if (updateRight) {
+            this.characterCounter = (this.characterCounter + 1) % this.characterArr.length;
+        } else {
+            this.characterCounter = (this.characterCounter - 1 + this.characterArr.length) % this.characterArr.length;
+        }
+
+        let characterAbout;
+
+        const updatedCharacterFull =
+            await JIKAN_CLIENT.characters.getFull
+                (this.characterArr[this.characterCounter].character.id);
+
+        if (updatedCharacterFull) {
+            characterAbout = this.getDescription(updatedCharacterFull.about);
+        } else {
+            characterAbout = 'description';
+        }
+
+        this.voiceActors =
+            this.characterArr[this.characterCounter]?.voiceActors[this.characterCounter]?.person.name;
+
+        this.characterEmbed = this.createCharacterEmbed(
+            this.characterArr[this.characterCounter].character.name,
+            this.characterArr[this.characterCounter].character.url,
+            this.animeName ?? 'animeName',
+            this.characterArr[this.characterCounter].role ?? 'role',
+            characterAbout,
+            this.voiceActors ?? 'va',
+            this.characterArr[this.characterCounter]?.character.image.webp.default
+        );
+
+        return this.characterEmbed;
+    }
+
     getCharacterArr() {
         return this.characterArr;
     }
 
-    getCharacterName() { 
-        return this.characterName; 
+    getCharacterName() {
+        return this.characterName;
     }
 
-    setCharacterCounter(change) { 
-        this.characterCounter += change; 
+    getCharacterEmbed() {
+        return this.characterEmbed;
     }
 }
 
