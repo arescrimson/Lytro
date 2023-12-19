@@ -1,5 +1,5 @@
 const { JIKAN_CLIENT } = require('../jikan/jikanClient');
-const { createAnimeEmbed, createAnimeInfoEmbed } = require('../embed/createAnimeEmbeds');
+const { createAnimeEmbed, createAnimeInfoEmbed } = require('../embed/createEmbeds');
 
 const { GENRES_NOT_FOUND,
     EPISODES_NOT_FOUND,
