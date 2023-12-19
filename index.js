@@ -7,8 +7,10 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { DISCORD_TOKEN } = require('./config.json');
+require('dotenv').config(); 
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { DISCORD_TOKEN } = require('./config.js');
+
 
 const DISCORD_CLIENT = new Client({
     intents: [GatewayIntentBits.Guilds]
