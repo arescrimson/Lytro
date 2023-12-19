@@ -9,6 +9,12 @@ const { JIKAN_CLIENT } = require('../jikan/jikanClient')
 
 const { createCharacterEmbed } = require('../embed/createAnimeEmbeds');
 
+const {
+    ROLE_NOT_FOUND,
+    VA_NOT_FOUND,
+    DESCRIPTION_NOT_FOUND,
+} = require('../../config')
+
 class AnimeCharacterSearch {
 
     constructor(characterName, animeID) {
@@ -31,7 +37,7 @@ class AnimeCharacterSearch {
         try {
             const anime = await JIKAN_CLIENT.anime.get(this.animeID);
             const jikanCharacterArray = await JIKAN_CLIENT.anime.getCharacters(this.animeID);
-            if (!jikanCharacterArray) return null; 
+            if (!jikanCharacterArray) return null;
             this.characterArr = this.getCharacter(jikanCharacterArray);
             if (!this.characterArr.length) return null;
 
@@ -48,10 +54,10 @@ class AnimeCharacterSearch {
             this.characterEmbed = createCharacterEmbed(
                 this.characterArr[this.characterCounter].character.name,
                 this.characterArr[this.characterCounter].character.url,
-                this.animeName ?? 'animeName',
-                this.characterArr[this.characterCounter].role ?? 'role',
+                this.animeName,
+                this.characterArr[this.characterCounter].role ?? ROLE_NOT_FOUND,
                 characterAbout,
-                this.voiceActors ?? 'va',
+                this.voiceActors ?? VA_NOT_FOUND,
                 this.characterArr[this.characterCounter]?.character.image.webp.default
             );
 
@@ -94,7 +100,7 @@ class AnimeCharacterSearch {
         let description;
 
         if (!characterDescription) {
-            return description = 'description';
+            return description = DESCRIPTION_NOT_FOUND;
         }
 
         else {
@@ -148,7 +154,7 @@ class AnimeCharacterSearch {
         if (updatedCharacterFull) {
             characterAbout = this.getDescription(updatedCharacterFull.about);
         } else {
-            characterAbout = 'description';
+            characterAbout = DESCRIPTION_NOT_FOUND;
         }
 
         this.voiceActors =
@@ -157,10 +163,10 @@ class AnimeCharacterSearch {
         this.characterEmbed = createCharacterEmbed(
             this.characterArr[this.characterCounter].character.name,
             this.characterArr[this.characterCounter].character.url,
-            this.animeName ?? 'animeName',
-            this.characterArr[this.characterCounter].role ?? 'role',
+            this.animeName,
+            this.characterArr[this.characterCounter].role ?? ROLE_NOT_FOUND,
             characterAbout,
-            this.voiceActors ?? 'va',
+            this.voiceActors ?? VA_NOT_FOUND,
             this.characterArr[this.characterCounter]?.character.image.webp.default
         );
 
