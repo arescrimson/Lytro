@@ -4,7 +4,7 @@ const { getAnimeCharacters, getNextCharacter, AnimeCharacterSearch } = require('
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('character')
+        .setName('chr')
         .setDescription('get anime character')
         .addStringOption(option =>
             option
@@ -28,8 +28,7 @@ module.exports = {
             if (!animeID) return;
 
             const animeCharacterSearch = new AnimeCharacterSearch(characterName, animeID);
-            const embed = await animeCharacterSearch.getAnimeCharacters()
-            console.log(animeCharacterSearch.getCharacterName()); 
+            const embed = await animeCharacterSearch.getAnimeCharacters();
 
             if (animeCharacterSearch.getCharacterArr().length > 1) {
                 
@@ -60,13 +59,13 @@ module.exports = {
                 collector.on('collect', async buttonInteraction => {
                     try {
                         await buttonInteraction.deferUpdate(); 
-                        
+
                         if (buttonInteraction.customId === 'right') {
                             updatedEmbed = await animeCharacterSearch.updateCharacterEmbed(true);
-                            await interaction.editReply({ embeds: [updatedEmbed] })
+                            await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
                         } else if (buttonInteraction.customId === 'left') {
                             updatedEmbed = await animeCharacterSearch.updateCharacterEmbed(false);
-                            await interaction.editReply({ embeds: [updatedEmbed] })
+                            await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
                         }
                     } catch (error) {
                         console.error(error); 
