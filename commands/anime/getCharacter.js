@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { getJikanID } = require('../../utils/jikan/getJikanID');
-const { getAnimeCharacters, getNextCharacter, AnimeCharacterSearch } = require('../../utils/anime/getCharacter');
+const { AnimeCharacterSearch } = require('../../utils/anime/getCharacter');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,10 +25,18 @@ module.exports = {
             const characterName = await interaction.options.getString('charactername');
             const animeID = await getJikanID('anime', animeName);
 
-            if (!animeID) return;
+            if (!animeID) {
+                await interaction.editReply('Anime not Found.'); 
+                return;
+            }
 
             const animeCharacterSearch = new AnimeCharacterSearch(characterName, animeID);
-            const embed = await animeCharacterSearch.getAnimeCharacters();
+            const animeCharacterEmbed = await animeCharacterSearch.createAnimeCharactersEmbed();
+
+            if (!animeCharacterEmbed) { 
+                await interaction.editReply('Character not Found.');
+                return;  
+            }
 
             if (animeCharacterSearch.getCharacterArr().length > 1) {
                 
@@ -46,25 +54,23 @@ module.exports = {
                     .addComponents(left, right);
 
                 const response = await interaction.editReply({
-                    embeds: [embed],
+                    embeds: [animeCharacterEmbed],
                     components: [row],
                 });
 
                 const collectorFilter = i => i.user.id === interaction.user.id;
 
-                const collector = response.createMessageComponentCollector({ filter: collectorFilter, time: 20000 });
-
-                let updatedEmbed; 
+                const collector = response.createMessageComponentCollector({ filter: collectorFilter, time: 60000 });
 
                 collector.on('collect', async buttonInteraction => {
                     try {
                         await buttonInteraction.deferUpdate(); 
 
                         if (buttonInteraction.customId === 'right') {
-                            updatedEmbed = await animeCharacterSearch.updateCharacterEmbed(true);
+                            const updatedEmbed = await animeCharacterSearch.updateCharacterEmbed(true);
                             await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
                         } else if (buttonInteraction.customId === 'left') {
-                            updatedEmbed = await animeCharacterSearch.updateCharacterEmbed(false);
+                            const updatedEmbed = await animeCharacterSearch.updateCharacterEmbed(false);
                             await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
                         }
                     } catch (error) {
