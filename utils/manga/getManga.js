@@ -4,13 +4,13 @@ const { createMangaEmbed, createMangaInfoEmbed } = require('../embed/createEmbed
 const { GENRES_NOT_FOUND,
     VOLUMES_NOT_FOUND,
     URL_NOT_FOUND,
-    RECOMMENDATIONS_NOT_FOUND,
     SERIAL_NOT_FOUND,
     SYNOPSIS_NOT_FOUND,
     BACKGROUND_NOT_FOUND,
     RATINGS_NOT_FOUND,
     YEAR_NOT_FOUND,
-    AUTHOR_NOT_FOUND } = require('../../config');
+    AUTHOR_NOT_FOUND,
+    MAX_VALUE_LENGTH } = require('../../config');
 
 class MangaSearch {
 
@@ -30,6 +30,8 @@ class MangaSearch {
         try {
             this.manga = await JIKAN_CLIENT.manga.get(this.mangaID);
 
+            if (!this.manga) return null;
+
             const stats = await JIKAN_CLIENT.manga.getStatistics(this.mangaID);
             let genres = this.manga.genres?.map(genre => genre.name).join(', ');
 
@@ -37,9 +39,9 @@ class MangaSearch {
                 genres = GENRES_NOT_FOUND;
             }
 
-            const synopsis = this.getSynopsis(this.manga);
-            const ratings = this.getRatings(stats);
             this.author = this.manga.authors[0].name ?? AUTHOR_NOT_FOUND
+            const synopsis = this.getSynopsis(this.manga.synopsis, true);
+            const ratings = this.getRatings(stats);
             const volumes = this.manga.volumes?.toLocaleString() ?? VOLUMES_NOT_FOUND;
 
             this.mangaEmbed = createMangaEmbed(
@@ -63,7 +65,7 @@ class MangaSearch {
     async createMangaInfoEmbed() {
         try {
 
-            const background = this.getBackground();
+            const background = this.getSynopsis(this.manga.background, false);
 
             this.mangaInfoEmbed = createMangaInfoEmbed(
                 this.manga.title.default,
@@ -84,56 +86,29 @@ class MangaSearch {
         }
     }
 
-    getSynopsis() {
-        //INITIALIZES SPLIT FOR SYNOPSIS THAT ARE OVER 1020 CHARACTERS 
-        let synopsis = '';
+    getSynopsis(mangaText, isSynopsis) {
+        let splitText = '';
 
-        //SPLITS SYNOPSIS IF TOO LONG INTO 2-3 PARAGRAPHS. 
-        if (this.manga.synopsis) {
-            if (this.manga.synopsis.length > 1020) {
-                const midPoint = this.manga.synopsis.lastIndexOf('.', 1020);
+        if (mangaText) {
+            if (mangaText.length > MAX_VALUE_LENGTH) {
+                const midPoint = mangaText.lastIndexOf('.', MAX_VALUE_LENGTH);
                 if (midPoint !== -1) {
-                    const synopsisFirstPart = this.manga.synopsis.substring(0, midPoint + 1);
-                    const synopsisSecondPart = this.manga.synopsis.substring(midPoint + 1);
-                    synopsis = synopsisFirstPart;
-                    this.synopsis2 = synopsisSecondPart;
+                    const firstPart = mangaText.substring(0, midPoint + 1);
+                    const secondPart = mangaText.substring(midPoint + 1);
+                    splitText = firstPart;
+                    if (isSynopsis) this.synopsis2 = secondPart
+                    else this.background2 = secondPart
                 }
             }
-            //else, simply assign synopsis to the manga synopsis. 
             else {
-                synopsis = this.manga.synopsis;
+                splitText = mangaText;
             }
         } else {
-            return SYNOPSIS_NOT_FOUND;
+            if (isSynopsis) return SYNOPSIS_NOT_FOUND;
+            else return BACKGROUND_NOT_FOUND;
         }
 
-        return synopsis;
-    }
-
-    getBackground() {
-        let background = '';
-
-        if (this.manga.background) {
-            if (this.manga.background.length > 1020) {
-                const midPoint = this.manga.background.lastIndexOf('.', 1020);
-                if (midPoint !== -1) {
-                    const backgroundFirstPart = this.manga.background.substring(0, midPoint + 1);
-                    const backgroundSecondPart = this.manga.background.substring(midPoint + 1);
-                    background = backgroundFirstPart;
-                    this.background2 = backgroundSecondPart;
-                }
-            }
-            //else, simply assign background to the manga background. 
-            else {
-                background = this.manga.background;
-            }
-        }
-        //if background is null, error message. 
-        else {
-            background = BACKGROUND_NOT_FOUND;
-        }
-
-        return background;
+        return splitText;
     }
 
     getRatings(stats) {
