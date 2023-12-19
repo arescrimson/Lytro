@@ -7,7 +7,7 @@
 
 const { JIKAN_CLIENT } = require('../jikan/jikanClient')
 
-const { createCharacterEmbed } = require('../embed/createAnimeEmbeds');
+const { createCharacterEmbed } = require('../embed/createEmbeds');
 
 const {
     ROLE_NOT_FOUND,
