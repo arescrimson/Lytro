@@ -1,82 +1,144 @@
-const { EmbedBuilder } = require('discord.js');
-const { JIKAN_CLIENT } = require('../jikan/jikanClient'); 
+const { JIKAN_CLIENT } = require('../jikan/jikanClient');
+const { createAnimeEmbed, createAnimeInfoEmbed } = require('../embed/createAnimeEmbeds');
 
-/**
- * Creates an embedded message for displaying information about an anime.
- *
- * @param {string} TITLE - The title of the anime.
- * @param {string} URL - The URL associated with the anime.
- * @param {string} THUMBNAIL - The URL of the anime's thumbnail image.
- * @param {string} SYNOPSIS - The synopsis of the anime.
- * @param {string} SYNOPSIS2 - Additional synopsis if the first is too long.
- * @param {string} EPISODES - The number of episodes in the anime.
- * @param {string} GENRES - The genres associated with the anime.
- * @param {string} RATINGS - The ratings and scores of the anime.
- * @param {string} image - The URL of the anime's image.
- * @returns {EmbedBuilder} - An EmbedBuilder object for anime information.
- */
-function createEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RATINGS, image) {
+class AnimeSearch {
 
-    const createdEmbed = new EmbedBuilder()
-        .setColor(0x0099FF)
-        .setTitle(`${TITLE}`)
-        .setURL(`${URL}`)
-        .setAuthor({ name: `Currently Searching Anime: ${TITLE}`})
-        .addFields(
-            { name: 'Synopsis: \n\u200b', value: `${SYNOPSIS}` },
-            { name: '\n', value: `${SYNOPSIS2}\n\u200b` },
-            { name: 'Episodes:', value: `${EPISODES}`, inline: true },
-            { name: 'Genres:', value: `${GENRES}`, inline: true },
-            { name: 'Ratings:', value: `${RATINGS}`, inline: true }
-        )
-        .setImage(`${image}`)
-        .setTimestamp()
+    constructor(animeID) { 
+        this.animeID = animeID; 
+        this.animeEmbed = null;
+        this.anime = null;  
+        this.synopsis2 = '\n'; 
+        this.background2 = '\n';
+    }
 
-    return createdEmbed;
-}
+    /**
+     * Gets Anime Information from the animeID passed. 
+     */
+    async createAnimeEmbed() {
+        try {
+            this.anime = await JIKAN_CLIENT.anime.get(this.animeID);
 
-/**
- * Gets Anime Information from the animeID passed. 
- * 
- * @param {Message} message is the discord message. 
- * @param {number} animeID is the animeID passed. 
- */
-async function getAnimeInfo(animeID) {
-    try {
-        //GETS ANIME INFORMATION
-        const anime = await JIKAN_CLIENT.anime.get(animeID);
-        if (!anime) return; 
-        const stats = await JIKAN_CLIENT.anime.getStatistics(animeID);
-        let genres = anime?.genres?.map(genre => genre.name).join(', ');
+            const stats = await JIKAN_CLIENT.anime.getStatistics(this.animeID);
+            let genres = this.anime.genres?.map(genre => genre.name).join(', ');
 
-        if (!genres || genres.trim() === '') {
-            genres = 'genres';
+            if (!genres || genres.trim() === '') {
+                genres = 'genres';
+            }
+
+            const synopsis = this.getSynopsis(this.anime);
+            const ratings = this.getRatings(stats);
+
+            const episodes = this.anime.episodes?.toLocaleString() ?? 'episodes';
+
+            this.animeEmbed = createAnimeEmbed(
+                this.anime.title?.default,
+                this.anime.url ?? 'url',
+                synopsis,
+                this.synopsis2,
+                episodes,
+                genres,
+                ratings,
+                this.anime.image.webp.default
+            )
+
+            return this.animeEmbed;
+        } catch (error) {
+            console.error('Error in getAnime:', error.message);
         }
+    }
 
+    async createAnimeInfoEmbed() {
+        try {
+ 
+            const rec = await JIKAN_CLIENT.anime.getRecommendations(this.animeID);
+    
+            const background = this.getBackground(); 
+            
+            let recList = [];
+            let recommendations = '';
+    
+            //If at least 2 indexes in recommendation array, add them to recList String. 
+            if (rec.length > 2) {
+                recList.push(rec[0].entry.title);
+                recList.push(rec[1].entry.title);
+                recommendations = recList.map(item => item).join(', ');
+            }
+            //If no length on recList, i.e. null, recommendation string becomes not found error message.  
+            else {
+                recommendations = 'recommendations';
+            }
+    
+            this.animeInfoEmbed = createAnimeInfoEmbed(
+                this.anime.title.default,
+                this.anime.url,
+                background,
+                this.background2,
+                this.anime.year ?? 'year',
+                this.anime.studios[0]?.name ?? 'studio',
+                recommendations,
+                this.anime.image.webp.default
+            )
+    
+            return this.animeInfoEmbed;
+    
+        } catch (error) {
+            console.error('Error in getInfo:', error.message);
+        }
+    }
+
+    getSynopsis() { 
         //INITIALIZES SPLIT FOR SYNOPSIS THAT ARE OVER 1020 CHARACTERS 
         let synopsis = '';
-        let synopsis2 = '\n';
 
         //SPLITS SYNOPSIS IF TOO LONG INTO 2-3 PARAGRAPHS. 
-        if (anime?.synopsis) {
-            if (anime.synopsis.length > 1020) {
-                const midPoint = anime.synopsis.lastIndexOf('.', 1020);
+        if (this.anime.synopsis) {
+            if (this.anime.synopsis.length > 1020) {
+                const midPoint = this.anime.synopsis.lastIndexOf('.', 1020);
                 if (midPoint !== -1) {
-                    const synopsisFirstPart = anime.synopsis.substring(0, midPoint + 1);
-                    const synopsisSecondPart = anime.synopsis.substring(midPoint + 1);
+                    const synopsisFirstPart = this.anime.synopsis.substring(0, midPoint + 1);
+                    const synopsisSecondPart = this.anime.synopsis.substring(midPoint + 1);
                     synopsis = synopsisFirstPart;
-                    synopsis2 = synopsisSecondPart;
+                    this.synopsis2 = synopsisSecondPart;
                 }
             }
             //else, simply assign synopsis to the anime synopsis. 
             else {
-                synopsis = anime.synopsis;
+                synopsis = this.anime.synopsis;
             }
         } else {
-            synopsis = 'synopsis';
+            return 'synopsis'; 
         }
 
-        //RATINGS AS AN AVERAGED SCORE STRING 
+        return synopsis; 
+    }
+
+    getBackground() { 
+        let background = '';
+
+        if (this.anime.background) {
+            if (this.anime.background.length > 1020) {
+                const midPoint = this.anime.background.lastIndexOf('.', 1020);
+                if (midPoint !== -1) {
+                    const backgroundFirstPart = this.anime.background.substring(0, midPoint + 1);
+                    const backgroundSecondPart = this.anime.background.substring(midPoint + 1);
+                    background = backgroundFirstPart;
+                    this.background2 = backgroundSecondPart;
+                }
+            }
+            //else, simply assign background to the anime background. 
+            else {
+                background = this.anime.background;
+            }
+        }
+        //if background is null, error message. 
+        else {
+            background = 'background';
+        }
+
+        return background; 
+    }
+
+    getRatings(stats) { 
         let ratings = '';
 
         if (stats?.scores) {
@@ -92,37 +154,22 @@ async function getAnimeInfo(animeID) {
             const averageScore = totalScore / totalVotes;
 
             ratings = `Average score based off ${totalVotes.toLocaleString()} votes: ${averageScore.toFixed(2) + ' / 10'}`;
-        }
-
-        else {
+        } else {
             ratings = 'ratings';
         }
 
-        //SYNOPSIS, URL, EPISODES, GENRES, RATINGS
-        const SYNOPSIS = synopsis;
-        const SYNOPSIS2 = synopsis2;
-        const URL = anime?.url ?? 'url';
-        const EPISODES = anime?.episodes?.toLocaleString() ?? 'episodes';
-        const GENRES = genres;
-        const RATINGS = ratings;
+        return ratings; 
+    }
 
-        const animeEmbed = createEmbed(
-            anime?.title.default,
-            URL,
-            SYNOPSIS,
-            SYNOPSIS2,
-            EPISODES,
-            GENRES,
-            RATINGS,
-            anime?.image.webp.default
-        )
+    getAnimeEmbed() { 
+        return this.animeEmbed; 
+    }
 
-        return animeEmbed; 
-    } catch (error) {
-        console.error('Error in getAnime:', error.message);
+    getAnimeInfoEmbed() { 
+        return this.animeInfoEmbed; 
     }
 }
 
-module.exports = { 
-    getAnimeInfo
+module.exports = {
+    AnimeSearch
 }
