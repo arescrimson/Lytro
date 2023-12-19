@@ -33,6 +33,8 @@ async function getJikanID(mediaType, searchString) {
                 break; 
         }
 
+        if (!searchResults) return null; 
+
         // Determine the number of results to consider (approximately the top quarter).
         const quarterLength = Math.ceil(searchResults.length / 4);
 
