@@ -1,13 +1,23 @@
 const { JIKAN_CLIENT } = require('../jikan/jikanClient');
 const { createAnimeEmbed, createAnimeInfoEmbed } = require('../embed/createAnimeEmbeds');
 
+const { GENRES_NOT_FOUND,
+    EPISODES_NOT_FOUND,
+    URL_NOT_FOUND,
+    RECOMMENDATIONS_NOT_FOUND,
+    STUDIO_NOT_FOUND,
+    SYNOPSIS_NOT_FOUND,
+    BACKGROUND_NOT_FOUND,
+    RATINGS_NOT_FOUND, 
+    YEAR_NOT_FOUND} = require('../../config');
+
 class AnimeSearch {
 
-    constructor(animeID) { 
-        this.animeID = animeID; 
+    constructor(animeID) {
+        this.animeID = animeID;
         this.animeEmbed = null;
-        this.anime = null;  
-        this.synopsis2 = '\n'; 
+        this.anime = null;
+        this.synopsis2 = '\n';
         this.background2 = '\n';
     }
 
@@ -22,17 +32,17 @@ class AnimeSearch {
             let genres = this.anime.genres?.map(genre => genre.name).join(', ');
 
             if (!genres || genres.trim() === '') {
-                genres = 'genres';
+                genres = GENRES_NOT_FOUND;
             }
 
             const synopsis = this.getSynopsis(this.anime);
             const ratings = this.getRatings(stats);
 
-            const episodes = this.anime.episodes?.toLocaleString() ?? 'episodes';
+            const episodes = this.anime.episodes?.toLocaleString() ?? EPISODES_NOT_FOUND;
 
             this.animeEmbed = createAnimeEmbed(
                 this.anime.title?.default,
-                this.anime.url ?? 'url',
+                this.anime.url ?? URL_NOT_FOUND,
                 synopsis,
                 this.synopsis2,
                 episodes,
@@ -49,14 +59,14 @@ class AnimeSearch {
 
     async createAnimeInfoEmbed() {
         try {
- 
+
             const rec = await JIKAN_CLIENT.anime.getRecommendations(this.animeID);
-    
-            const background = this.getBackground(); 
-            
+
+            const background = this.getBackground();
+
             let recList = [];
             let recommendations = '';
-    
+
             //If at least 2 indexes in recommendation array, add them to recList String. 
             if (rec.length > 2) {
                 recList.push(rec[0].entry.title);
@@ -65,28 +75,28 @@ class AnimeSearch {
             }
             //If no length on recList, i.e. null, recommendation string becomes not found error message.  
             else {
-                recommendations = 'recommendations';
+                recommendations = RECOMMENDATIONS_NOT_FOUND;
             }
-    
+
             this.animeInfoEmbed = createAnimeInfoEmbed(
                 this.anime.title.default,
                 this.anime.url,
                 background,
                 this.background2,
-                this.anime.year ?? 'year',
-                this.anime.studios[0]?.name ?? 'studio',
+                this.anime.year ?? YEAR_NOT_FOUND,
+                this.anime.studios[0]?.name ?? STUDIO_NOT_FOUND,
                 recommendations,
                 this.anime.image.webp.default
             )
-    
+
             return this.animeInfoEmbed;
-    
+
         } catch (error) {
             console.error('Error in getInfo:', error.message);
         }
     }
 
-    getSynopsis() { 
+    getSynopsis() {
         //INITIALIZES SPLIT FOR SYNOPSIS THAT ARE OVER 1020 CHARACTERS 
         let synopsis = '';
 
@@ -106,13 +116,13 @@ class AnimeSearch {
                 synopsis = this.anime.synopsis;
             }
         } else {
-            return 'synopsis'; 
+            return SYNOPSIS_NOT_FOUND;
         }
 
-        return synopsis; 
+        return synopsis;
     }
 
-    getBackground() { 
+    getBackground() {
         let background = '';
 
         if (this.anime.background) {
@@ -132,13 +142,13 @@ class AnimeSearch {
         }
         //if background is null, error message. 
         else {
-            background = 'background';
+            background = BACKGROUND_NOT_FOUND;
         }
 
-        return background; 
+        return background;
     }
 
-    getRatings(stats) { 
+    getRatings(stats) {
         let ratings = '';
 
         if (stats?.scores) {
@@ -155,18 +165,18 @@ class AnimeSearch {
 
             ratings = `Average score based off ${totalVotes.toLocaleString()} votes: ${averageScore.toFixed(2) + ' / 10'}`;
         } else {
-            ratings = 'ratings';
+            ratings = RATINGS_NOT_FOUND;
         }
 
-        return ratings; 
+        return ratings;
     }
 
-    getAnimeEmbed() { 
-        return this.animeEmbed; 
+    getAnimeEmbed() {
+        return this.animeEmbed;
     }
 
-    getAnimeInfoEmbed() { 
-        return this.animeInfoEmbed; 
+    getAnimeInfoEmbed() {
+        return this.animeInfoEmbed;
     }
 }
 
