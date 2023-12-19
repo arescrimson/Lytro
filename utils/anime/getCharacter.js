@@ -5,9 +5,9 @@
  * @author Ares
  */
 
-const { EmbedBuilder } = require('discord.js')
-
 const { JIKAN_CLIENT } = require('../jikan/jikanClient')
+
+const { createCharacterEmbed } = require('../embed/createAnimeEmbeds');
 
 class AnimeCharacterSearch {
 
@@ -22,46 +22,18 @@ class AnimeCharacterSearch {
     }
 
     /**
-     * Creates an embedded message for displaying information about an anime character.
-     *
-     * @param {string} NAME - The name of the character.
-     * @param {string} URL - The URL associated with the character.
-     * @param {string} TITLE - The title of the anime the character is from.
-     * @param {string} THUMBNAIL - The URL of the character's thumbnail image.
-     * @param {string} ROLE - The role or position of the character.
-     * @param {string} VOICEACTOR - The Japanese voice actor for the character.
-     * @param {string} IMAGE - The URL of the character's image.
-     * @returns {EmbedBuilder} - An EmbedBuilder object for the character information.
-     */
-    createCharacterEmbed(NAME, URL, TITLE, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
-        return new EmbedBuilder()
-            .setColor(0x0099FF)
-            .setTitle(`${NAME}`)
-            .setURL(`${URL}`)
-            .setAuthor({ name: `Currently Searching Anime : ${TITLE}` })
-            .addFields(
-                { name: 'Role:', value: `${ROLE}` },
-                { name: 'Description:', value: `${DESCRIPTION}` },
-                { name: 'Japanese Voice Actor:', value: `${VOICEACTOR}`, inline: true },
-            )
-            .setImage(`${IMAGE}`)
-            .setTimestamp()
-            .setFooter({ text: 'Information from Lytro' });
-    }
-
-    /**
      * Gets Anime Characters from the animeID passed. 
      * 
      */
 
-    async getAnimeCharacters() {
+    async createAnimeCharactersEmbed() {
 
         try {
             const anime = await JIKAN_CLIENT.anime.get(this.animeID);
-            if (!anime) return;
             const jikanCharacterArray = await JIKAN_CLIENT.anime.getCharacters(this.animeID);
+            if (!jikanCharacterArray) return null; 
             this.characterArr = this.getCharacter(jikanCharacterArray);
-            if (!this.characterArr.length) return;
+            if (!this.characterArr.length) return null;
 
             this.animeName = anime.title.default;
 
@@ -73,7 +45,7 @@ class AnimeCharacterSearch {
 
             const characterAbout = this.getDescription(jikanCharacterAbout.about);
 
-            this.characterEmbed = this.createCharacterEmbed(
+            this.characterEmbed = createCharacterEmbed(
                 this.characterArr[this.characterCounter].character.name,
                 this.characterArr[this.characterCounter].character.url,
                 this.animeName ?? 'animeName',
@@ -182,7 +154,7 @@ class AnimeCharacterSearch {
         this.voiceActors =
             this.characterArr[this.characterCounter]?.voiceActors[this.characterCounter]?.person.name;
 
-        this.characterEmbed = this.createCharacterEmbed(
+        this.characterEmbed = createCharacterEmbed(
             this.characterArr[this.characterCounter].character.name,
             this.characterArr[this.characterCounter].character.url,
             this.animeName ?? 'animeName',
