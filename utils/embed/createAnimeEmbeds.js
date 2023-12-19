@@ -1,8 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 
 function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RATINGS, image) {
-
-    const createdEmbed = new EmbedBuilder()
+    return new EmbedBuilder()
         .setColor(0x0099FF)
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
@@ -17,11 +16,10 @@ function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RAT
         .setImage(`${image}`)
         .setTimestamp()
 
-    return createdEmbed;
 }
 
 function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO, RELATED, IMAGE) {
-    const animeInfoEmbed = new EmbedBuilder()
+    return new EmbedBuilder()
         .setColor(0x0099FF)
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
@@ -36,8 +34,6 @@ function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO,
         .setImage(`${IMAGE}`)
         .setTimestamp()
         .setFooter({ text: 'Information from Lytro' });
-
-    return animeInfoEmbed;
 }
 
 function createCharacterEmbed(NAME, URL, TITLE, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
