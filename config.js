@@ -24,5 +24,9 @@ module.exports = {
     DESCRIPTION_NOT_FOUND: 'Description not listed.',
     ROLE_NOT_FOUND: 'Role not listed.',
     VA_NOT_FOUND: 'Voice Actor not listed.',
+    VOLUMES_NOT_FOUND: 'Volumes not listed.',
+    AUTHOR_NOT_FOUND: 'Author not listed.',
+    POPULARITY_NOT_FOUND: 'Popularity not listed.',
+    SERIAL_NOT_FOUND: 'Serialization not listed.',
 
 }
