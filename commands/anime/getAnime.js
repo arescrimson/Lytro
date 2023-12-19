@@ -8,7 +8,7 @@ module.exports = {
 		.setDescription('gets anime.')
 		.addStringOption(option =>
 			option
-				.setName('animename')
+				.setName('anime')
 				.setDescription('Name of Anime')
 				.setRequired(true)
 		),
@@ -16,7 +16,7 @@ module.exports = {
 		try {
 			await interaction.deferReply();
 
-			const animeName = await interaction.options.getString('animename');
+			const animeName = await interaction.options.getString('anime');
 			const animeID = await getJikanID('anime', animeName);
 
 			if (!animeID) { 
@@ -45,9 +45,9 @@ module.exports = {
 				components: [row],
 			});
 
-			const collectorFilter = i => i.user.id === interaction.user.id;
+			//const collectorFilter = i => i.user.id === interaction.user.id;
 
-			const collector = response.createMessageComponentCollector({ filter: collectorFilter, time: 60000 });
+			const collector = response.createMessageComponentCollector({ time: 45000 });
 
 			collector.on('collect', async buttonInteraction => {
 				try {

@@ -8,21 +8,21 @@ module.exports = {
         .setDescription('get anime character')
         .addStringOption(option =>
             option
-                .setName('charactername')
+                .setName('character')
                 .setDescription('Name of anime character')
                 .setRequired(true)
         )
         .addStringOption(option =>
             option
-                .setName('animename')
+                .setName('anime')
                 .setDescription('Name of anime')
                 .setRequired(true)
         ),
     async execute(interaction) {
         try {
             await interaction.deferReply(); 
-            const animeName = await interaction.options.getString('animename');
-            const characterName = await interaction.options.getString('charactername');
+            const animeName = await interaction.options.getString('anime');
+            const characterName = await interaction.options.getString('character');
             const animeID = await getJikanID('anime', animeName);
 
             if (!animeID) {
@@ -58,9 +58,9 @@ module.exports = {
                     components: [row],
                 });
 
-                const collectorFilter = i => i.user.id === interaction.user.id;
+                //const collectorFilter = i => i.user.id === interaction.user.id;
 
-                const collector = response.createMessageComponentCollector({ filter: collectorFilter, time: 60000 });
+                const collector = response.createMessageComponentCollector({ time: 45000 });
 
                 collector.on('collect', async buttonInteraction => {
                     try {
@@ -79,7 +79,7 @@ module.exports = {
                 });
             } else {
                 await interaction.editReply({
-                    embeds: [embed],
+                    embeds: [animeCharacterEmbed],
                 });
             }
 

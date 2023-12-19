@@ -8,7 +8,7 @@ module.exports = {
 		.setDescription('gets manga.')
 		.addStringOption(option =>
 			option
-				.setName('manganame')
+				.setName('manga')
 				.setDescription('Name of Manga')
 				.setRequired(true)
 		),
@@ -16,7 +16,7 @@ module.exports = {
 		try {
 			await interaction.deferReply();
 
-			const mangaName = await interaction.options.getString('manganame');
+			const mangaName = await interaction.options.getString('manga');
 			const mangaID = await getJikanID('manga', mangaName);
 
 			if (!mangaID) { 
@@ -45,13 +45,11 @@ module.exports = {
 				components: [row],
 			});
 
-			const collectorFilter = i => i.user.id === interaction.user.id;
-
-			const collector = response.createMessageComponentCollector({ filter: collectorFilter, time: 60000 });
+			const collector = response.createMessageComponentCollector({ time: 45000 });
 
 			collector.on('collect', async buttonInteraction => {
 				try {
-					await buttonInteraction.deferUpdate();
+					await buttonInteraction.deferUpdate().catch(console.error());
 
 					if (buttonInteraction.customId === 'right') {
 						const updatedEmbed = mangaSearch.getMangaInfoEmbed();

@@ -8,14 +8,14 @@ module.exports = {
         .setDescription('get anime images')
         .addStringOption(option =>
             option
-                .setName('animename')
+                .setName('anime')
                 .setDescription('Name of Anime')
                 .setRequired(true)
         ),
     async execute(interaction) {
         try {
             await interaction.deferReply(); 
-            const animeName = await interaction.options.getString('animename');
+            const animeName = await interaction.options.getString('anime');
             const animeID = await getJikanID('anime', animeName);
 
             if (!animeID) { 
@@ -50,12 +50,12 @@ module.exports = {
 
                 const collectorFilter = i => i.user.id === interaction.user.id;
 
-                const collector = response.createMessageComponentCollector({ filter: collectorFilter, time: 60000 });
+                const collector = response.createMessageComponentCollector({ time: 45000 });
 
                 collector.on('collect', async buttonInteraction => {
                     try {
                         if (buttonInteraction.customId === 'newImage') {
-                            const updatedEmbed = await animeImageSearch.getAnimeImages(); 
+                            const updatedEmbed = await animeImageSearch.createAnimeImagesEmbed(); 
                             await buttonInteraction.update({embeds: [updatedEmbed]})
                         } 
                     } catch (error) {
@@ -64,7 +64,7 @@ module.exports = {
                 });
             } else {
                 await interaction.editReply({
-                    embeds: [embed],
+                    embeds: [animeImageEmbed],
                 });
             }
 
