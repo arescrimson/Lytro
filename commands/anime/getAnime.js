@@ -14,7 +14,7 @@ module.exports = {
 		),
 	async execute(interaction) {
 		try {
-			await interaction.deferReply().then(() => console.log('...'));
+			await interaction.deferReply();
 
 			const animeName = await interaction.options.getString('animename');
 			const animeID = await getJikanID('anime', animeName);
