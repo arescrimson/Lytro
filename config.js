@@ -28,5 +28,7 @@ module.exports = {
     AUTHOR_NOT_FOUND: 'Author not listed.',
     POPULARITY_NOT_FOUND: 'Popularity not listed.',
     SERIAL_NOT_FOUND: 'Serialization not listed.',
+    rightArrowText: '⋙', 
+    leftArrowText: '⋘'
 
 }
