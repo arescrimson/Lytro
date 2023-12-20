@@ -39,7 +39,7 @@ class AnimeSearch {
             const ratings = this.getRatings(stats);
 
             const episodes = this.anime.episodes?.toLocaleString() ?? EPISODES_NOT_FOUND;
-
+            
             this.animeEmbed = createAnimeEmbed(
                 this.anime.title?.default,
                 this.anime.url ?? URL_NOT_FOUND,
@@ -50,7 +50,7 @@ class AnimeSearch {
                 ratings,
                 this.anime.image.webp.default
             )
-
+            
             return this.animeEmbed;
         } catch (error) {
             console.error('Error in getAnime:', error.message);
@@ -77,7 +77,7 @@ class AnimeSearch {
             else {
                 recommendations = RECOMMENDATIONS_NOT_FOUND;
             }
-
+            
             this.animeInfoEmbed = createAnimeInfoEmbed(
                 this.anime.title.default,
                 this.anime.url,
@@ -88,7 +88,7 @@ class AnimeSearch {
                 recommendations,
                 this.anime.image.webp.default
             )
-
+            
             return this.animeInfoEmbed;
 
         } catch (error) {
