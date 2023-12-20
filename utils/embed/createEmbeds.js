@@ -17,7 +17,7 @@ function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RAT
         )
         .setImage(`${image}`)
         .setTimestamp()
-        .setFooter({ text: 'Information from Lytro' , iconURL: ICON_URL});
+        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 
 }
 
@@ -53,17 +53,17 @@ function createCharacterEmbed(NAME, URL, TITLE, ROLE, DESCRIPTION, VOICEACTOR, I
         )
         .setImage(`${IMAGE}`)
         .setTimestamp()
-        .setFooter({ text: 'Information from Lytro' , iconURL: ICON_URL});
+        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
-function createAnimeImageEmbed(title, image) { 
+function createAnimeImageEmbed(title, image) {
     return new EmbedBuilder()
-                .setColor(0x0099FF)
-                .setAuthor({ name: `Currently Searching Anime: ${title}`, iconURL: ICON_URL })
-                .setThumbnail(THUMBNAIL)
-                .setTimestamp()
-                .setImage(image)
-                .setFooter({ text: 'Information from Lytro' , iconURL: ICON_URL});
+        .setColor(0x0099FF)
+        .setAuthor({ name: `Currently Searching Anime: ${title}`, iconURL: ICON_URL })
+        .setThumbnail(THUMBNAIL)
+        .setTimestamp()
+        .setImage(image)
+        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
 function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENRES, RATINGS, image) {
@@ -107,11 +107,37 @@ function createMangaInfoEmbed(TITLE, URL, AUTHOR, BACKGROUND, BACKGROUND2, DATE,
 
 }
 
-module.exports = { 
-    createAnimeEmbed, 
+function createSteamGameEmbed(gameTitle, gameURL, playerCount, summary, price, devs, genres, score, categories, image) {
+    const embed = new EmbedBuilder()
+    if (gameURL) embed.setURL(`${gameURL}`)
+
+    embed
+        .setColor(0x0099FF)
+        .setTitle(`${gameTitle}`)
+        .setAuthor({ name: `Searching Steam Game: ${gameTitle}`, iconURL: ICON_URL })
+        .setThumbnail(image)
+        .addFields(
+            { name: 'Summary: \n\u200b', value: `${summary}\n\u200b` },
+            { name: 'Developers:', value: `${devs}`, inline: true },
+            { name: 'Genres:', value: `${categories}`, inline: true },
+            { name: 'Categories:', value: `${genres}`, inline: true },
+            { name: 'Current Price:', value: `${price}`, inline: true },
+            { name: 'Metacritic Score:', value: `${score}`, inline: true },
+            { name: 'Active Player Count: ', value: `${playerCount}`, inline: true },
+        )
+        .setImage(`${image}`)
+        .setTimestamp()
+        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
+
+    return embed;
+}
+
+module.exports = {
+    createAnimeEmbed,
     createAnimeInfoEmbed,
     createCharacterEmbed,
     createAnimeImageEmbed,
     createMangaEmbed,
     createMangaInfoEmbed,
+    createSteamGameEmbed
 }
