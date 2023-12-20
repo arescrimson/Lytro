@@ -18,7 +18,7 @@ class SteamGameSearch {
             const appList = await steam.getAppList();
             const games = Object.values(appList);
             this.gameObj = games.find(app => app.name.toLowerCase() === this.gameName.toLowerCase());
-            console.log(this.gameObj)
+            
             if (!this.gameObj) return null;
 
             this.gameID = this.gameObj.appid;
