@@ -3,7 +3,7 @@ const { THUMBNAIL, ICON_URL } = require('../../config');
 
 function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RATINGS, image) {
     return new EmbedBuilder()
-        .setColor(0x0099FF)
+        .setColor(0x9966FF)
         .setTitle(`${TITLE}`)
         .setThumbnail(THUMBNAIL)
         .setURL(`${URL}`)
@@ -23,7 +23,7 @@ function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RAT
 
 function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO, RELATED, IMAGE) {
     return new EmbedBuilder()
-        .setColor(0x0099FF)
+        .setColor(0x9966FF)
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Anime: ${TITLE}`, iconURL: ICON_URL })
@@ -41,7 +41,7 @@ function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO,
 
 function createCharacterEmbed(NAME, URL, TITLE, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
     return new EmbedBuilder()
-        .setColor(0x0099FF)
+        .setColor(0x9966FF)
         .setTitle(`${NAME}`)
         .setThumbnail(THUMBNAIL)
         .setURL(`${URL}`)
@@ -58,7 +58,7 @@ function createCharacterEmbed(NAME, URL, TITLE, ROLE, DESCRIPTION, VOICEACTOR, I
 
 function createAnimeImageEmbed(title, image) {
     return new EmbedBuilder()
-        .setColor(0x0099FF)
+        .setColor(0x9966FF)
         .setAuthor({ name: `Currently Searching Anime: ${title}`, iconURL: ICON_URL })
         .setThumbnail(THUMBNAIL)
         .setTimestamp()
@@ -68,7 +68,7 @@ function createAnimeImageEmbed(title, image) {
 
 function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENRES, RATINGS, image) {
     return new EmbedBuilder()
-        .setColor(0x0099FF)
+        .setColor(0x9966FF)
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Manga: ${TITLE}`, iconURL: ICON_URL })
@@ -88,7 +88,7 @@ function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENR
 
 function createMangaInfoEmbed(TITLE, URL, AUTHOR, BACKGROUND, BACKGROUND2, DATE, SERIAL, POPULARITY, IMAGE) {
     return new EmbedBuilder()
-        .setColor(0x0099FF)
+        .setColor(0x9966FF)
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Manga: ${TITLE}`, iconURL: ICON_URL })
@@ -112,7 +112,7 @@ function createSteamGameEmbed(gameTitle, gameURL, playerCount, summary, price, d
     if (gameURL) embed.setURL(`${gameURL}`)
 
     embed
-        .setColor(0x0099FF)
+        .setColor(0x9966FF)
         .setTitle(`${gameTitle}`)
         .setAuthor({ name: `Searching Steam Game: ${gameTitle}`, iconURL: ICON_URL })
         .setThumbnail(image)
