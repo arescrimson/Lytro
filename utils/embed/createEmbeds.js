@@ -5,7 +5,7 @@ function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RAT
     return new EmbedBuilder()
         .setColor(0x9966FF)
         .setTitle(`${TITLE}`)
-        .setThumbnail(THUMBNAIL)
+        .setThumbnail(`${image}`)
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Anime: ${TITLE}`, iconURL: ICON_URL })
         .addFields(
@@ -18,7 +18,6 @@ function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RAT
         .setImage(`${image}`)
         .setTimestamp()
         .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
-
 }
 
 function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO, RELATED, IMAGE) {
@@ -104,7 +103,6 @@ function createMangaInfoEmbed(TITLE, URL, AUTHOR, BACKGROUND, BACKGROUND2, DATE,
         .setImage(`${IMAGE}`)
         .setTimestamp()
         .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
-
 }
 
 function createSteamGameEmbed(gameTitle, gameURL, playerCount, summary, price, devs, genres, score, categories, image) {
