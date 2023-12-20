@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { getJikanID } = require('../../utils/jikan/getJikanID');
 const { AnimeCharacterSearch } = require('../../utils/anime/getCharacter');
+const { rightArrowText, leftArrowText } = require('../../config');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -41,14 +42,14 @@ module.exports = {
             if (animeCharacterSearch.getCharacterArr().length > 1) {
                 
                 const right = new ButtonBuilder()
-                    .setCustomId('right')
-                    .setLabel('-->')
-                    .setStyle(ButtonStyle.Success);
+				.setCustomId('right')
+				.setLabel(rightArrowText)
+				.setStyle(ButtonStyle.Primary);
 
-                const left = new ButtonBuilder()
-                    .setCustomId('left')
-                    .setLabel('<--')
-                    .setStyle(ButtonStyle.Success);
+			const left = new ButtonBuilder()
+				.setCustomId('left')
+				.setLabel(leftArrowText)
+				.setStyle(ButtonStyle.Primary);
 
                 const row = new ActionRowBuilder()
                     .addComponents(left, right);
@@ -60,7 +61,7 @@ module.exports = {
 
                 //const collectorFilter = i => i.user.id === interaction.user.id;
 
-                const collector = response.createMessageComponentCollector({ time: 45000 });
+                const collector = response.createMessageComponentCollector({ time: 60000 });
 
                 collector.on('collect', async buttonInteraction => {
                     try {

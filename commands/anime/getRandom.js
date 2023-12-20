@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { AnimeSearch } = require('../../utils/anime/getAnime');
 const { getRandomID } = require('../../utils/anime/getRandom');
+const { rightArrowText, leftArrowText } = require('../../config');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -19,13 +20,13 @@ module.exports = {
 
 			const right = new ButtonBuilder()
 				.setCustomId('right')
-				.setLabel('-->')
-				.setStyle(ButtonStyle.Success);
+				.setLabel(rightArrowText)
+				.setStyle(ButtonStyle.Primary);
 
 			const left = new ButtonBuilder()
 				.setCustomId('left')
-				.setLabel('<--')
-				.setStyle(ButtonStyle.Success);
+				.setLabel(leftArrowText)
+				.setStyle(ButtonStyle.Primary);
 
 			const row = new ActionRowBuilder()
 				.addComponents(left, right);

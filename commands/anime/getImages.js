@@ -38,7 +38,7 @@ module.exports = {
                 const newImage = new ButtonBuilder()
                     .setCustomId('newImage')
                     .setLabel('+')
-                    .setStyle(ButtonStyle.Success);
+                    .setStyle(ButtonStyle.Primary);
 
                 const row = new ActionRowBuilder()
                     .addComponents(newImage);
@@ -50,7 +50,7 @@ module.exports = {
 
                 const collectorFilter = i => i.user.id === interaction.user.id;
 
-                const collector = response.createMessageComponentCollector({ time: 45000 });
+                const collector = response.createMessageComponentCollector({ time: 60000 });
 
                 collector.on('collect', async buttonInteraction => {
                     try {
