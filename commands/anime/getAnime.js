@@ -21,11 +21,9 @@ module.exports = {
 
 		const animeNames = animeArray.filter(name =>
 			(name.title && name.title.english !== null) && 
-			(name.title.english.toLowerCase().startsWith(focusedValue.toLowerCase()) ||
-			name.title.english.toLowerCase().includes(focusedValue.toLowerCase()))
+			name.title.english.toLowerCase().startsWith(focusedValue.toLowerCase())
 		);
 		
-
 		const limitedAnimeList = animeNames.slice(0, 15)
 
 		await interaction.respond(
@@ -41,7 +39,7 @@ module.exports = {
 			const animeID = await getJikanID('anime', animeName);
 
 			if (!animeID) {
-				await interaction.editReply('Anime not Listed/Found.');
+				await interaction.editReply({content: 'Anime not Listed/Found.', ephemeral: true});
 				return;
 			}
 			
@@ -66,8 +64,6 @@ module.exports = {
 				embeds: [animeEmbed],
 				components: [row],
 			});
-
-			//const collectorFilter = i => i.user.id === interaction.user.id;
 
 			const collector = response.createMessageComponentCollector({ time: 60000 });
 
