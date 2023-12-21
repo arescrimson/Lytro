@@ -9,6 +9,16 @@
 
 **IMPORTANT:** As of **12/19/2023**, this is the new version of Lytro, which has been completely rewritten and improved. The old repository can be found [here](https://github.com/arescrimson/LytroOld/tree/master). 
 
+### Exciting updates and improvements from the old version include: 
+
++ Reworking bot to utilize slash commands instead of prefixes. This allows the bot to utilize autofill menus, better handling of interactions, and more! 
++ Autofill menus for query-related searches, such as anime, characters, and steam games.
++ Reworked UI, visuals, and error handling for embed and returned messages.
++ Much cleaner code and a improvement to command/bot speed overall.
++ More commands using more API's planned! Now features steam commands.
++ Now hosted on Google Cloud Platform. 
++ And more! 
+
 Discord Bot for information on anime/manga, characters, steam, and more. 
 
 **Data Source:** This bot uses the [MyAnimeList (MAL) API](https://myanimelist.net/apiconfig/references/api/v2). You can visit [MyAnimeList](https://myanimelist.net/) for more details.
