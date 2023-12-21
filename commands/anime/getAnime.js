@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { getJikanID } = require('../../utils/jikan/getJikanID');
-const { AnimeSearch } = require('../../utils/anime/getAnime');
+const { AnimeSearch, getAnimeArray } = require('../../utils/anime/getAnime');
 const { rightArrowText, leftArrowText } = require('../../config');
 
 module.exports = {
@@ -12,18 +12,39 @@ module.exports = {
 				.setName('anime')
 				.setDescription('Name of Anime')
 				.setRequired(true)
+				.setAutocomplete(true)
 		),
+	async autocomplete(interaction) {
+		const focusedValue = await interaction.options.getFocused();
+            
+		const animeArray = await getAnimeArray(focusedValue);
+
+		const animeNames = animeArray.filter(name =>
+			(name.title && name.title.english !== null) && 
+			(name.title.english.toLowerCase().startsWith(focusedValue.toLowerCase()) ||
+			name.title.english.toLowerCase().includes(focusedValue.toLowerCase()))
+		);
+		
+
+		const limitedAnimeList = animeNames.slice(0, 15)
+
+		await interaction.respond(
+			limitedAnimeList.map(names => ({ name: names.title.english, value: names.title.english }))
+		);
+	},
 	async execute(interaction) {
 		try {
 			await interaction.deferReply();
 
 			const animeName = await interaction.options.getString('anime');
+			
 			const animeID = await getJikanID('anime', animeName);
 
-			if (!animeID) { 
-				await interaction.editReply('Anime not Found.'); 
-				return; 
+			if (!animeID) {
+				await interaction.editReply('Anime not Listed/Found.');
+				return;
 			}
+			
 			const animeSearch = new AnimeSearch(animeID);
 			const animeEmbed = await animeSearch.createAnimeEmbed();
 			const animeInfoEmbed = await animeSearch.createAnimeInfoEmbed();
