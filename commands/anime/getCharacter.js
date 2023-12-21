@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { getJikanID } = require('../../utils/jikan/getJikanID');
-const { AnimeCharacterSearch } = require('../../utils/anime/getCharacter');
+const { AnimeCharacterSearch, getCharacterArray } = require('../../utils/anime/getCharacter');
 const { rightArrowText, leftArrowText } = require('../../config');
 
 module.exports = {
@@ -12,44 +12,80 @@ module.exports = {
                 .setName('character')
                 .setDescription('Name of anime character')
                 .setRequired(true)
+                .setAutocomplete(true)
         )
+        /*
         .addStringOption(option =>
             option
                 .setName('anime')
                 .setDescription('Name of anime')
                 .setRequired(true)
-        ),
+        )
+        */,
+    async autocomplete(interaction) {
+        try {
+            const focusedValue = await interaction.options.getFocused();
+
+            const characterArray = await getCharacterArray(focusedValue);
+
+            const characterNames = characterArray.filter(name =>
+                name.name.toLowerCase().startsWith(focusedValue.toLowerCase()) ||
+                name.name.toLowerCase().includes(focusedValue.toLowerCase())
+            );
+
+            const limitedCharacterList = characterNames.slice(0, 15)
+
+            await interaction.respond(
+                limitedCharacterList.map(names => ({ name: names.name, value: names.name }))
+            );
+            /*
+            const characterNames = characterArray.filter(name => 
+                    gameName.name.toLowerCase().startsWith(focusedValue.toLowerCase() || 
+                    gameName.name.toLowerCase().includes(focusedValue.toLowerCase())
+            ));
+
+            const limitedGameList = gameNames.slice(0,10); 
+            
+            await interaction.respond(
+                limitedGameList.map(games => ({ name: games.name, value: games.name }))
+            );
+            */
+
+        } catch (error) {
+            console.error(error);
+        }
+    },
     async execute(interaction) {
         try {
-            await interaction.deferReply(); 
-            const animeName = await interaction.options.getString('anime');
+            await interaction.deferReply();
+            //const animeName = await interaction.options.getString('anime');
             const characterName = await interaction.options.getString('character');
-            const animeID = await getJikanID('anime', animeName);
+            //const animeID = await getJikanID('anime', animeName);
 
-            if (!animeID) {
-                await interaction.editReply('Anime not Found.'); 
+            //if (!animeID) {
+            //  await interaction.editReply('Anime not Found.');
+            //  return;
+            //  }
+
+            const animeCharacterSearch = new AnimeCharacterSearch(characterName);
+            const animeCharacterEmbed = await animeCharacterSearch.createAnimeCharactersEmbed();
+
+            if (!animeCharacterEmbed) {
+                await interaction.editReply('Character not Found.');
                 return;
             }
 
-            const animeCharacterSearch = new AnimeCharacterSearch(characterName, animeID);
-            const animeCharacterEmbed = await animeCharacterSearch.createAnimeCharactersEmbed();
-
-            if (!animeCharacterEmbed) { 
-                await interaction.editReply('Character not Found.');
-                return;  
-            }
-
             if (animeCharacterSearch.getCharacterArr().length > 1) {
-                
-                const right = new ButtonBuilder()
-				.setCustomId('right')
-				.setLabel(rightArrowText)
-				.setStyle(ButtonStyle.Primary);
 
-			const left = new ButtonBuilder()
-				.setCustomId('left')
-				.setLabel(leftArrowText)
-				.setStyle(ButtonStyle.Primary);
+                const right = new ButtonBuilder()
+                    .setCustomId('right')
+                    .setLabel(rightArrowText)
+                    .setStyle(ButtonStyle.Primary);
+
+                const left = new ButtonBuilder()
+                    .setCustomId('left')
+                    .setLabel(leftArrowText)
+                    .setStyle(ButtonStyle.Primary);
 
                 const row = new ActionRowBuilder()
                     .addComponents(left, right);
@@ -65,7 +101,7 @@ module.exports = {
 
                 collector.on('collect', async buttonInteraction => {
                     try {
-                        await buttonInteraction.deferUpdate(); 
+                        await buttonInteraction.deferUpdate();
 
                         if (buttonInteraction.customId === 'right') {
                             const updatedEmbed = await animeCharacterSearch.updateCharacterEmbed(true);
@@ -75,7 +111,7 @@ module.exports = {
                             await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
                         }
                     } catch (error) {
-                        console.error(error); 
+                        console.error(error);
                     }
                 });
             } else {
