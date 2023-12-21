@@ -16,10 +16,7 @@ class SteamGameSearch {
     async createGameEmbed() {
         try {
             const steamGameArray = await getSteamGameArray(); 
-            //console.log(steamGameArray)
             this.gameObj = steamGameArray.find(game => game.name === this.gameName);
-
-            //console.log(this.gameName); 
             if (!this.gameObj) return null;
 
             this.gameID = this.gameObj.appid;
@@ -29,15 +26,15 @@ class SteamGameSearch {
 
             const genres = this.getGenres(details.genres);
             const categories = this.getCategories(details.categories);
-
-            //console.log(details)
+            const developers = details?.developers;
+            
             this.gameEmbed = createSteamGameEmbed(
                 details.name,
                 details.website ? details.website : undefined,
-                activePlayers,
-                details.short_description,
+                activePlayers ?? 'Active Players not listed,',
+                details?.short_description ?? 'Description not listed.',
                 details.price_overview?.final_formatted ?? 'Free to Play',
-                details.developers[0],
+                developers?.length > 0 ? developers[0] : 'Developers not listed.',
                 genres,
                 details.metacritic?.score ?? 'Metacritic score not listed.',
                 categories,
@@ -51,7 +48,7 @@ class SteamGameSearch {
     }
 
     getGenres(genresArray) {
-        if (!genresArray || genresArray.length === 0) return 'Genres not found.'
+        if (!genresArray || genresArray.length === 0) return 'Genres not listed.'
 
         const genreDescriptions = genresArray.slice(0, 3).map(genre => genre.description);
 
@@ -61,7 +58,7 @@ class SteamGameSearch {
     }
 
     getCategories(categoryArray) {
-        if (!categoryArray || categoryArray.length === 0) return 'Categories not found.'
+        if (!categoryArray || categoryArray.length === 0) return 'Categories not listed.'
 
         const categoryDescriptions = categoryArray.slice(0, 3).map(category => category.description);
 
