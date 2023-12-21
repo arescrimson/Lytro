@@ -17,11 +17,12 @@ const {
 
 class AnimeCharacterSearch {
 
-    constructor(characterName, animeID) {
+    constructor(characterName) {
         this.characterArr = [];
+        this.characterObj = null; 
         this.characterEmbed = null;
         this.characterName = characterName;
-        this.animeID = animeID;
+        //this.animeID = animeID;
         this.characterCounter = 0;
         this.animeName = "";
         this.voiceActors = "";
@@ -35,12 +36,36 @@ class AnimeCharacterSearch {
     async createAnimeCharactersEmbed() {
 
         try {
+            /*
             const anime = await JIKAN_CLIENT.anime.get(this.animeID);
             const jikanCharacterArray = await JIKAN_CLIENT.anime.getCharacters(this.animeID);
             if (!jikanCharacterArray) return null;
             this.characterArr = this.getCharacter(jikanCharacterArray);
             if (!this.characterArr.length) return null;
+            */
 
+            const characterArray = await getCharacterArray(this.characterName); 
+            const characterObj = characterArray.find(name => name.name === this.characterName); 
+            this.characterObj = await JIKAN_CLIENT.characters.getFull(characterObj.id);
+            //console.log(this.characterObj);
+
+            const characterAbout = this.getDescription(this.characterObj.about);
+
+            this.voiceActors = await this.characterObj.getVoiceActors(); 
+
+            //console.log(characterObj)
+            this.characterEmbed = createCharacterEmbed(
+                this.characterObj.name,
+                this.characterObj.url,
+                'Anime Placeholder',
+                characterObj.nicknames[0] ?? ROLE_NOT_FOUND,
+                characterAbout,
+                this.voiceActors[0]?.person.name ?? VA_NOT_FOUND,
+                this.characterObj?.image.webp.default
+            );
+
+            return this.characterEmbed;
+            /*
             this.animeName = anime.title.default;
 
             this.voiceActors =
@@ -62,6 +87,7 @@ class AnimeCharacterSearch {
             );
 
             return this.characterEmbed;
+            */
         } catch (error) {
             console.error('Error in getCharacter:', error.message);
         }
@@ -186,6 +212,13 @@ class AnimeCharacterSearch {
     }
 }
 
+async function getCharacterArray(characterName) {
+    const characterArray = await JIKAN_CLIENT.characters.search(characterName)
+    return characterArray;
+}
+
+
 module.exports = {
-    AnimeCharacterSearch
+    AnimeCharacterSearch,
+    getCharacterArray,
 }
