@@ -27,7 +27,7 @@ module.exports = {
                     gameName.name.toLowerCase().includes(focusedValue.toLowerCase())
             ));
 
-            const limitedGameList = gameNames.slice(0,10); 
+            const limitedGameList = gameNames.slice(0,20); 
             
             await interaction.respond(
                 limitedGameList.map(games => ({ name: games.name, value: games.name }))
@@ -47,7 +47,7 @@ module.exports = {
             const gameEmbed = await steamGameSearch.createGameEmbed();
 
             if (!gameEmbed) {
-                interaction.editReply('Game not found.');
+                interaction.editReply('Game not listed/found.');
                 return;
             }
 
