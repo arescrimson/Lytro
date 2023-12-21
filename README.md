@@ -1,6 +1,6 @@
 # Lytro
 <div style="text-align:center">
-<img src="https://github.com/arescrimson/Lytro/blob/master/media/newbanner.jpg" alt="" width="1500" height="200">
+<img src="https://github.com/arescrimson/LytroOld/blob/master/media/newbanner.jpg" alt="" width="1500" height="200">
 </div>
 
 <p align="center"> Discord bot using discord.js for anime, manga, and steam game information.</p>
