@@ -15,10 +15,11 @@ class SteamGameSearch {
 
     async createGameEmbed() {
         try {
-            const appList = await steam.getAppList();
-            const games = Object.values(appList);
-            this.gameObj = games.find(app => app.name.toLowerCase() === this.gameName.toLowerCase());
-            
+            const steamGameArray = await getSteamGameArray(); 
+            //console.log(steamGameArray)
+            this.gameObj = steamGameArray.find(game => game.name === this.gameName);
+
+            //console.log(this.gameName); 
             if (!this.gameObj) return null;
 
             this.gameID = this.gameObj.appid;
@@ -74,15 +75,29 @@ class SteamGameSearch {
         return this.gameEmbed;
     }
 
-    getGameName() { 
-        return this.gameName; 
+    getGameName() {
+        return this.gameName;
     }
 
-    getGameID() { 
-        return this.gameID; 
+    getGameID() {
+        return this.gameID;
     }
 }
 
+let cachedGameArray = null;
+
+async function getSteamGameArray() {
+    if (cachedGameArray) {
+        return cachedGameArray;
+    }
+
+    const steamGameArray = await steam.getAppList();
+    cachedGameArray = steamGameArray;
+
+    return steamGameArray;
+}
+
 module.exports = {
-    SteamGameSearch
+    SteamGameSearch,
+    getSteamGameArray
 }
