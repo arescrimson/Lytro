@@ -71,7 +71,7 @@ function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENR
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Manga: ${TITLE}`, iconURL: ICON_URL })
-        .setThumbnail(THUMBNAIL)
+        .setThumbnail(`${image}`)
         .addFields(
             { name: 'Author: \n\u200b', value: `**${AUTHOR}** \n\u200b` },
             { name: 'Synopsis: \n\u200b', value: `${SYNOPSIS}` },
@@ -91,7 +91,7 @@ function createMangaInfoEmbed(TITLE, URL, AUTHOR, BACKGROUND, BACKGROUND2, DATE,
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Manga: ${TITLE}`, iconURL: ICON_URL })
-        .setThumbnail(THUMBNAIL)
+        .setThumbnail(`${IMAGE}`)
         .addFields(
             { name: 'Author: \n\u200b', value: `**${AUTHOR}** \n\u200b` },
             { name: 'Background: \n\u200b', value: `${BACKGROUND}` },
@@ -130,6 +130,17 @@ function createSteamGameEmbed(gameTitle, gameURL, playerCount, summary, price, d
     return embed;
 }
 
+function createEmbedQuote(quoteAuthor, quoteBody, quoteAnime) {
+    return new EmbedBuilder()
+        .setColor(0x9966FF)
+        .addFields({
+            name: '\n',
+            value: `"${quoteBody}" - **${quoteAuthor}**, **${quoteAnime}**`,
+        })
+        .setTimestamp()
+        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
+}
+
 module.exports = {
     createAnimeEmbed,
     createAnimeInfoEmbed,
@@ -137,5 +148,6 @@ module.exports = {
     createAnimeImageEmbed,
     createMangaEmbed,
     createMangaInfoEmbed,
-    createSteamGameEmbed
+    createSteamGameEmbed,
+    createEmbedQuote,
 }
