@@ -25,18 +25,24 @@ Discord Bot for information on anime/manga, characters, steam, and more.
 
 ## Anime Commands
 
-**/a [animename]:** returns anime information like synopsis, rating based off total votes, genre, url, and more. Scroll to return addition information like background, studio, related animes and release year. 
+**/a [animename]:** returns anime information like synopsis, rating based off total votes, genre, url, and more. Scroll to return additional information like background, studio, related animes and release year. 
 
 **/chr [charactername] [animename]:** depending on prefix, returns either 'main' main characters, 'sup' supporting characters, or a specified character name. Provides information like character role, description, and voice actor. 
 
 **/img [animename]:** returns a random image in the picture gallery of the specific anime. 
 
-**/rand:** returns information identical to **/a [animename]:** with a random anime. 
+**/rand:** returns information identical to **/a** with a random anime. 
 
 ## Manga Commands
 
 **/m [name]:** returns manga information like synopsis, rating, genre, url and more. 
 
+**/mrand** returns information identical to **/m** with a random manga.
+
 ## Steam Commands 
 
 **/steam [gamename]:** returns information about specified steam game like summary, pricing, genres, and more. 
+
+## Misc Commands
+
+**/quote** returns a random anime-related quote. 
