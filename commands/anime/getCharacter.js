@@ -26,7 +26,7 @@ module.exports = {
         try {
             const focusedValue = await interaction.options.getFocused();
 
-            const characterArray = await getCharacterArray(focusedValue);
+            const characterArray = getCharacterArray(focusedValue);
 
             const characterNames = characterArray.filter(name =>
                 name.name.toLowerCase().startsWith(focusedValue.toLowerCase()) ||
