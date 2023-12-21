@@ -2,12 +2,15 @@ const DISCORD_TOKEN = process.env.DISCORD_TOKEN
 const CLIENT_ID = process.env.CLIENT_ID;
 const GUILD_ID = process.env.GUILD_ID;
 const STEAM_KEY = process.env.STEAM_KEY; 
+const QUOTE_TOKEN = process.env.QUOTE_TOKEN
 
 module.exports = {
     DISCORD_TOKEN,
     CLIENT_ID,
     GUILD_ID,
     STEAM_KEY,
+    QUOTE_TOKEN,
+    QUOTE_URL: "https://waifu.it/api/quote",
     THUMBNAIL: 'https://github.com/arescrimson/Lytro/blob/master/media/profile.jpg?raw=true',
     ICON_URL: 'https://github.com/arescrimson/Lytro/blob/master/media/icon.png?raw=true',
     MAX_VALUE_LENGTH: 1020,
@@ -29,6 +32,6 @@ module.exports = {
     POPULARITY_NOT_FOUND: 'Popularity not listed.',
     SERIAL_NOT_FOUND: 'Serialization not listed.',
     rightArrowText: '⋙', 
-    leftArrowText: '⋘'
+    leftArrowText: '⋘', 
 
 }
