@@ -9,7 +9,8 @@ const { GENRES_NOT_FOUND,
     SYNOPSIS_NOT_FOUND,
     BACKGROUND_NOT_FOUND,
     RATINGS_NOT_FOUND, 
-    YEAR_NOT_FOUND} = require('../../config');
+    YEAR_NOT_FOUND,
+    MAX_VALUE_LENGTH} = require('../../config');
 
 class AnimeSearch {
 
@@ -102,8 +103,8 @@ class AnimeSearch {
 
         //SPLITS SYNOPSIS IF TOO LONG INTO 2-3 PARAGRAPHS. 
         if (this.anime.synopsis) {
-            if (this.anime.synopsis.length > 1020) {
-                const midPoint = this.anime.synopsis.lastIndexOf('.', 1020);
+            if (this.anime.synopsis.length > MAX_VALUE_LENGTH) {
+                const midPoint = this.anime.synopsis.lastIndexOf('.', MAX_VALUE_LENGTH);
                 if (midPoint !== -1) {
                     const synopsisFirstPart = this.anime.synopsis.substring(0, midPoint + 1);
                     const synopsisSecondPart = this.anime.synopsis.substring(midPoint + 1);
@@ -126,8 +127,8 @@ class AnimeSearch {
         let background = '';
 
         if (this.anime.background) {
-            if (this.anime.background.length > 1020) {
-                const midPoint = this.anime.background.lastIndexOf('.', 1020);
+            if (this.anime.background.length > MAX_VALUE_LENGTH) {
+                const midPoint = this.anime.background.lastIndexOf('.', MAX_VALUE_LENGTH);
                 if (midPoint !== -1) {
                     const backgroundFirstPart = this.anime.background.substring(0, midPoint + 1);
                     const backgroundSecondPart = this.anime.background.substring(midPoint + 1);
@@ -180,6 +181,11 @@ class AnimeSearch {
     }
 }
 
+async function getAnimeArray(searchString) { 
+    const searchResults = await JIKAN_CLIENT.anime.search(searchString);
+    return searchResults; 
+}
 module.exports = {
-    AnimeSearch
+    AnimeSearch,
+    getAnimeArray
 }
