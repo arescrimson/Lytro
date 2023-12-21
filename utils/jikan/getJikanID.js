@@ -23,7 +23,6 @@ async function getJikanID(mediaType, searchString) {
     try {
         let searchResults; 
         
-        // Perform a search for anime based on the search string.
         switch(mediaType) { 
             case 'anime': 
                 searchResults = await JIKAN_CLIENT.anime.search(searchString);
@@ -34,6 +33,16 @@ async function getJikanID(mediaType, searchString) {
         }
 
         if (!searchResults) return null; 
+
+        const filteredResult = searchResults.find(anime =>
+			(anime?.title && anime?.title?.english !== null) && 
+			anime.title.english.toLowerCase() === searchString.toLowerCase()
+		);
+
+        if (!filteredResult) return null; 
+
+        return filteredResult.id; 
+        /*
 
         // Determine the number of results to consider (approximately the top quarter).
         const quarterLength = Math.ceil(searchResults.length / 4);
@@ -55,7 +64,8 @@ async function getJikanID(mediaType, searchString) {
         // Check if a manga ID was found or not.
         if (foundID) {
             return foundID;
-        } 
+        }
+        */ 
 
     } catch (error) {
         console.error('Error in getting JikanID', error.message);
