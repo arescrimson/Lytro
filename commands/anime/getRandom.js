@@ -10,7 +10,7 @@ module.exports = {
         ,
 	async execute(interaction) {
 		try {
-			await interaction.deferReply().then(() => console.log('...'));
+			await interaction.deferReply();
 
             const animeID = await getRandomID(); 
 
