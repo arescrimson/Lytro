@@ -17,6 +17,7 @@ class SteamGameSearch {
         try {
             const steamGameArray = await getSteamGameArray(); 
             this.gameObj = steamGameArray.find(game => game.name === this.gameName);
+            
             if (!this.gameObj) return null;
 
             this.gameID = this.gameObj.appid;
