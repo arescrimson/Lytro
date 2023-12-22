@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const { getJikanID } = require('../../utils/jikan/getJikanID');
-const { MangaSearch } = require('../../utils/manga/getManga');
+const { MangaSearch, getMangaArray } = require('../../utils/manga/getManga');
 const { rightArrowText, leftArrowText } = require('../../config');
 
 module.exports = {
@@ -12,7 +12,24 @@ module.exports = {
 				.setName('manga')
 				.setDescription('Name of Manga')
 				.setRequired(true)
+				.setAutocomplete(true)
 		),
+	async autocomplete(interaction) {
+		const focusedValue = await interaction.options.getFocused();
+
+		const mangaArray = await getMangaArray(focusedValue);
+
+		const mangaNames = mangaArray.filter(name =>
+			(name.title && name.title.english !== null) &&
+			name.title.english.toLowerCase().startsWith(focusedValue.toLowerCase())
+		);
+
+		const limitedMangaList = mangaNames.slice(0, 15)
+
+		await interaction.respond(
+			limitedMangaList.map(names => ({ name: names.title.english, value: names.title.english }))
+		);
+	},
 	async execute(interaction) {
 		try {
 			await interaction.deferReply();
@@ -20,9 +37,9 @@ module.exports = {
 			const mangaName = await interaction.options.getString('manga');
 			const mangaID = await getJikanID('manga', mangaName);
 
-			if (!mangaID) { 
-				await interaction.editReply('Manga not Found.'); 
-				return; 
+			if (!mangaID) {
+				await interaction.editReply('Manga not Found.');
+				return;
 			}
 			const mangaSearch = new MangaSearch(mangaID);
 			const mangaEmbed = await mangaSearch.createMangaEmbed();
