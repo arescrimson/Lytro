@@ -95,7 +95,9 @@ class MangaSearch {
                 if (midPoint !== -1) {
                     const firstPart = mangaText.substring(0, midPoint + 1);
                     const secondPart = mangaText.substring(midPoint + 1);
+
                     splitText = firstPart;
+                    
                     if (isSynopsis) this.synopsis2 = secondPart
                     else this.background2 = secondPart
                 }
