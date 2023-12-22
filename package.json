@@ -2,6 +2,7 @@
   "dependencies": {
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
+    "jest": "^29.7.0",
     "jikan4.js": "^1.5.9",
     "pm2": "^5.3.0",
     "steamapi": "^2.4.2"
