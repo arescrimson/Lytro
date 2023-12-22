@@ -19,7 +19,7 @@ class AnimeCharacterSearch {
 
     constructor(characterName) {
         this.characterArr = [];
-        this.characterObj = null; 
+        this.characterObj = null;
         this.characterEmbed = null;
         this.characterName = characterName;
         //this.animeID = animeID;
@@ -43,51 +43,53 @@ class AnimeCharacterSearch {
             this.characterArr = this.getCharacter(jikanCharacterArray);
             if (!this.characterArr.length) return null;
             */
-
+            /*
             const characterArray = await getCharacterArray(this.characterName); 
-            const characterObj = characterArray.find(name => name.name === this.characterName); 
+            const characterObj = characterArray.filter(name => name.name === this.characterName); 
+            console.log(characterObj);
+            if (!characterObj) return null; 
             this.characterObj = await JIKAN_CLIENT.characters.getFull(characterObj.id);
-            //console.log(this.characterObj);
 
             const characterAbout = this.getDescription(this.characterObj.about);
 
             this.voiceActors = await this.characterObj.getVoiceActors(); 
 
-            //console.log(characterObj)
             this.characterEmbed = createCharacterEmbed(
                 this.characterObj.name,
                 this.characterObj.url,
-                'Anime Placeholder',
                 characterObj.nicknames[0] ?? ROLE_NOT_FOUND,
                 characterAbout,
                 this.voiceActors[0]?.person.name ?? VA_NOT_FOUND,
                 this.characterObj?.image.webp.default
             );
-
+                
             return this.characterEmbed;
-            /*
-            this.animeName = anime.title.default;
+            */
+            const characterArray = await getCharacterArray(this.characterName);
+            this.characterArr = characterArray.filter(name => name.name === this.characterName);
 
-            this.voiceActors =
-                this.characterArr[this.characterCounter]?.voiceActors[this.characterCounter]?.person.name;
+            if (this.characterArr.length === 0) return null;
 
-            const jikanCharacterAbout =
-                await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].character.id);
+            this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].id);
+            
+            if (!this.characterObj) return null; 
 
-            const characterAbout = this.getDescription(jikanCharacterAbout.about);
+            const voiceActors =
+                await this.characterArr[this.characterCounter]?.getVoiceActors();
+
+            const characterAbout = this.getDescription(this.characterObj.about);
 
             this.characterEmbed = createCharacterEmbed(
-                this.characterArr[this.characterCounter].character.name,
-                this.characterArr[this.characterCounter].character.url,
-                this.animeName,
+                this.characterArr[this.characterCounter].name,
+                this.characterArr[this.characterCounter].url,
                 this.characterArr[this.characterCounter].role ?? ROLE_NOT_FOUND,
                 characterAbout,
-                this.voiceActors ?? VA_NOT_FOUND,
-                this.characterArr[this.characterCounter]?.character.image.webp.default
+                voiceActors[0]?.person.name ?? VA_NOT_FOUND,
+                this.characterArr[this.characterCounter]?.image.webp.default
             );
 
             return this.characterEmbed;
-            */
+
         } catch (error) {
             console.error('Error in getCharacter:', error.message);
         }
@@ -146,24 +148,6 @@ class AnimeCharacterSearch {
         return description;
     }
 
-    /**
-     * Gets first name from either a single first name, or a lastname, firstname format. 
-     * Ex. !chr gon hunter x hunter would return gon, even though the api lists it as Freecss, Gon. 
-     * 
-     * @returns the first name. 
-     */
-    getFirstName(databaseNames) {
-        let res = false;
-        //splits by nameParts, i.e Monkey D., Luffy, and sets to lowercase for comparison purposes. 
-        const nameParts = databaseNames.split(',').map(part => part.trim().toLowerCase());
-        //returns true if characterName matches either first or last name. 
-        if (nameParts.includes(this.characterName.toLowerCase())) {
-            res = true;
-        }
-
-        return res;
-    }
-
     async updateCharacterEmbed(updateRight) {
         if (updateRight) {
             this.characterCounter = (this.characterCounter + 1) % this.characterArr.length;
@@ -171,29 +155,22 @@ class AnimeCharacterSearch {
             this.characterCounter = (this.characterCounter - 1 + this.characterArr.length) % this.characterArr.length;
         }
 
-        let characterAbout;
-
-        const updatedCharacterFull =
+        this.characterObj =
             await JIKAN_CLIENT.characters.getFull
-                (this.characterArr[this.characterCounter].character.id);
+                (this.characterArr[this.characterCounter].id);
 
-        if (updatedCharacterFull) {
-            characterAbout = this.getDescription(updatedCharacterFull.about);
-        } else {
-            characterAbout = DESCRIPTION_NOT_FOUND;
-        }
+        const characterAbout = this.getDescription(this.characterObj.about);
 
-        this.voiceActors =
-            this.characterArr[this.characterCounter]?.voiceActors[this.characterCounter]?.person.name;
+        const voiceActors =
+            await this.characterArr[this.characterCounter]?.getVoiceActors();
 
         this.characterEmbed = createCharacterEmbed(
-            this.characterArr[this.characterCounter].character.name,
-            this.characterArr[this.characterCounter].character.url,
-            this.animeName,
+            this.characterArr[this.characterCounter].name,
+            this.characterArr[this.characterCounter].url,
             this.characterArr[this.characterCounter].role ?? ROLE_NOT_FOUND,
             characterAbout,
-            this.voiceActors ?? VA_NOT_FOUND,
-            this.characterArr[this.characterCounter]?.character.image.webp.default
+            voiceActors[0]?.person.name ?? VA_NOT_FOUND,
+            this.characterArr[this.characterCounter]?.image.webp.default
         );
 
         return this.characterEmbed;
