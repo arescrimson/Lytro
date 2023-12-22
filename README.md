@@ -14,9 +14,10 @@
 + Reworking bot to utilize slash commands instead of prefixes. This allows the bot to utilize autofill menus, better handling of interactions, and more! 
 + Autofill menus for query-related searches, such as anime, characters, and steam games.
 + Reworked UI, visuals, and error handling for embed and returned messages.
-+ Much cleaner code and a improvement to command/bot speed overall.
-+ More commands using more API's planned! Now features steam commands.
-+ Now hosted on Google Cloud Platform. 
++ Much cleaner code and an improvement to command/bot speed and precision overall.
++ More commands using more APIs planned! Now features steam commands.
++ Now hosted on Google Cloud Platform - Compute Engine.
++ Now unit tested with Jest. 
 + And more! 
 
 Discord Bot for information on anime/manga, characters, steam, and more. 
