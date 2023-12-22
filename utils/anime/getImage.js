@@ -18,20 +18,17 @@ class AnimeImageSearch {
 
             const anime = await JIKAN_CLIENT.anime.get(this.animeID);
             this.animeImageArray = await JIKAN_CLIENT.anime.getPictures(this.animeID);
-            if (!this.animeImageArray) return null; 
+            
+            if (this.animeImageArray.length === 0) return null;
 
-            //randomly search index of picture gallery 
             do {
                 randomImageIndex = Math.floor(Math.random() * this.animeImageArray.length);
             }
-            //If set contains an index it's already searched, runs random search again. 
             while (this.searchedSet.has(randomImageIndex));
 
-            //If searched images Set exceeds the length of picture gallery array, clear values from Set. 
             if (this.searchedSet.size >= this.animeImageArray.length) {
                 this.searchedSet.clear();
             }
-            //Else, add index to searched index Set. 
             else {
                 this.searchedSet.add(randomImageIndex);
             }
