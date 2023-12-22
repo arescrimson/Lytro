@@ -26,10 +26,9 @@ module.exports = {
         try {
             const focusedValue = await interaction.options.getFocused();
 
-            const characterArray = getCharacterArray(focusedValue);
+            const characterArray = await getCharacterArray(focusedValue);
 
             const characterNames = characterArray.filter(name =>
-                name.name.toLowerCase().startsWith(focusedValue.toLowerCase()) ||
                 name.name.toLowerCase().includes(focusedValue.toLowerCase())
             );
 
@@ -38,18 +37,6 @@ module.exports = {
             await interaction.respond(
                 limitedCharacterList.map(names => ({ name: names.name, value: names.name }))
             );
-            /*
-            const characterNames = characterArray.filter(name => 
-                    gameName.name.toLowerCase().startsWith(focusedValue.toLowerCase() || 
-                    gameName.name.toLowerCase().includes(focusedValue.toLowerCase())
-            ));
-
-            const limitedGameList = gameNames.slice(0,10); 
-            
-            await interaction.respond(
-                limitedGameList.map(games => ({ name: games.name, value: games.name }))
-            );
-            */
 
         } catch (error) {
             console.error(error);
@@ -58,14 +45,7 @@ module.exports = {
     async execute(interaction) {
         try {
             await interaction.deferReply();
-            //const animeName = await interaction.options.getString('anime');
             const characterName = await interaction.options.getString('character');
-            //const animeID = await getJikanID('anime', animeName);
-
-            //if (!animeID) {
-            //  await interaction.editReply('Anime not Found.');
-            //  return;
-            //  }
 
             const animeCharacterSearch = new AnimeCharacterSearch(characterName);
             const animeCharacterEmbed = await animeCharacterSearch.createAnimeCharactersEmbed();
@@ -94,8 +74,6 @@ module.exports = {
                     embeds: [animeCharacterEmbed],
                     components: [row],
                 });
-
-                //const collectorFilter = i => i.user.id === interaction.user.id;
 
                 const collector = response.createMessageComponentCollector({ time: 60000 });
 
