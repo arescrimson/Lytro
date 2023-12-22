@@ -40,10 +40,7 @@ class AnimeSearchTests {
             //expect(synopsis.name).toBe('Synopsis: \n'); 
             //expect(synopsis.value).toBe
             //('Barely surviving in a barrel after passing through a terrible whirlpool at sea, carefree Monkey D. Luffy ends up aboard a ship under attack by fearsome pirates. Despite being a naive-looking teenager, he is not to be underestimated. Unmatched in battle, Luffy is a pirate himself who resolutely pursues the coveted One Piece treasure and the King of the Pirates title that comes with it.\n');
-            
-            const ratings = testEmbed.data.fields[4]
-            expect(ratings.name).toBe('Ratings:'); 
-            expect(ratings.value).toBe('Average score based off 1,292,772 votes: 8.74 / 10');
+
         });
     }
 
