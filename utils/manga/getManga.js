@@ -143,6 +143,12 @@ class MangaSearch {
     }
 }
 
+async function getMangaArray(searchString) { 
+    const mangaArray = await JIKAN_CLIENT.manga.search(searchString);
+    return mangaArray; 
+}
+
 module.exports = {
-    MangaSearch
+    MangaSearch,
+    getMangaArray
 }
