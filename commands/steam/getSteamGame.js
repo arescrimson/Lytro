@@ -23,11 +23,10 @@ module.exports = {
             const steamGameArray = await getSteamGameArray();
 
             const gameNames = steamGameArray.filter(gameName => 
-                    gameName.name.toLowerCase().startsWith(focusedValue.toLowerCase() || 
-                    gameName.name.toLowerCase().includes(focusedValue.toLowerCase())
+                    gameName.name.toLowerCase().startsWith(focusedValue.toLowerCase()  
             ));
 
-            const limitedGameList = gameNames.slice(0,20); 
+            const limitedGameList = gameNames.slice(0,24); 
             
             await interaction.respond(
                 limitedGameList.map(games => ({ name: games.name, value: games.name }))
