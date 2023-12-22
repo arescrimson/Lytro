@@ -185,6 +185,7 @@ async function getAnimeArray(searchString) {
     const animeArray = await JIKAN_CLIENT.anime.search(searchString);
     return animeArray; 
 }
+
 module.exports = {
     AnimeSearch,
     getAnimeArray
