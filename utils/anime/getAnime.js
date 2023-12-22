@@ -179,6 +179,14 @@ class AnimeSearch {
     getAnimeInfoEmbed() {
         return this.animeInfoEmbed;
     }
+
+    getAnimeID() { 
+        return this.animeID; 
+    }
+
+    getAnimeObj() { 
+        return this.anime; 
+    }
 }
 
 async function getAnimeArray(searchString) { 
