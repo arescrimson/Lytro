@@ -38,13 +38,13 @@ function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO,
         .setFooter({ text: 'Information from Lytro' });
 }
 
-function createCharacterEmbed(NAME, URL, TITLE, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
+function createCharacterEmbed(NAME, URL, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
     return new EmbedBuilder()
         .setColor(0x9966FF)
         .setTitle(`${NAME}`)
         .setThumbnail(THUMBNAIL)
         .setURL(`${URL}`)
-        .setAuthor({ name: `Currently Searching Anime : ${TITLE}`, iconURL: ICON_URL })
+        .setAuthor({ name: `Currently Searching Character : ${NAME}`, iconURL: ICON_URL })
         .addFields(
             { name: 'Role:', value: `${ROLE}` },
             { name: 'Description:', value: `${DESCRIPTION}` },
