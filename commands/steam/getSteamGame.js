@@ -46,7 +46,7 @@ module.exports = {
             const gameEmbed = await steamGameSearch.createGameEmbed();
 
             if (!gameEmbed) {
-                interaction.editReply('Game not listed/found.');
+                interaction.editReply('Game not found/listed.');
                 return;
             }
 
