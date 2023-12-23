@@ -156,7 +156,7 @@ function createHelpEmbed() {
             { name: '/m [manga_name]', value: 'Gets manga information from specified manga.' },
             { name: '/mrand', value: 'Gets manga information from a random manga.\n\u200b' },
             { name: 'Steam Commands:', value: '\n\u200b' },
-            { name: '/steam [game_name]', value: 'Gets steam game information from specified game.' }
+            { name: '/steam [game_name]', value: 'Gets steam game information from specified game.\n\u200b' },
             { name: 'Cat Commands:', value: '\n\u200b' },
             { name: '/cats', value: 'Gets random images of cats.' }
         )
