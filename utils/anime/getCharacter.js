@@ -71,18 +71,24 @@ class AnimeCharacterSearch {
             if (this.characterArr.length === 0) return null;
 
             this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].id);
-            
-            if (!this.characterObj) return null; 
+
+            if (!this.characterObj) return null;
 
             const voiceActors =
                 await this.characterArr[this.characterCounter]?.getVoiceActors();
 
-            const characterAbout = this.getDescription(this.characterObj.about);
+            const characterAbout =
+                this.getDescription(this.characterObj.about);
+
+            let nicknames;
+            if (this.characterArr[this.characterCounter].nicknames.length === 0) nicknames = 'Nicknames not listed.'
+            else nicknames =
+                this.characterArr[this.characterCounter]?.nicknames?.slice(0, 3);
 
             this.characterEmbed = createCharacterEmbed(
                 this.characterArr[this.characterCounter].name,
                 this.characterArr[this.characterCounter].url,
-                this.characterArr[this.characterCounter].role ?? ROLE_NOT_FOUND,
+                nicknames,
                 characterAbout,
                 voiceActors[0]?.person.name ?? VA_NOT_FOUND,
                 this.characterArr[this.characterCounter]?.image.webp.default
@@ -164,10 +170,15 @@ class AnimeCharacterSearch {
         const voiceActors =
             await this.characterArr[this.characterCounter]?.getVoiceActors();
 
+        let nicknames;
+        if (this.characterArr[this.characterCounter].nicknames.length === 0) nicknames = 'Nicknames not listed.'
+        else nicknames =
+            this.characterArr[this.characterCounter]?.nicknames?.slice(0, 3);
+
         this.characterEmbed = createCharacterEmbed(
             this.characterArr[this.characterCounter].name,
             this.characterArr[this.characterCounter].url,
-            this.characterArr[this.characterCounter].role ?? ROLE_NOT_FOUND,
+            nicknames,
             characterAbout,
             voiceActors[0]?.person.name ?? VA_NOT_FOUND,
             this.characterArr[this.characterCounter]?.image.webp.default
