@@ -8,9 +8,9 @@ const { GENRES_NOT_FOUND,
     STUDIO_NOT_FOUND,
     SYNOPSIS_NOT_FOUND,
     BACKGROUND_NOT_FOUND,
-    RATINGS_NOT_FOUND, 
+    RATINGS_NOT_FOUND,
     YEAR_NOT_FOUND,
-    MAX_VALUE_LENGTH} = require('../../config');
+    MAX_VALUE_LENGTH } = require('../../config');
 
 class AnimeSearch {
 
@@ -40,7 +40,7 @@ class AnimeSearch {
             const ratings = this.getRatings(stats);
 
             const episodes = this.anime.episodes?.toLocaleString() ?? EPISODES_NOT_FOUND;
-            
+
             this.animeEmbed = createAnimeEmbed(
                 this.anime.title?.default,
                 this.anime.url ?? URL_NOT_FOUND,
@@ -51,7 +51,7 @@ class AnimeSearch {
                 ratings,
                 this.anime.image.webp.default
             )
-            
+
             return this.animeEmbed;
         } catch (error) {
             console.error('Error in getAnime:', error.message);
@@ -65,20 +65,8 @@ class AnimeSearch {
 
             const background = this.getBackground();
 
-            let recList = [];
-            let recommendations = '';
+            const recommendations = this.getRecommendations(rec);
 
-            //If at least 2 indexes in recommendation array, add them to recList String. 
-            if (rec.length > 2) {
-                recList.push(rec[0].entry.title);
-                recList.push(rec[1].entry.title);
-                recommendations = recList.map(item => item).join(', ');
-            }
-            //If no length on recList, i.e. null, recommendation string becomes not found error message.  
-            else {
-                recommendations = RECOMMENDATIONS_NOT_FOUND;
-            }
-            
             this.animeInfoEmbed = createAnimeInfoEmbed(
                 this.anime.title.default,
                 this.anime.url,
@@ -89,7 +77,7 @@ class AnimeSearch {
                 recommendations,
                 this.anime.image.webp.default
             )
-            
+
             return this.animeInfoEmbed;
 
         } catch (error) {
@@ -98,10 +86,8 @@ class AnimeSearch {
     }
 
     getSynopsis() {
-        //INITIALIZES SPLIT FOR SYNOPSIS THAT ARE OVER 1020 CHARACTERS 
         let synopsis = '';
 
-        //SPLITS SYNOPSIS IF TOO LONG INTO 2-3 PARAGRAPHS. 
         if (this.anime.synopsis) {
             if (this.anime.synopsis.length > MAX_VALUE_LENGTH) {
                 const midPoint = this.anime.synopsis.lastIndexOf('.', MAX_VALUE_LENGTH);
@@ -112,7 +98,6 @@ class AnimeSearch {
                     this.synopsis2 = synopsisSecondPart;
                 }
             }
-            //else, simply assign synopsis to the anime synopsis. 
             else {
                 synopsis = this.anime.synopsis;
             }
@@ -136,12 +121,10 @@ class AnimeSearch {
                     this.background2 = backgroundSecondPart;
                 }
             }
-            //else, simply assign background to the anime background. 
             else {
                 background = this.anime.background;
             }
         }
-        //if background is null, error message. 
         else {
             background = BACKGROUND_NOT_FOUND;
         }
@@ -172,6 +155,11 @@ class AnimeSearch {
         return ratings;
     }
 
+    getRecommendations(rec) {
+        if (rec.length === 0) return RECOMMENDATIONS_NOT_FOUND;
+        else return rec.slice(0, 2).map(item => item.entry.title).join(', ');
+    }
+
     getAnimeEmbed() {
         return this.animeEmbed;
     }
@@ -180,18 +168,18 @@ class AnimeSearch {
         return this.animeInfoEmbed;
     }
 
-    getAnimeID() { 
-        return this.animeID; 
+    getAnimeID() {
+        return this.animeID;
     }
 
-    getAnimeObj() { 
-        return this.anime; 
+    getAnimeObj() {
+        return this.anime;
     }
 }
 
-async function getAnimeArray(searchString) { 
+async function getAnimeArray(searchString) {
     const animeArray = await JIKAN_CLIENT.anime.search(searchString);
-    return animeArray; 
+    return animeArray;
 }
 
 module.exports = {
