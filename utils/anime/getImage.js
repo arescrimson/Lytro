@@ -1,6 +1,5 @@
 const { JIKAN_CLIENT } = require('../jikan/jikanClient');
 const { createAnimeImageEmbed } = require('../embed/createEmbeds');
-
 class AnimeImageSearch {
 
     constructor(animeID) {
