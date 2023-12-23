@@ -16,8 +16,8 @@
 + Reworked UI, visuals, and error handling for embed and returned messages.
 + Much cleaner code and an improvement to command/bot speed and precision overall.
 + More commands using more APIs planned! Now features steam commands.
-+ Now hosted on Google Cloud Platform - Compute Engine.
-+ Now unit tested with Jest. 
++ Now hosted on **Google Cloud Platform - Compute Engine**.
++ Now unit tested with **Jest**. 
 + And more! 
 
 Discord Bot for information on anime/manga, characters, steam, and more. 
