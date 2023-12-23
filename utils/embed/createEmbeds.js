@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, Embed } = require('discord.js');
 const { THUMBNAIL, ICON_URL } = require('../../config');
 
 function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RATINGS, image) {
@@ -144,7 +144,7 @@ function createEmbedQuote(quoteAuthor, quoteBody, quoteAnime) {
 function createHelpEmbed() {
     return new EmbedBuilder()
         .setColor(0x9966FF)
-        .setAuthor({name: 'List of Commands', iconURL: ICON_URL})
+        .setAuthor({ name: 'List of Commands', iconURL: ICON_URL })
         .addFields(
             { name: 'Anime Commands:', value: '\n\u200b' },
             { name: '/a [anime_name]', value: 'Gets anime information from specified anime.' },
@@ -159,7 +159,14 @@ function createHelpEmbed() {
             { name: '/steam [game_name]', value: 'Gets steam game information from specified game.' }
         )
         .setTimestamp()
-        .setFooter({text: 'Command Help', iconURL: ICON_URL})
+        .setFooter({ text: 'Command Help', iconURL: ICON_URL })
+}
+
+function createCatsEmbed(catsObj) {
+    return new EmbedBuilder()
+        .setImage(`${catsObj[0].url}`)
+        .setTimestamp()
+        .setFooter({ text: 'Cats', iconURL: ICON_URL })
 }
 
 module.exports = {
@@ -171,5 +178,6 @@ module.exports = {
     createMangaInfoEmbed,
     createSteamGameEmbed,
     createEmbedQuote,
-    createHelpEmbed
+    createHelpEmbed,
+    createCatsEmbed
 }
