@@ -157,6 +157,8 @@ function createHelpEmbed() {
             { name: '/mrand', value: 'Gets manga information from a random manga.\n\u200b' },
             { name: 'Steam Commands:', value: '\n\u200b' },
             { name: '/steam [game_name]', value: 'Gets steam game information from specified game.' }
+            { name: 'Cat Commands:', value: '\n\u200b' },
+            { name: '/cats', value: 'Gets random images of cats.' }
         )
         .setTimestamp()
         .setFooter({ text: 'Command Help', iconURL: ICON_URL })
