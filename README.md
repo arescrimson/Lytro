@@ -24,6 +24,8 @@
 
 Discord Bot written in JavaScript using Discord.js. Features commands mainly about anime/manga, but also has commands about steam games and cats! Fully built, maintained, and hosted by Ares. Feel free to send me a dm @arescrimson on Discord for anything relating to your experience using the bot :) 
 
+Add to your server [here](https://discord.com/api/oauth2/authorize?client_id=1185754463907086367&permissions=2147510272&scope=bot+applications.commands). Please note that this is still a work in progress, and do let me know if you run into any issues. 
+
 ## Anime Commands
 
 **/a [animename]:** returns anime information like synopsis, rating based off total votes, genre, url, and more. Scroll to return additional information like background, studio, related animes and release year. 
