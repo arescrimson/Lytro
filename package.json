@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@thatapicompany/thecatapi": "^1.0.2",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
     "jest": "^29.7.0",
