@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
-const { CAT_CLIENT } = require('../../utils/animals/catClient');
+const { CAT_CLIENT } = require('../../utils/animals/animalClients');
 const { createCatsEmbed } = require('../../utils/embed/createEmbeds');
 const { newImageText } = require('../../config');
 
@@ -7,14 +7,14 @@ module.exports = {
     data:
         new SlashCommandBuilder()
             .setName('cats')
-            .setDescription('random cat picture')
+            .setDescription('random cat pictures')
     ,
     async execute(interaction) {
         try {
             await interaction.deferReply()
             
             const catsObj = await CAT_CLIENT.images.searchImages(); 
-            
+            await CAT_CLIENT.images.searchImages()
             if (!catsObj || catsObj.length === 0) return; 
 
             const catsEmbed = createCatsEmbed(catsObj);
