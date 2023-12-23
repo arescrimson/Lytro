@@ -50,11 +50,11 @@ Add to your server [here](https://discord.com/api/oauth2/authorize?client_id=118
 
 ## Cats Commands 
 
-**/cats** returns a random image of cats.
+**/cats:** returns a random image of cats.
 
 ## Help 
 
-**/help** returns a help message with command information. 
+**/help:** returns a help message with command information. 
 
 # Data Source 
 This bot uses [MyAnimeList (MAL) API](https://myanimelist.net/apiconfig/references/api/v2), [Steam API](https://steamcommunity.com/dev) and [Cats API](https://thecatapi.com/). 
