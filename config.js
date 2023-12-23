@@ -2,7 +2,8 @@ const DISCORD_TOKEN = process.env.DISCORD_TOKEN
 const CLIENT_ID = process.env.CLIENT_ID;
 const GUILD_ID = process.env.GUILD_ID;
 const STEAM_KEY = process.env.STEAM_KEY; 
-const QUOTE_TOKEN = process.env.QUOTE_TOKEN
+const QUOTE_TOKEN = process.env.QUOTE_TOKEN;
+const CATS_TOKEN = process.env.CATS_TOKEN;
 
 module.exports = {
     DISCORD_TOKEN,
@@ -10,6 +11,7 @@ module.exports = {
     GUILD_ID,
     STEAM_KEY,
     QUOTE_TOKEN,
+    CATS_TOKEN,
     QUOTE_URL: "https://waifu.it/api/quote",
     THUMBNAIL: 'https://github.com/arescrimson/Lytro/blob/master/media/profile.jpg?raw=true',
     ICON_URL: 'https://github.com/arescrimson/Lytro/blob/master/media/icon.png?raw=true',
@@ -33,5 +35,6 @@ module.exports = {
     SERIAL_NOT_FOUND: 'Serialization not listed.',
     rightArrowText: '⋙', 
     leftArrowText: '⋘', 
+    newImageText: '➕'
 
 }
