@@ -46,7 +46,7 @@ function createCharacterEmbed(NAME, URL, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Character : ${NAME}`, iconURL: ICON_URL })
         .addFields(
-            { name: 'Role:', value: `${ROLE}` },
+            { name: 'Nicknames:', value: `${ROLE}` },
             { name: 'Description:', value: `${DESCRIPTION}` },
             { name: 'Japanese Voice Actor:', value: `${VOICEACTOR}`, inline: true },
         )
@@ -147,16 +147,16 @@ function createHelpEmbed() {
         .setAuthor({name: 'List of Commands', iconURL: ICON_URL})
         .addFields(
             { name: 'Anime Commands:', value: '\n\u200b' },
-            { name: '/a [anime_name]:', value: 'Gets anime information from specified anime.' },
-            { name: '/chr [character_name]:', value: 'Gets anime character information from specified character.' },
-            { name: '/img [anime_name]:', value: 'Gets anime image information from specified anime.' },
-            { name: '/rand:', value: 'Gets anime information from a random anime.' },
-            { name: '/quote:', value: 'Gets a random anime quote.\n\u200b' },
+            { name: '/a [anime_name]', value: 'Gets anime information from specified anime.' },
+            { name: '/chr [character_name]', value: 'Gets anime character information from specified character.' },
+            { name: '/img [anime_name]', value: 'Gets anime image information from specified anime.' },
+            { name: '/rand', value: 'Gets anime information from a random anime.' },
+            { name: '/quote', value: 'Gets a random anime quote.\n\u200b' },
             { name: 'Manga Commands:', value: '\n\u200b' },
-            { name: '/m [manga_name]:', value: 'Gets manga information from specified manga.' },
-            { name: '/mrand:', value: 'Gets manga information from a random manga.\n\u200b' },
+            { name: '/m [manga_name]', value: 'Gets manga information from specified manga.' },
+            { name: '/mrand', value: 'Gets manga information from a random manga.\n\u200b' },
             { name: 'Steam Commands:', value: '\n\u200b' },
-            { name: '/steam [game_name]:', value: 'Gets steam game information from specified game.' }
+            { name: '/steam [game_name]', value: 'Gets steam game information from specified game.' }
         )
         .setTimestamp()
         .setFooter({text: 'Command Help', iconURL: ICON_URL})
