@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
-const { CAT_CLIENT } = require('../../utils/cats/catClient');
+const { CAT_CLIENT } = require('../../utils/animals/catClient');
 const { createCatsEmbed } = require('../../utils/embed/createEmbeds');
 const { newImageText } = require('../../config');
 
