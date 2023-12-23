@@ -141,6 +141,27 @@ function createEmbedQuote(quoteAuthor, quoteBody, quoteAnime) {
         .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
+function createHelpEmbed() {
+    return new EmbedBuilder()
+        .setColor(0x9966FF)
+        .setAuthor({name: 'List of Commands', iconURL: ICON_URL})
+        .addFields(
+            { name: 'Anime Commands:', value: '\n\u200b' },
+            { name: '/a [anime_name]:', value: 'Gets anime information from specified anime.' },
+            { name: '/chr [character_name]:', value: 'Gets anime character information from specified character.' },
+            { name: '/img [anime_name]:', value: 'Gets anime image information from specified anime.' },
+            { name: '/rand:', value: 'Gets anime information from a random anime.' },
+            { name: '/quote:', value: 'Gets a random anime quote.\n\u200b' },
+            { name: 'Manga Commands:', value: '\n\u200b' },
+            { name: '/m [manga_name]:', value: 'Gets manga information from specified manga.' },
+            { name: '/mrand:', value: 'Gets manga information from a random manga.\n\u200b' },
+            { name: 'Steam Commands:', value: '\n\u200b' },
+            { name: '/steam [game_name]:', value: 'Gets steam game information from specified game.' }
+        )
+        .setTimestamp()
+        .setFooter({text: 'Command Help', iconURL: ICON_URL})
+}
+
 module.exports = {
     createAnimeEmbed,
     createAnimeInfoEmbed,
@@ -150,4 +171,5 @@ module.exports = {
     createMangaInfoEmbed,
     createSteamGameEmbed,
     createEmbedQuote,
+    createHelpEmbed
 }
