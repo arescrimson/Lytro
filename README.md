@@ -5,7 +5,7 @@
 
 <p align="center"> Discord bot using discord.js for anime, manga, and steam game information.</p>
 
-## About
+# Updates 
 
 **IMPORTANT:** As of **12/19/2023**, this is the new version of Lytro, which has been completely rewritten and improved. The old repository can be found [here](https://github.com/arescrimson/LytroOld/tree/master). 
 
@@ -15,14 +15,14 @@
 + Autofill menus for query-related searches, such as anime, characters, and steam games.
 + Reworked UI, visuals, and error handling for embed and returned messages.
 + Much cleaner code and an improvement to command/bot speed and precision overall.
-+ More commands using more APIs planned! Now features steam commands.
++ More commands planned! Now has commands about steam and cats as well. 
 + Now hosted on **Google Cloud Platform - Compute Engine**.
 + Now unit tested with **Jest**. 
-+ And more! 
++ And more!
+  
+# About
 
-Discord Bot for information on anime/manga, characters, steam, and more. 
-
-**Data Source:** This bot uses the [MyAnimeList (MAL) API](https://myanimelist.net/apiconfig/references/api/v2). You can visit [MyAnimeList](https://myanimelist.net/) for more details.
+Discord Bot written in JavaScript using Discord.js. Features commands mainly about anime/manga, but also has commands about steam games and cats! Fully built, maintained, and hosted by Ares. Feel free to send me a dm @arescrimson on Discord for anything relating to your experience using the bot :) 
 
 ## Anime Commands
 
@@ -34,6 +34,8 @@ Discord Bot for information on anime/manga, characters, steam, and more.
 
 **/rand:** returns information identical to **/a** with a random anime. 
 
+**/quote** returns a random anime-related quote. 
+
 ## Manga Commands
 
 **/m [name]:** returns manga information like synopsis, rating, genre, url and more. 
@@ -44,6 +46,15 @@ Discord Bot for information on anime/manga, characters, steam, and more.
 
 **/steam [gamename]:** returns information about specified steam game like summary, pricing, genres, and more. 
 
-## Misc Commands
+## Cats Commands 
 
-**/quote** returns a random anime-related quote. 
+**/cats** returns a random image of cats.
+
+## Help 
+
+**/help** returns a help message with command information. 
+
+# Data Source 
+This bot uses [MyAnimeList (MAL) API](https://myanimelist.net/apiconfig/references/api/v2), [Steam API](https://steamcommunity.com/dev) and [Cats API](https://thecatapi.com/). 
+
+
