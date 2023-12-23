@@ -2,6 +2,7 @@ const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = re
 const { getJikanID } = require('../../utils/jikan/getJikanID');
 const { AnimeImageSearch } = require('../../utils/anime/getImage');
 const { getAnimeArray } = require('../../utils/anime/getAnime');
+const { newImageText } = require('../../config');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -53,7 +54,7 @@ module.exports = {
 
                 const newImage = new ButtonBuilder()
                     .setCustomId('newImage')
-                    .setLabel('+')
+                    .setLabel(newImageText)
                     .setStyle(ButtonStyle.Primary);
 
                 const row = new ActionRowBuilder()
