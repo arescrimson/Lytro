@@ -24,58 +24,100 @@ class AnimeSearchTests {
     async testAnimeInfoReturnsEmbed() {
         test('createAnimeInfoEmbed returns embed', async () => {
             const testEmbed = await this.animeSearch.createAnimeInfoEmbed();
+
             expect(this.animeSearch.getAnimeInfoEmbed()).toBeInstanceOf(EmbedBuilder);
         });
     }
 
-    async testAnimeEmbedValues() { 
+    async testAnimeEmbedValues() {
         test('tests AnimeEmbed values', async () => {
-            
             const testEmbed = await this.animeSearch.createAnimeEmbed();
-            expect(testEmbed.data.title).toBe('One Piece'); 
-            expect(testEmbed.data.author.name).toBe('Currently Searching Anime: One Piece'); 
-            expect(testEmbed.data.url).toBe('https://myanimelist.net/anime/21/One_Piece');
-           
-            //const synopsis = testEmbed.data.fields[0]; 
-            //expect(synopsis.name).toBe('Synopsis: \n'); 
-            //expect(synopsis.value).toBe
-            //('Barely surviving in a barrel after passing through a terrible whirlpool at sea, carefree Monkey D. Luffy ends up aboard a ship under attack by fearsome pirates. Despite being a naive-looking teenager, he is not to be underestimated. Unmatched in battle, Luffy is a pirate himself who resolutely pursues the coveted One Piece treasure and the King of the Pirates title that comes with it.\n');
 
+            expect(testEmbed.data.title).toBe('One Piece');
+            expect(testEmbed.data.author.name).toBe('Currently Searching Anime: One Piece');
+            expect(testEmbed.data.url).toBe('https://myanimelist.net/anime/21/One_Piece');
         });
     }
 
-    async testAnimeInfoEmbedValues() { 
+    async testAnimeInfoEmbedValues() {
         test('tests AnimeInfoEmbed values', async () => {
             const testEmbed = await this.animeSearch.createAnimeInfoEmbed();
-            //console.log(testEmbed.data.fields);
-            expect(testEmbed.data.title).toBe('One Piece'); 
-            expect(testEmbed.data.author.name).toBe('Currently Searching Anime: One Piece'); 
-            expect(testEmbed.data.url).toBe('https://myanimelist.net/anime/21/One_Piece');
-            
-            const releaseDate = testEmbed.data.fields[2]; 
-            expect(releaseDate.value).toBe('1999'); 
 
-            const studio = testEmbed.data.fields[3]; 
+            expect(testEmbed.data.title).toBe('One Piece');
+            expect(testEmbed.data.author.name).toBe('Currently Searching Anime: One Piece');
+            expect(testEmbed.data.url).toBe('https://myanimelist.net/anime/21/One_Piece');
+
+            const releaseDate = testEmbed.data.fields[2];
+
+            expect(releaseDate.value).toBe('1999');
+
+            const studio = testEmbed.data.fields[3];
+
             expect(studio.value).toBe('Toei Animation');
         });
     }
 
-    async testAnimeObject() { 
+    async testAnimeObject() {
         test('getAnimeName returns non-null anime object', () => {
             const animeName = this.animeSearch.getAnimeObj()
-        
+
             expect(animeName).not.toBe(null)
         });
     }
 
-    async testAnimeArrayReturn() { 
+    testGetAnimeRatings() {
+        test('getRatings values', () => {
+            const undefinedRatings = this.animeSearch.getRatings({});
+
+            expect(undefinedRatings).toBe('Ratings not listed.');
+
+            const emptyRatings = this.animeSearch.getRatings({ scores: [] });
+
+            expect(emptyRatings).toBe('Ratings not listed.');
+
+            const stats = {
+                scores: [
+                    { score: 8, votes: 100 },
+                    { score: 9, votes: 150 },
+                    { score: 7, votes: 50 },
+                ],
+            };
+
+            const validRatings = this.animeSearch.getRatings(stats);
+
+            const expectedAverage = ((8 * 100) + (9 * 150) + (7 * 50)) / (100 + 150 + 50);
+            expect(validRatings).toBe(`Average score from ${300} votes: ${expectedAverage.toFixed(2)} / 10`)
+        });
+    }
+
+    testAnimeRecmmendations() {
+        test('getRecommendation values', () => {
+            //const undefinedRecommendations = this.animeSearch.getRecommendations({});
+
+            //expect(undefinedRecommendations).toBe('Recommendations not listed.');
+
+            const rec = [
+                { animeSearch: { entry: { title: 'Recommendation 1' } } },
+                { animeSearch: { entry: { title: 'Recommendation 2' } } },
+                { animeSearch: { entry: { title: 'Recommendation 3' } } },
+            ];
+
+            //const definedRecommendations = this.animeSearch.getRecommendations(rec);
+
+            //expect(definedRecommendations).toBe('Recommendation 1', 'Recommendation 2', 'Recommendation 3');
+        });
+    }
+
+    async testAnimeArrayReturn() {
         test('getAnimeArray returns an array', async () => {
             const searchString = 'One Piece';
             const animeArray = await getAnimeArray(searchString);
-        
+
             expect(animeArray).toBeInstanceOf(Array);
         });
     }
+
+
 
 }
 
@@ -83,9 +125,11 @@ const animeSearchTests = new AnimeSearchTests();
 animeSearchTests.testInitialization();
 animeSearchTests.testAnimeReturnsEmbed();
 animeSearchTests.testAnimeInfoReturnsEmbed();
-animeSearchTests.testAnimeEmbedValues(); 
-animeSearchTests.testAnimeInfoEmbedValues(); 
-animeSearchTests.testAnimeObject(); 
-animeSearchTests.testAnimeArrayReturn(); 
+animeSearchTests.testAnimeEmbedValues();
+animeSearchTests.testAnimeInfoEmbedValues();
+animeSearchTests.testAnimeObject();
+animeSearchTests.testGetAnimeRatings();
+animeSearchTests.testAnimeRecmmendations();
+animeSearchTests.testAnimeArrayReturn();
 
 
