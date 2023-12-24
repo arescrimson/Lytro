@@ -114,26 +114,19 @@ class MangaSearch {
     }
 
     getRatings(stats) {
-        let ratings = '';
+        if (!stats?.scores || stats.scores.length === 0) return RATINGS_NOT_FOUND;
 
-        if (stats?.scores) {
+        let totalScore = 0;
+        let totalVotes = 0;
 
-            let totalScore = 0;
-            let totalVotes = 0;
-
-            for (const obj of stats.scores) {
-                totalScore += obj.score * obj.votes;
-                totalVotes += obj.votes;
-            }
-
-            const averageScore = totalScore / totalVotes;
-
-            ratings = `Average score based off ${totalVotes.toLocaleString()} votes: ${averageScore.toFixed(2) + ' / 10'}`;
-        } else {
-            ratings = RATINGS_NOT_FOUND;
+        for (const obj of stats.scores) {
+            totalScore += obj.score * obj.votes;
+            totalVotes += obj.votes;
         }
 
-        return ratings;
+        const averageScore = totalScore / totalVotes;
+
+        return `Average score from ${totalVotes.toLocaleString()} votes: ${averageScore.toFixed(2) + ' / 10'}`;
     }
 
     getMangaEmbed() {
