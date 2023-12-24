@@ -149,7 +149,7 @@ class AnimeSearch {
     }
 
     getRecommendations(rec) {
-        if (rec.length === 0) return RECOMMENDATIONS_NOT_FOUND;
+        if (!rec || rec.length === 0) return RECOMMENDATIONS_NOT_FOUND;
         else return rec.slice(0, 2).map(item => item.entry.title).join(', ');
     }
 
