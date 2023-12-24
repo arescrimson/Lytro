@@ -16,7 +16,7 @@
 + Reworked UI, visuals, and error handling for embed and returned messages.
 + Much cleaner code and an improvement to command/bot speed and precision overall.
 + More commands planned! Now has commands about steam and cats as well. 
-+ Now hosted on **Google Cloud Platform - Compute Engine**.
++ Now fully hosted 24/7 and supported on **Google Cloud Platform - Compute Engine**.
 + Now unit tested with **Jest**. 
 + And more!
   
@@ -48,7 +48,7 @@ Add to your server [here](https://discord.com/api/oauth2/authorize?client_id=118
 
 **/steam [gamename]:** returns information about specified steam game like summary, pricing, genres, and more. 
 
-## Cats Commands 
+## Animal Commands 
 
 **/cats:** returns a random image of cats.
 
