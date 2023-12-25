@@ -22,10 +22,10 @@ class AnimeCharacterSearch {
         this.characterObj = null;
         this.characterEmbed = null;
         this.characterName = characterName;
-        //this.animeID = animeID;
         this.characterCounter = 0;
         this.animeName = "";
         this.voiceActors = "";
+        this.searchMain = true;
     }
 
     /**
@@ -34,99 +34,60 @@ class AnimeCharacterSearch {
      */
 
     async createAnimeCharactersEmbed() {
-
         try {
-            /*
-            const anime = await JIKAN_CLIENT.anime.get(this.animeID);
-            const jikanCharacterArray = await JIKAN_CLIENT.anime.getCharacters(this.animeID);
-            if (!jikanCharacterArray) return null;
-            this.characterArr = this.getCharacter(jikanCharacterArray);
-            if (!this.characterArr.length) return null;
-            */
-            /*
-            const characterArray = await getCharacterArray(this.characterName); 
-            const characterObj = characterArray.filter(name => name.name === this.characterName); 
-            console.log(characterObj);
-            if (!characterObj) return null; 
-            this.characterObj = await JIKAN_CLIENT.characters.getFull(characterObj.id);
+            if (this.searchMain) {
+                this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].character.id);
+            } else {
 
-            const characterAbout = this.getDescription(this.characterObj.about);
+                const characterArray = await searchCharacterArray(this.characterName);
+                this.characterArr = characterArray.filter(name => name.name === this.characterName);
 
-            this.voiceActors = await this.characterObj.getVoiceActors(); 
+                if (this.characterArr.length === 0) return null;
 
-            this.characterEmbed = createCharacterEmbed(
-                this.characterObj.name,
-                this.characterObj.url,
-                characterObj.nicknames[0] ?? ROLE_NOT_FOUND,
-                characterAbout,
-                this.voiceActors[0]?.person.name ?? VA_NOT_FOUND,
-                this.characterObj?.image.webp.default
-            );
-                
-            return this.characterEmbed;
-            */
-            const characterArray = await getCharacterArray(this.characterName);
-            this.characterArr = characterArray.filter(name => name.name === this.characterName);
-
-            if (this.characterArr.length === 0) return null;
-
-            this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].id);
+                this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].id);
+            }
 
             if (!this.characterObj) return null;
 
             const voiceActors =
-                await this.characterArr[this.characterCounter]?.getVoiceActors();
+                this.characterObj.voices[0]?.person.name;
 
             const characterAbout =
                 this.getDescription(this.characterObj.about);
 
             let nicknames;
-            if (this.characterArr[this.characterCounter].nicknames.length === 0) nicknames = 'Nicknames not listed.'
-            else nicknames =
-                this.characterArr[this.characterCounter]?.nicknames?.slice(0, 3);
+
+            if (this.characterObj.nicknames.length === 0) nicknames = 'Nicknames not listed.'
+            else nicknames = this.characterObj?.nicknames?.slice(0, 3);
 
             this.characterEmbed = createCharacterEmbed(
-                this.characterArr[this.characterCounter].name,
-                this.characterArr[this.characterCounter].url,
+                this.characterObj.name,
+                this.characterObj.url,
                 nicknames,
                 characterAbout,
-                voiceActors[0]?.person.name ?? VA_NOT_FOUND,
-                this.characterArr[this.characterCounter]?.image.webp.default
+                voiceActors ?? VA_NOT_FOUND,
+                this.characterObj?.image.webp.default
             );
 
             return this.characterEmbed;
 
         } catch (error) {
-            console.error('Error in getCharacter:', error.message);
+            console.error('Error in createAnimeCharactersEmbed:', error.message);
         }
     }
 
-    getCharacter(jikanCharacterArr) {
+    async createMainCharacterEmbed(animeObj) {
+        const jikanCharacterArr = await JIKAN_CLIENT.anime.getCharacters(animeObj.id)
 
-        for (let i = 0; i < jikanCharacterArr.length; i++) {
+        this.characterArr = this.createCharacterArray(jikanCharacterArr);
 
-            //if character name is main, indexes and returns ALL MAIN CHARACTERS.
-            if (this.characterName === 'main') {
-                if (jikanCharacterArr[i].role === 'Main') {
-                    this.characterArr.push(jikanCharacterArr[i]);
-                }
-            }
-            //if character name is sup, indexes ALL SUPPORTING CHARACTERS. Temporary limit of 5 indexes until 
-            //functionality to advance indexes is added.  
-            else if (this.characterName === 'side') {
-                if (jikanCharacterArr[i].role === 'Supporting') {
-                    this.characterArr.push(jikanCharacterArr[i]);
-                }
-            }
-            //if character name is specified as a name, extracts first name and compares it to 
-            //passed characterName .toLowerCase() because of case sensitivity in equality. 
-            else {
-                if (this.getFirstName(jikanCharacterArr[i].character.name)) {
-                    this.characterArr.push(jikanCharacterArr[i]);
-                }
-            }
-        }
+        this.characterEmbed = await this.createAnimeCharactersEmbed(true);
 
+        return this.characterEmbed;
+    }
+
+    createCharacterArray(jikanCharacterArr) {
+        this.characterArr = jikanCharacterArr.filter(ch => ch.role === 'Main');
         return this.characterArr;
     }
 
@@ -161,30 +122,39 @@ class AnimeCharacterSearch {
             this.characterCounter = (this.characterCounter - 1 + this.characterArr.length) % this.characterArr.length;
         }
 
-        this.characterObj =
-            await JIKAN_CLIENT.characters.getFull
-                (this.characterArr[this.characterCounter].id);
-
-        const characterAbout = this.getDescription(this.characterObj.about);
+        if (this.searchMain) {
+            this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].character.id);
+        } else {
+            this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].id);
+        }
+        console.log(this.characterObj);
+        if (!this.characterObj) return null;
 
         const voiceActors =
-            await this.characterArr[this.characterCounter]?.getVoiceActors();
+            this.characterObj.voices[0]?.person.name;
+
+        const characterAbout =
+            this.getDescription(this.characterObj.about);
 
         let nicknames;
-        if (this.characterArr[this.characterCounter].nicknames.length === 0) nicknames = 'Nicknames not listed.'
-        else nicknames =
-            this.characterArr[this.characterCounter]?.nicknames?.slice(0, 3);
+
+        if (this.characterObj.nicknames.length === 0) nicknames = 'Nicknames not listed.'
+        else nicknames = this.characterObj?.nicknames?.slice(0, 3);
 
         this.characterEmbed = createCharacterEmbed(
-            this.characterArr[this.characterCounter].name,
-            this.characterArr[this.characterCounter].url,
+            this.characterObj.name,
+            this.characterObj.url,
             nicknames,
             characterAbout,
-            voiceActors[0]?.person.name ?? VA_NOT_FOUND,
-            this.characterArr[this.characterCounter]?.image.webp.default
+            voiceActors ?? VA_NOT_FOUND,
+            this.characterObj?.image.webp.default
         );
 
         return this.characterEmbed;
+    }
+
+    setSearchMain(isMain) { 
+        this.searchMain = isMain; 
     }
 
     getCharacterArr() {
@@ -200,7 +170,7 @@ class AnimeCharacterSearch {
     }
 }
 
-async function getCharacterArray(characterName) {
+async function searchCharacterArray(characterName) {
     const characterArray = await JIKAN_CLIENT.characters.search(characterName)
     return characterArray;
 }
@@ -208,5 +178,5 @@ async function getCharacterArray(characterName) {
 
 module.exports = {
     AnimeCharacterSearch,
-    getCharacterArray,
+    searchCharacterArray
 }
