@@ -35,7 +35,7 @@ function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO,
         )
         .setImage(`${IMAGE}`)
         .setTimestamp()
-        .setFooter({ text: 'Information from Lytro' });
+        .setFooter({ text: 'Information from Lytro' , iconURL: ICON_URL});
 }
 
 function createCharacterEmbed(NAME, URL, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
