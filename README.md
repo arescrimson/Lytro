@@ -16,7 +16,7 @@
 + Reworked UI, visuals, and error handling for embed and returned messages.
 + Much cleaner code and an improvement to command/bot speed and precision overall.
 + More commands planned! Now has commands about steam and cats as well. 
-+ Now fully hosted 24/7 and supported on **Google Cloud Platform - Compute Engine**.
++ Now fully hosted and supported on **Google Cloud Platform - Compute Engine**.
 + Now unit tested with **Jest**. 
 + And more!
   
@@ -24,7 +24,7 @@
 
 Discord Bot written in JavaScript using Discord.js. Features commands mainly about anime/manga, but also has commands about steam games and cats! Fully built, maintained, and hosted by Ares. Feel free to send me a dm @arescrimson on Discord for anything relating to your experience using the bot :) 
 
-Add to your server [here](https://discord.com/api/oauth2/authorize?client_id=1185754463907086367&permissions=2147510272&scope=bot+applications.commands). Please note that this is still a work in progress, and do let me know if you run into any issues. 
+Add to your server [here](https://discord.com/api/oauth2/authorize?client_id=1185754463907086367&permissions=2147510272&scope=bot+applications.commands). Please note that this is still a work in progress, and do let me know if you run into any issues.
 
 ## Anime Commands
 
