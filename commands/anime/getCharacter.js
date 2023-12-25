@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
-const { getJikanID } = require('../../utils/jikan/getJikanID');
-const { AnimeCharacterSearch, getCharacterArray } = require('../../utils/anime/getCharacter');
+const { AnimeCharacterSearch, searchCharacterArray } = require('../../utils/anime/getCharacter');
 const { rightArrowText, leftArrowText } = require('../../config');
 
 module.exports = {
@@ -13,20 +12,12 @@ module.exports = {
                 .setDescription('Name of anime character')
                 .setRequired(true)
                 .setAutocomplete(true)
-        )
-        /*
-        .addStringOption(option =>
-            option
-                .setName('anime')
-                .setDescription('Name of anime')
-                .setRequired(true)
-        )
-        */,
+        ),
     async autocomplete(interaction) {
         try {
             const focusedValue = await interaction.options.getFocused();
 
-            const characterArray = await getCharacterArray(focusedValue);
+            const characterArray = await searchCharacterArray(focusedValue);
 
             const characterNames = characterArray.filter(name =>
                 name.name.toLowerCase().includes(focusedValue.toLowerCase())
@@ -48,6 +39,7 @@ module.exports = {
             const characterName = await interaction.options.getString('character');
 
             const animeCharacterSearch = new AnimeCharacterSearch(characterName);
+            animeCharacterSearch.setSearchMain(false);
             const animeCharacterEmbed = await animeCharacterSearch.createAnimeCharactersEmbed();
 
             if (!animeCharacterEmbed) {
