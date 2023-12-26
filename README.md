@@ -12,10 +12,10 @@
 ### Exciting updates and improvements from the old version include: 
 
 + Reworking bot to utilize slash commands instead of prefixes. This allows the bot to utilize autofill menus, better handling of interactions, and more! 
-+ Autofill menus for query-related searches, such as anime, characters, and steam games.
++ Autofill menus for query-related searches, such as anime, characters, and video games.
 + Reworked UI, visuals, and error handling for embed and returned messages.
 + Much cleaner code and an improvement to command/bot speed and precision overall.
-+ More commands planned! Now has commands about steam and cats as well. 
++ More commands planned and in active development! Now has commands about games and animals as well. 
 + Now fully hosted and supported on **Google Cloud Platform - Compute Engine**.
 + Now unit tested with **Jest**. 
 + And more!
