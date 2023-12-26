@@ -44,9 +44,11 @@ Add to your server [here](https://discord.com/api/oauth2/authorize?client_id=118
 
 **/mrand** returns information identical to **/m** with a random manga.
 
-## Steam Commands 
+## Game Commands 
 
 **/steam [gamename]:** returns information about specified steam game like summary, pricing, genres, and more. 
+
+**/er [genre] [search]:** returns information about genre of elden ring search query, i.e bosses, locations, npc, etc. 
 
 ## Animal Commands 
 
