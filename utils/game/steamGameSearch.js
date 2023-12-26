@@ -66,7 +66,6 @@ class SteamGameSearch {
         const categories = categoryDescriptions.join(', ');
 
         return categories;
-
     }
 
     getGameEmbed() {
