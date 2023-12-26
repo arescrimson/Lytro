@@ -36,6 +36,12 @@ class EldenSearchAPI {
         const cacheKey = 'locationsData';
         return this.fetchData(apiUrl, cacheKey);
     }
+
+    async createNPCData() { 
+        const apiUrl = 'https://eldenring.fanapis.com/api/npcs?limit=100';
+        const cacheKey = 'npcData'; 
+        return this.fetchData(apiUrl, cacheKey); 
+    }
 }
 
 const eldenAPI = new EldenSearchAPI();
@@ -48,7 +54,12 @@ async function getLocationsData() {
     return await eldenAPI.createLocationsData();
 }
 
+async function getNPCData() { 
+    return await eldenAPI.createNPCData();
+}
+
 module.exports = {
     getBossData,
-    getLocationsData
+    getLocationsData,
+    getNPCData
 };
