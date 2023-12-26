@@ -25,6 +25,7 @@ function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO,
         .setColor(0x9966FF)
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
+        .setThumbnail(`${IMAGE}`)
         .setAuthor({ name: `Currently Searching Anime: ${TITLE}`, iconURL: ICON_URL })
         .addFields(
             { name: 'Background: \n\u200b', value: `${BACKGROUND}` },
@@ -38,7 +39,7 @@ function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO,
         .setFooter({ text: 'Information from Lytro' , iconURL: ICON_URL});
 }
 
-function createCharacterEmbed(NAME, URL, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
+function createCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, VOICEACTOR, IMAGE) {
     return new EmbedBuilder()
         .setColor(0x9966FF)
         .setTitle(`${NAME}`)
@@ -46,7 +47,7 @@ function createCharacterEmbed(NAME, URL, ROLE, DESCRIPTION, VOICEACTOR, IMAGE) {
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Character : ${NAME}`, iconURL: ICON_URL })
         .addFields(
-            { name: 'Nicknames:', value: `${ROLE}` },
+            { name: 'Nicknames:', value: `${Nicknames}` },
             { name: 'Description:', value: `${DESCRIPTION}` },
             { name: 'Japanese Voice Actor:', value: `${VOICEACTOR}`, inline: true },
         )

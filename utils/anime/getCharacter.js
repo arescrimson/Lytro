@@ -10,9 +10,10 @@ const { JIKAN_CLIENT } = require('../jikan/jikanClient')
 const { createCharacterEmbed } = require('../embed/createEmbeds');
 
 const {
-    ROLE_NOT_FOUND,
+    NICKNAMES_NOT_FOUND,
     VA_NOT_FOUND,
     DESCRIPTION_NOT_FOUND,
+    MAX_VALUE_LENGTH,
 } = require('../../config')
 
 class AnimeCharacterSearch {
@@ -23,15 +24,8 @@ class AnimeCharacterSearch {
         this.characterEmbed = null;
         this.characterName = characterName;
         this.characterCounter = 0;
-        this.animeName = "";
-        this.voiceActors = "";
         this.searchMain = true;
     }
-
-    /**
-     * Gets Anime Characters from the animeID passed. 
-     * 
-     */
 
     async createAnimeCharactersEmbed() {
         try {
@@ -49,15 +43,13 @@ class AnimeCharacterSearch {
 
             if (!this.characterObj) return null;
 
-            const voiceActors =
-                this.characterObj.voices[0]?.person.name;
+            const voiceActors = this.characterObj.voices[0]?.person.name;
 
-            const characterAbout =
-                this.getDescription(this.characterObj.about);
+            const characterAbout = this.getDescription(this.characterObj.about);
 
             let nicknames;
 
-            if (this.characterObj.nicknames.length === 0) nicknames = 'Nicknames not listed.'
+            if (this.characterObj.nicknames.length === 0) nicknames = NICKNAMES_NOT_FOUND;
             else nicknames = this.characterObj?.nicknames?.slice(0, 3);
 
             this.characterEmbed = createCharacterEmbed(
@@ -99,8 +91,8 @@ class AnimeCharacterSearch {
         }
 
         else {
-            if (characterDescription.length > 1024) {
-                const midPoint = characterDescription.lastIndexOf('.', 1024);
+            if (characterDescription.length > MAX_VALUE_LENGTH) {
+                const midPoint = characterDescription.lastIndexOf('.', MAX_VALUE_LENGTH);
 
                 if (midPoint !== -1) {
                     const descriptionFirstPart = characterDescription.substring(0, midPoint + 1);
@@ -127,7 +119,7 @@ class AnimeCharacterSearch {
         } else {
             this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].id);
         }
-        console.log(this.characterObj);
+
         if (!this.characterObj) return null;
 
         const voiceActors =
@@ -138,7 +130,7 @@ class AnimeCharacterSearch {
 
         let nicknames;
 
-        if (this.characterObj.nicknames.length === 0) nicknames = 'Nicknames not listed.'
+        if (this.characterObj.nicknames.length === 0) nicknames = NICKNAMES_NOT_FOUND
         else nicknames = this.characterObj?.nicknames?.slice(0, 3);
 
         this.characterEmbed = createCharacterEmbed(
@@ -153,8 +145,8 @@ class AnimeCharacterSearch {
         return this.characterEmbed;
     }
 
-    setSearchMain(isMain) { 
-        this.searchMain = isMain; 
+    setSearchMain(isMain) {
+        this.searchMain = isMain;
     }
 
     getCharacterArr() {

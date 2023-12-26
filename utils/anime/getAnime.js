@@ -22,9 +22,7 @@ class AnimeSearch {
         this.background2 = '\n';
     }
 
-    /**
-     * Gets Anime Information from the animeID passed. 
-     */
+
     async createAnimeEmbed() {
         try {
             this.anime = await JIKAN_CLIENT.anime.get(this.animeID);

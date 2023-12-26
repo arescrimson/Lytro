@@ -23,9 +23,6 @@ class MangaSearch {
         this.background2 = '\n';
     }
 
-    /**
-     * Gets manga Information from the mangaID passed. 
-     */
     async createMangaEmbed() {
         try {
             this.manga = await JIKAN_CLIENT.manga.get(this.mangaID);
