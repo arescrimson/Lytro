@@ -2,6 +2,7 @@ const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = re
 const { getJikanID } = require('../../utils/jikan/getJikanID');
 const { MangaSearch, getMangaArray } = require('../../utils/manga/getManga');
 const { rightArrowText, leftArrowText } = require('../../config');
+const { MangaCharacterSearch } = require('../../utils/manga/getCharacter');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,7 +25,7 @@ module.exports = {
 			name.title.english.toLowerCase().startsWith(focusedValue.toLowerCase())
 		);
 
-		const limitedMangaList = mangaNames.slice(0, 15)
+		const limitedMangaList = mangaNames.slice(0, 24)
 
 		await interaction.respond(
 			limitedMangaList.map(names => ({ name: names.title.english, value: names.title.english }))
@@ -47,16 +48,21 @@ module.exports = {
 
 			const right = new ButtonBuilder()
 				.setCustomId('right')
-				.setLabel(rightArrowText)
+				.setLabel('Page 2')
 				.setStyle(ButtonStyle.Primary);
 
 			const left = new ButtonBuilder()
 				.setCustomId('left')
-				.setLabel(leftArrowText)
+				.setLabel('Page 1')
 				.setStyle(ButtonStyle.Primary);
 
+			const chr = new ButtonBuilder()
+				.setCustomId('chr')
+				.setLabel('Main Characters')		
+				.setStyle(ButtonStyle.Success);
+
 			const row = new ActionRowBuilder()
-				.addComponents(left, right);
+				.addComponents(left, right, chr);
 
 			const response = await interaction.editReply({
 				embeds: [mangaEmbed],
@@ -67,14 +73,59 @@ module.exports = {
 
 			collector.on('collect', async buttonInteraction => {
 				try {
-					await buttonInteraction.deferUpdate().catch(console.error());
+					await buttonInteraction.deferReply()
 
-					if (buttonInteraction.customId === 'right') {
-						const updatedEmbed = mangaSearch.getMangaInfoEmbed();
-						await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
-					} else if (buttonInteraction.customId === 'left') {
-						const updatedEmbed = mangaSearch.getMangaEmbed();
-						await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
+					switch (buttonInteraction.customId) {
+						case 'left':
+							const mangaleftEmbed = mangaSearch.getMangaEmbed();
+							await buttonInteraction.editReply({ embeds: [mangaleftEmbed] }).catch(console.error)
+							break;
+						case 'right':
+							const mangaRightEmbed = mangaSearch.getMangaInfoEmbed();
+							await buttonInteraction.editReply({ embeds: [mangaRightEmbed] }).catch(console.error);
+							break;
+						case 'chr':
+							const mangaObj = mangaSearch.getMangaObj();
+							const mangaCharacterSearch = new MangaCharacterSearch('main');
+							mangaCharacterSearch.setSearchMain(true);
+							const mangaCharacterEmbed = await mangaCharacterSearch.createMainCharacterEmbed(mangaObj);
+
+							const right = new ButtonBuilder()
+								.setCustomId('right')
+								.setLabel(rightArrowText)
+								.setStyle(ButtonStyle.Primary);
+
+							const left = new ButtonBuilder()
+								.setCustomId('left')
+								.setLabel(leftArrowText)
+								.setStyle(ButtonStyle.Primary);
+
+							const row = new ActionRowBuilder()
+								.addComponents(left, right);
+
+							const response = await interaction.channel.send({
+								embeds: [mangaCharacterEmbed],
+								components: [row],
+							});
+
+							const collector = response.createMessageComponentCollector({ time: 60000 });
+
+							collector.on('collect', async buttonInteraction => {
+								try {
+									await buttonInteraction.deferUpdate();
+
+									if (buttonInteraction.customId === 'right') {
+										const updatedEmbed = await mangaCharacterSearch.updateCharacterEmbed(true);
+										await buttonInteraction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
+									} else if (buttonInteraction.customId === 'left') {
+										const updatedEmbed = await mangaCharacterSearch.updateCharacterEmbed(false);
+										await buttonInteraction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
+									}
+								} catch (error) {
+									console.error(error);
+								}
+							});
+							break;
 					}
 				} catch (error) {
 					console.error(error);
