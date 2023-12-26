@@ -110,7 +110,7 @@ module.exports = {
                         eldenObj?.region ?? 'Region not listed.',
                         eldenObj?.description ?? 'Description not listed.',
                         eldenObj?.location ?? 'Location not listed.',
-                        eldenObj?.healthpoints ?? 'Hitpoints not found.',
+                        eldenObj?.healthpoints ?? 'Hitpoints not listed.',
                         drops ?? 'Drops not listed.'
                     )
                     break;
