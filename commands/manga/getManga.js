@@ -73,7 +73,7 @@ module.exports = {
 
 			collector.on('collect', async buttonInteraction => {
 				try {
-					await buttonInteraction.deferReply()
+					await buttonInteraction.deferUpdate();
 
 					switch (buttonInteraction.customId) {
 						case 'left':
