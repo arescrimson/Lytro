@@ -1,7 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { SteamGameSearch, getSteamGameArray } = require('../../utils/steam/steamGameSearch');
-
-let test = '';
+const { SteamGameSearch, getSteamGameArray } = require('../../utils/game/steamGameSearch');
 
 module.exports = {
     data:
