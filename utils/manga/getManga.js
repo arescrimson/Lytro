@@ -18,6 +18,7 @@ class MangaSearch {
         this.mangaID = mangaID;
         this.mangaEmbed = null;
         this.manga = null;
+        this.mangaObj = null;
         this.author = '';
         this.synopsis2 = '\n';
         this.background2 = '\n';
@@ -26,6 +27,7 @@ class MangaSearch {
     async createMangaEmbed() {
         try {
             this.manga = await JIKAN_CLIENT.manga.get(this.mangaID);
+            this.mangaObj = await JIKAN_CLIENT.manga.getFull(this.mangaID);
 
             if (!this.manga) return null;
 
@@ -124,6 +126,10 @@ class MangaSearch {
         const averageScore = totalScore / totalVotes;
 
         return `Average score from ${totalVotes.toLocaleString()} votes: ${averageScore.toFixed(2) + ' / 10'}`;
+    }
+
+    getMangaObj() { 
+        return this.mangaObj;
     }
 
     getMangaEmbed() {
