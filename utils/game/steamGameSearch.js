@@ -1,7 +1,7 @@
 require('dotenv').config();
 const SteamAPI = require('steamapi');
 const { STEAM_KEY } = require('../../config');
-const { createSteamGameEmbed } = require('../embed/createEmbeds');
+const { createSteamGameEmbed } = require('../embed/createGameEmbeds');
 const steam = new SteamAPI(STEAM_KEY);
 
 class SteamGameSearch {
