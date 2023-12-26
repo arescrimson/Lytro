@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { getBossData, getLocationsData } = require('../../utils/game/eldenAPI');
-const { createEldenBossEmbed, createEldenLocationEmbed } = require('../../utils/embed/createEmbeds');
+const { getBossData, getLocationsData, getNPCData } = require('../../utils/game/eldenAPI');
+const { createEldenBossEmbed, createEldenLocationEmbed, createEldenNPCEmbed } = require('../../utils/embed/createGameEmbeds');
 
 module.exports = {
     data:
@@ -29,6 +29,7 @@ module.exports = {
             let choices = [
                 { name: 'Locations' },
                 { name: 'Bosses' },
+                { name: 'NPCS'},
             ]
 
             if (focusedValue.name === 'genre') {
@@ -45,8 +46,12 @@ module.exports = {
                         break;
                     case 'Bosses':
                         eldenObj = await getBossData();
-                        choices = eldenObj.data
+                        choices = eldenObj.data;
                         break;
+                    case 'NPCS': 
+                        eldenObj = await getNPCData(); 
+                        choices = eldenObj.data;
+                        break; 
                 }
             }
 
@@ -109,6 +114,14 @@ module.exports = {
                         drops ?? 'Drops not listed.'
                     )
                     break;
+                case 'NPCS': 
+                    embed = createEldenNPCEmbed(
+                        eldenObj?.name ?? 'Name not listed.',
+                        eldenObj?.image,
+                        eldenObj?.quote ?? 'Quote not listed.',
+                        eldenObj?.location?? 'Location not listed.',
+                        eldenObj?.role ?? 'Role not listed.',
+                    )
             }
     
             //console.log(embed); 
