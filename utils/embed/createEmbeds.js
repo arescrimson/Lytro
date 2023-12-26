@@ -1,4 +1,4 @@
-const { EmbedBuilder, Embed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { THUMBNAIL, ICON_URL } = require('../../config');
 
 function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RATINGS, image) {
@@ -173,48 +173,6 @@ function createCatsEmbed(catsObj) {
         .setFooter({ text: 'Cats', iconURL: ICON_URL })
 }
 
-function createEldenBossEmbed(name, image, region, description, location, hp, drops) {
-    const embed = new EmbedBuilder()
-
-    if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
-
-    embed
-        .setColor(0x9966FF)
-        .setTitle(`${name}`)
-        .setAuthor({ name: `Searching Elden Ring Boss: ${name}`, iconURL: ICON_URL })
-        .addFields(
-            { name: 'Description: \n\u200b', value: `${description}\n\u200b` },
-            { name: 'Region:', value: `${region}`, inline: true },
-            { name: 'Location:', value: `${location}`, inline: true },
-            { name: 'Hitpoints:', value: `${hp}`, inline: true },
-            { name: 'Drops:', value: `${drops}`, inline: true }
-        )
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
-
-    return embed;
-}
-
-function createEldenLocationEmbed(name, image, region, description) {
-    const embed = new EmbedBuilder()
-
-    if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
-
-    embed
-        .setColor(0x9966FF)
-        .setTitle(`${name}`)
-        .setAuthor({ name: `Searching Elden Ring Location: ${name}`, iconURL: ICON_URL })
-        .addFields(
-            { name: 'Description: \n\u200b', value: `${description}\n\u200b` },
-            { name: 'Region:', value: `${region}`, inline: true },
-        )
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
-
-    return embed;
-}
-
-
 module.exports = {
     createAnimeEmbed,
     createAnimeInfoEmbed,
@@ -226,7 +184,4 @@ module.exports = {
     createEmbedQuote,
     createHelpEmbed,
     createCatsEmbed,
-    createSteamGameEmbed,
-    createEldenBossEmbed,
-    createEldenLocationEmbed
 }
