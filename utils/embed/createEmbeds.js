@@ -106,29 +106,20 @@ function createMangaInfoEmbed(TITLE, URL, AUTHOR, BACKGROUND, BACKGROUND2, DATE,
         .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
-function createSteamGameEmbed(gameTitle, gameURL, playerCount, summary, price, devs, genres, score, categories, image) {
-    const embed = new EmbedBuilder()
-    if (gameURL) embed.setURL(`${gameURL}`)
-
-    embed
+function createMangaCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, IMAGE) {
+    return new EmbedBuilder()
         .setColor(0x9966FF)
-        .setTitle(`${gameTitle}`)
-        .setAuthor({ name: `Searching Steam Game: ${gameTitle}`, iconURL: ICON_URL })
-        .setThumbnail(`${image}`)
+        .setTitle(`${NAME}`)
+        .setThumbnail(THUMBNAIL)
+        .setURL(`${URL}`)
+        .setAuthor({ name: `Currently Searching Character : ${NAME}`, iconURL: ICON_URL })
         .addFields(
-            { name: 'Summary: \n\u200b', value: `${summary}\n\u200b` },
-            { name: 'Developers:', value: `${devs}`, inline: true },
-            { name: 'Genres:', value: `${categories}`, inline: true },
-            { name: 'Categories:', value: `${genres}`, inline: true },
-            { name: 'Current Price:', value: `${price}`, inline: true },
-            { name: 'Metacritic Score:', value: `${score}`, inline: true },
-            { name: 'Active Player Count: ', value: `${playerCount}`, inline: true },
+            { name: 'Nicknames:', value: `${Nicknames}` },
+            { name: 'Description:', value: `${DESCRIPTION}` },
         )
-        .setImage(`${image}`)
+        .setImage(`${IMAGE}`)
         .setTimestamp()
         .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
-
-    return embed;
 }
 
 function createEmbedQuote(quoteAuthor, quoteBody, quoteAnime) {
@@ -180,7 +171,7 @@ module.exports = {
     createAnimeImageEmbed,
     createMangaEmbed,
     createMangaInfoEmbed,
-    createSteamGameEmbed,
+    createMangaCharacterEmbed,
     createEmbedQuote,
     createHelpEmbed,
     createCatsEmbed,
