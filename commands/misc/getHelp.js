@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { createHelpEmbed } = require('../../utils/embed/createEmbeds'); 
+const { createHelpEmbed } = require('../../utils/embed/createEmbeds');
 
 module.exports = {
     data:
@@ -10,8 +10,8 @@ module.exports = {
     async execute(interaction) {
         try {
             await interaction.deferReply()
-            
-            const helpEmbed = createHelpEmbed(); 
+
+            const helpEmbed = createHelpEmbed();
 
             await interaction.editReply({
                 embeds: [helpEmbed]

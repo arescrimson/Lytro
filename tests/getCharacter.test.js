@@ -4,7 +4,7 @@ const { JIKAN_CLIENT } = require('../utils/jikan/jikanClient');
 class AnimeCharacterSearchTests {
     constructor() {
         this.animeCharacterSearch = new AnimeCharacterSearch('main');
-        this.characterArr = []; 
+        this.characterArr = [];
     }
 
     testInitialization() {
@@ -13,19 +13,19 @@ class AnimeCharacterSearchTests {
         });
     }
 
-    testCharacterArr() { 
-        test('CharacterArr', async () => { 
+    testCharacterArr() {
+        test('CharacterArr', async () => {
             const jikanCharacterArr = await JIKAN_CLIENT.anime.getCharacters(1)
 
             this.characterArr = this.animeCharacterSearch.createCharacterArray(jikanCharacterArr);
-            
+
             expect(this.characterArr.length).toBe(4);
         })
     }
 
 }
 
-const animeCharacterSearchTests = new AnimeCharacterSearchTests(); 
+const animeCharacterSearchTests = new AnimeCharacterSearchTests();
 animeCharacterSearchTests.testInitialization();
 animeCharacterSearchTests.testCharacterArr();
 

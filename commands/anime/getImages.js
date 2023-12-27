@@ -45,10 +45,10 @@ module.exports = {
             const animeImageSearch = new AnimeImageSearch(animeID);
             const animeImageEmbed = await animeImageSearch.createAnimeImagesEmbed();
 
-            if (!animeImageEmbed || animeImageSearch.getAnimeImageArrayLength() === 0) { 
-                interaction.editReply({content: 'no images could be found', ephemeral: true});
-                return; 
-            } 
+            if (!animeImageEmbed || animeImageSearch.getAnimeImageArrayLength() === 0) {
+                interaction.editReply({ content: 'no images could be found', ephemeral: true });
+                return;
+            }
 
             if (animeImageSearch.getAnimeImageArrayLength() > 1) {
 

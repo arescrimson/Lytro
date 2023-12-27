@@ -12,42 +12,42 @@ module.exports = {
     async execute(interaction) {
         try {
             await interaction.deferReply()
-            
-            const catsObj = await CAT_CLIENT.images.searchImages(); 
+
+            const catsObj = await CAT_CLIENT.images.searchImages();
             await CAT_CLIENT.images.searchImages()
-            if (!catsObj || catsObj.length === 0) return; 
+            if (!catsObj || catsObj.length === 0) return;
 
             const catsEmbed = createCatsEmbed(catsObj);
 
             const newImage = new ButtonBuilder()
-                    .setCustomId('newImage')
-                    .setLabel(newImageText)
-                    .setStyle(ButtonStyle.Primary);
+                .setCustomId('newImage')
+                .setLabel(newImageText)
+                .setStyle(ButtonStyle.Primary);
 
-                const row = new ActionRowBuilder()
-                    .addComponents(newImage);
+            const row = new ActionRowBuilder()
+                .addComponents(newImage);
 
-                const response = await interaction.editReply({
-                    embeds: [catsEmbed],
-                    components: [row],
-                });
+            const response = await interaction.editReply({
+                embeds: [catsEmbed],
+                components: [row],
+            });
 
-                const collector = response.createMessageComponentCollector({ time: 60000 });
+            const collector = response.createMessageComponentCollector({ time: 60000 });
 
-                collector.on('collect', async buttonInteraction => {
-                    try {
-                        if (buttonInteraction.customId === 'newImage') {
-                            const catsObj = await CAT_CLIENT.images.searchImages(); 
-                            const updatedEmbed = createCatsEmbed(catsObj);
-                            await buttonInteraction.update({ embeds: [updatedEmbed] })
-                        }
-                    } catch (error) {
-                        console.error(error);
+            collector.on('collect', async buttonInteraction => {
+                try {
+                    if (buttonInteraction.customId === 'newImage') {
+                        const catsObj = await CAT_CLIENT.images.searchImages();
+                        const updatedEmbed = createCatsEmbed(catsObj);
+                        await buttonInteraction.update({ embeds: [updatedEmbed] })
                     }
-                });
-            
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+
         } catch (error) {
-            await interaction.editReply('Something went wrong in getting cat images.'); 
+            await interaction.editReply('Something went wrong in getting cat images.');
             console.error('Error in getCats', error);
         }
     }

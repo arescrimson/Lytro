@@ -20,12 +20,12 @@ module.exports = {
 
             const steamGameArray = await getSteamGameArray();
 
-            const gameNames = steamGameArray.filter(gameName => 
-                    gameName.name.toLowerCase().startsWith(focusedValue.toLowerCase()  
-            ));
+            const gameNames = steamGameArray.filter(gameName =>
+                gameName.name.toLowerCase().startsWith(focusedValue.toLowerCase()
+                ));
 
-            const limitedGameList = gameNames.slice(0,24); 
-            
+            const limitedGameList = gameNames.slice(0, 24);
+
             await interaction.respond(
                 limitedGameList.map(games => ({ name: games.name, value: games.name }))
             );
@@ -36,7 +36,7 @@ module.exports = {
     },
     async execute(interaction) {
         try {
-            
+
             await interaction.deferReply();
             const gameName = interaction.options.getString('game');
 

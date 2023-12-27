@@ -58,7 +58,7 @@ module.exports = {
 
 			const chr = new ButtonBuilder()
 				.setCustomId('chr')
-				.setLabel('Main Characters')		
+				.setLabel('Main Characters')
 				.setStyle(ButtonStyle.Success);
 
 			const row = new ActionRowBuilder()

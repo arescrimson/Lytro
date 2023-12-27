@@ -26,7 +26,7 @@ module.exports = {
 		);
 
 		const limitedAnimeList = animeNames.slice(0, 20)
-		
+
 		await interaction.respond(
 			limitedAnimeList.map(names => ({ name: names.title.english, value: names.title.english }))
 		)

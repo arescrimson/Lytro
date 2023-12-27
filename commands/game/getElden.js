@@ -29,7 +29,7 @@ module.exports = {
             let choices = [
                 { name: 'Locations' },
                 { name: 'Bosses' },
-                { name: 'NPCS'},
+                { name: 'NPCS' },
             ]
 
             if (focusedValue.name === 'genre') {
@@ -48,10 +48,10 @@ module.exports = {
                         eldenObj = await getBossData();
                         choices = eldenObj.data;
                         break;
-                    case 'NPCS': 
-                        eldenObj = await getNPCData(); 
+                    case 'NPCS':
+                        eldenObj = await getNPCData();
                         choices = eldenObj.data;
-                        break; 
+                        break;
                 }
             }
 
@@ -114,16 +114,16 @@ module.exports = {
                         drops ?? 'Drops not listed.'
                     )
                     break;
-                case 'NPCS': 
+                case 'NPCS':
                     embed = createEldenNPCEmbed(
                         eldenObj?.name ?? 'Name not listed.',
                         eldenObj?.image,
                         eldenObj?.quote ?? 'Quote not listed.',
-                        eldenObj?.location?? 'Location not listed.',
+                        eldenObj?.location ?? 'Location not listed.',
                         eldenObj?.role ?? 'Role not listed.',
                     )
             }
-    
+
             //console.log(embed); 
             await interaction.editReply({ embeds: [embed] });
 

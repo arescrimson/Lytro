@@ -18,7 +18,7 @@ class AnimeImageSearch {
 
             const anime = await JIKAN_CLIENT.anime.get(this.animeID);
             this.animeImageArray = await JIKAN_CLIENT.anime.getPictures(this.animeID);
-            
+
             if (this.animeImageArray.length === 0) return null;
 
             do {
