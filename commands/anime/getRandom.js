@@ -7,16 +7,16 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('rand')
 		.setDescription('gets random anime.')
-        ,
+	,
 	async execute(interaction) {
 		try {
 			await interaction.deferReply();
 
-            const animeID = await getRandomID(); 
+			const animeID = await getRandomID();
 
 			const animeSearch = new AnimeSearch(animeID);
 			const animeEmbed = await animeSearch.createAnimeEmbed();
-			const animeInfoEmbed = await animeSearch.createAnimeInfoEmbed();
+			await animeSearch.createAnimeInfoEmbed();
 
 			const right = new ButtonBuilder()
 				.setCustomId('right')
@@ -36,9 +36,7 @@ module.exports = {
 				components: [row],
 			});
 
-			const collectorFilter = i => i.user.id === interaction.user.id;
-
-			const collector = response.createMessageComponentCollector({ filter: collectorFilter, time: 60000 });
+			const collector = response.createMessageComponentCollector({ time: 60000 });
 
 			collector.on('collect', async buttonInteraction => {
 				try {
@@ -56,8 +54,9 @@ module.exports = {
 				}
 			});
 
-		} catch (theErr) {
-			console.error(theErr);
+		} catch (error) {
+			await interaction.editReply('Error with getting random anime.');
+			console.error('Error in anime getRandom', error);
 		}
 	},
 };
