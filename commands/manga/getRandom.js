@@ -7,12 +7,12 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('mrand')
 		.setDescription('gets random manga.')
-        ,
+	,
 	async execute(interaction) {
 		try {
 			await interaction.deferReply();
 
-            const mangaID = await getRandomMangaID(); 
+			const mangaID = await getRandomMangaID();
 
 			const mangaSearch = new MangaSearch(mangaID);
 			const mangaEmbed = await mangaSearch.createMangaEmbed();
@@ -36,7 +36,7 @@ module.exports = {
 				components: [row],
 			});
 
-			const collector = response.createMessageComponentCollector({ filter: collectorFilter, time: 60000 });
+			const collector = response.createMessageComponentCollector({ time: 60000 });
 
 			collector.on('collect', async buttonInteraction => {
 				try {
@@ -55,7 +55,7 @@ module.exports = {
 			});
 
 		} catch (error) {
-			await interaction.editReply('Something went wrong in getting random manga.'); 
+			await interaction.editReply('Something went wrong in getting random manga.');
 			console.error('Error in getting random manga', error);
 		}
 	},
