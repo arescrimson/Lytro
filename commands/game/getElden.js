@@ -129,7 +129,7 @@ module.exports = {
 
         } catch (error) {
             await interaction.editReply('could not find elden ring search.')
-            console.error(error);
+            console.error('Error in getElden', error);
         }
     }
 };

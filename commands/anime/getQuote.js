@@ -21,7 +21,8 @@ module.exports = {
             })
 
         } catch (error) {
-            console.error(error);
+            await interaction.editReply('Something went wrong getting that quote.');
+            console.error('Error in getQuote', error);
         }
     }
 };

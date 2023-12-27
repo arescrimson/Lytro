@@ -128,12 +128,14 @@ module.exports = {
 							break;
 					}
 				} catch (error) {
-					console.error(error);
+					interaction.editReply('Something went wrong in getting manga main characters.');
+					console.error('Error in getManga: main characters', error);
 				}
 			});
 
-		} catch (theErr) {
-			console.error(theErr);
+		} catch (error) {
+			interaction.editReply('Something went wrong in getting manga information.');
+			console.error('Error in getManga: manga info', error);
 		}
 	},
 };

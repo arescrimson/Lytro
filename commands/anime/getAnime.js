@@ -25,7 +25,7 @@ module.exports = {
 			name.title.english.toLowerCase().startsWith(focusedValue.toLowerCase())
 		);
 
-		const limitedAnimeList = animeNames.slice(0, 15)
+		const limitedAnimeList = animeNames.slice(0, 20)
 
 		await interaction.respond(
 			limitedAnimeList.map(names => ({ name: names.title.english, value: names.title.english }))
@@ -130,12 +130,14 @@ module.exports = {
 							break;
 					}
 				} catch (error) {
-					console.error('Error in getAnime: ', error);
+					await interaction.editReply('Something went wrong with getting main character information.');
+					console.error('Error in getAnime: main characters ', error);
 				}
 			});
 
 		} catch (error) {
-			console.error('Error in getAnime: ', error);
+			await interaction.editReply('Something went wrong with getting anime information.');
+			console.error('Error in getAnime: anime search', error);
 		}
 	},
 };

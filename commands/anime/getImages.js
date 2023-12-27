@@ -84,6 +84,7 @@ module.exports = {
             }
 
         } catch (error) {
+            await interaction.editReply('something went wrong with getting anime images.');
             console.error('Error in getAnimeImages', error);
         }
     },

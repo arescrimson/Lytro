@@ -47,7 +47,8 @@ module.exports = {
                 });
             
         } catch (error) {
-            console.error(error);
+            await interaction.editReply('Something went wrong in getting cat images.'); 
+            console.error('Error in getCats', error);
         }
     }
 };

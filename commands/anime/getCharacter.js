@@ -91,6 +91,7 @@ module.exports = {
             }
 
         } catch (error) {
+            await interaction.editReply('Something went wrong with getting anime characters.')
             console.error('Error in getCharacters', error);
         }
     },

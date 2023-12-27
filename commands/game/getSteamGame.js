@@ -51,7 +51,8 @@ module.exports = {
             await interaction.editReply({ embeds: [gameEmbed] })
 
         } catch (error) {
-            console.error(error);
+            await interaction.editReply('Something went wrong in getting steam game.');
+            console.error('Error in getSteamGame', error);
         }
     }
 };
