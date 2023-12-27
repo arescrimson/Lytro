@@ -4,6 +4,8 @@ const GUILD_ID = process.env.GUILD_ID;
 const STEAM_KEY = process.env.STEAM_KEY; 
 const QUOTE_TOKEN = process.env.QUOTE_TOKEN;
 const CATS_TOKEN = process.env.CATS_TOKEN;
+const bannedList = process.env.BANNED_LIST;
+const BANNED_LIST = bannedList.split(',');
 
 module.exports = {
     DISCORD_TOKEN,
@@ -15,6 +17,7 @@ module.exports = {
     QUOTE_URL: "https://waifu.it/api/quote",
     THUMBNAIL: 'https://github.com/arescrimson/Lytro/blob/master/media/profile.jpg?raw=true',
     ICON_URL: 'https://github.com/arescrimson/Lytro/blob/master/media/icon.png?raw=true',
+    BANNED_LIST,
     MAX_VALUE_LENGTH: 1020,
     SYNOPSIS_NOT_FOUND: 'Synopsis not listed.',
     URL_NOT_FOUND: 'URL not listed.',
