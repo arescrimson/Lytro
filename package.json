@@ -1,11 +1,20 @@
 {
+  "name": "lytro",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node index.js", 
+    "test": "npx jest"
+  },
   "dependencies": {
     "@thatapicompany/thecatapi": "^1.0.2",
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
-    "jest": "^29.7.0",
     "jikan4.js": "^1.5.9",
-    "pm2": "^5.3.0",
     "steamapi": "^2.4.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "pm2": "^5.3.0"
   }
 }
+
