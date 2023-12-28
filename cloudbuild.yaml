@@ -7,4 +7,4 @@
     args: ['test']
  - name: 'node'
     entrypoint: 'npm'
-    args: ['start']s
+    args: ['start']
