@@ -37,5 +37,4 @@ module.exports = {
     rightArrowText: '⋙', 
     leftArrowText: '⋘', 
     newImageText: '➕'
-
 }
