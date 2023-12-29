@@ -3,5 +3,7 @@ steps:
   id: Update server
   entrypoint: ''
   args: 
-  -
+  - '-c'
+  - |
+    set -x &&
     gcloud compute ssh --zone "us-west1-b" "lytro" --command="./pull.sh"
