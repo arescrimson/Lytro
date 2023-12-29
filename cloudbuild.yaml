@@ -6,4 +6,4 @@ steps:
   - '-c'
   - |
     set -x &&
-    gcloud compute ssh --zone "us-west1-b" "lytro" --command="/bin/sh /home/areszee7/pull.sh"
+    gcloud compute ssh --zone "us-west1-b" "lytro" --command="/bin/sh /home/areszee7/ls"
