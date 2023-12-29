@@ -1,10 +1,9 @@
 steps:
-- name: 'node'
-  entrypoint: 'npm'
-  args: ['install']
-- name: 'node'
-  entrypoint: 'npm'
-  args: ['test']
-- name: 'node'
-  entrypoint: 'npm'
-  args: ['start']
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Update server
+  entrypoint: 'bash'
+  args: 
+  - '-c'
+  - |
+    set -x &&
+    gcloud compute ssh lytro --zone=us-west2 --command='pull.sh'
