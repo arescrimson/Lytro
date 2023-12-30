@@ -18,7 +18,7 @@ steps:
     dir: /Lytro2
   - name: 'gcr.io/cloud-builders/npm:node-20.7.0'
     id: 'Test'
-    args: ['run,'test']
+    args: ['run', 'test']  
     dir: /Lytro2
   - name: 'gcr.io/cloud-builders/npm:node-20.7.0'
     id: 'Start'
