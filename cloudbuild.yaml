@@ -8,9 +8,7 @@ steps:
       mkdir -p ~/root/.ssh && 
       gcloud secrets versions access latest --secret=cloud-build-ssh-key > ~/root/.ssh/id_rsa && 
       chmod 600 ~/root/.ssh/id_rsa && 
-      gcloud secrets versions access latest --secret=cloud-build-ssh-key-pub > ~/root/.ssh/id_rsa.pub && \\
+      gcloud secrets versions access latest --secret=cloud-build-ssh-key-pub > ~/root/.ssh/id_rsa.pub && 
       chmod 600 ~/root/.ssh/id_rsa.pub && 
       set -x && 
-      gcloud compute ssh lytro --ssh-key-file=~/root/.ssh/id_rsa --zone=uswest2-a
-options: 
-  logging: CLOUD_LOGGING_ONLY
+      gcloud compute ssh lytro --ssh-key-file=~/root/.ssh/id_rsa --zone=us-west2-a
