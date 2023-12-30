@@ -19,16 +19,20 @@ class SteamGameSearch {
             this.gameObj = steamGameArray.find(game => game.name === this.gameName);
             
             if (!this.gameObj) return null;
-
+            
             this.gameID = this.gameObj.appid;
 
             const activePlayers = await steam.getGamePlayers(this.gameID);
             const details = await steam.getGameDetails(this.gameID);
-
+            
             const genres = this.getGenres(details.genres);
+
             const categories = this.getCategories(details.categories);
             const developers = details?.developers;
-            
+            const publishers = details?.publishers?.slice(0,2) ?? 'Publishers not listed.'; 
+            const recommendations = details?.recommendations?.total ?? 'Recommendations not listed.'; 
+            const releaseDate = details?.release_date?.date ?? 'Date not listed.'
+
             this.gameEmbed = createSteamGameEmbed(
                 details.name,
                 details.website ? details.website : undefined,
@@ -39,7 +43,10 @@ class SteamGameSearch {
                 genres,
                 details.metacritic?.score ?? 'Metacritic score not listed.',
                 categories,
-                details.header_image
+                details.header_image, 
+                publishers, 
+                recommendations,
+                releaseDate
             )
 
             return this.gameEmbed;

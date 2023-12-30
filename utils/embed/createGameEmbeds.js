@@ -1,7 +1,21 @@
 const { EmbedBuilder } = require('discord.js');
 const { ICON_URL } = require('../../config');
 
-function createSteamGameEmbed(gameTitle, gameURL, playerCount, summary, price, devs, genres, score, categories, image) {
+function createSteamGameEmbed(
+    gameTitle,
+    gameURL,
+    playerCount,
+    summary,
+    price,
+    devs,
+    genres,
+    score,
+    categories,
+    image,
+    publishers,
+    recs, 
+    releaseDate
+) {
     const embed = new EmbedBuilder()
     if (gameURL) embed.setURL(`${gameURL}`)
 
@@ -12,12 +26,16 @@ function createSteamGameEmbed(gameTitle, gameURL, playerCount, summary, price, d
         .setThumbnail(`${image}`)
         .addFields(
             { name: 'Summary: \n\u200b', value: `${summary}\n\u200b` },
+            
             { name: 'Developers:', value: `${devs}`, inline: true },
+            { name: 'Publishers:', value: `${publishers}`, inline: true },
+            { name: 'Release Date:', value: `${releaseDate}`, inline: true },
             { name: 'Genres:', value: `${categories}`, inline: true },
             { name: 'Categories:', value: `${genres}`, inline: true },
             { name: 'Current Price:', value: `${price}`, inline: true },
+            { name: 'Recommends:', value: `${recs}`, inline: true },
             { name: 'Metacritic Score:', value: `${score}`, inline: true },
-            { name: 'Active Player Count: ', value: `${playerCount}`, inline: true },
+            { name: 'Player Count:', value: `${playerCount}`, inline: true },
         )
         .setImage(`${image}`)
         .setTimestamp()
