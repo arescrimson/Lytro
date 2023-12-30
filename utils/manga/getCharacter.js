@@ -22,7 +22,7 @@ class MangaCharacterSearch {
         this.characterArr = [];
         this.characterObj = null;
         this.characterEmbed = null;
-        this.characterName = characterName;
+        this.characterName = 'test';
         this.characterCounter = 0;
         this.searchMain = true;
     }
