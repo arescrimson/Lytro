@@ -16,8 +16,8 @@
 + Reworked UI, visuals, and error handling for embed and returned messages.
 + Much cleaner code and an improvement to command/bot speed and precision overall.
 + More commands planned and in active development! Now has commands about games and animals as well. 
-+ Now fully hosted and supported on **Google Cloud Platform - Compute Engine**.
-+ Now unit tested with **Jest**. 
++ Now fully hosted and supported on **Google Cloud Platform - Compute Engine** with continuous integration/deployment using **Cloud Build**.
++ Now unit tested with **Jest**.
 + And more!
   
 # About
