@@ -11,4 +11,16 @@ steps:
       gcloud secrets versions access latest --secret=cloud-build-ssh-key-pub > ~/root/.ssh/id_rsa.pub && 
       chmod 600 ~/root/.ssh/id_rsa.pub && 
       set -x && 
-      gcloud compute ssh lytro --ssh-key-file=~/root/.ssh/id_rsa --zone=us-west1-b --command="/bin/sh /home/areszee7/test.sh"
+      gcloud compute ssh lytro --ssh-key-file=~/root/.ssh/id_rsa --zone=us-west1-b 
+  - name: 'gcr.io/cloud-builders/npm:node-20.7.0'
+    id: 'Install'
+    args: ['install']
+    dir: /Lytro2
+  - name: 'gcr.io/cloud-builders/npm:node-20.7.0'
+    id: 'Test'
+    args: ['run,'test']
+    dir: /Lytro2
+  - name: 'gcr.io/cloud-builders/npm:node-20.7.0'
+    id: 'Start'
+    args: ['start'] 
+    dir: /Lytro2
