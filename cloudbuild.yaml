@@ -11,33 +11,4 @@ steps:
       gcloud secrets versions access latest --secret=cloud-build-ssh-key-pub > ~/root/.ssh/id_rsa.pub && 
       chmod 600 ~/root/.ssh/id_rsa.pub && 
       set -x && 
-      gcloud compute ssh lytro --ssh-key-file=~/root/.ssh/id_rsa --zone=us-west1-b 
-  - name: 'Install Node.js'
-    entrypoint: 'bash'
-    args:
-    - '-c'
-    - |
-      # Install nvm
-      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-
-      nvm install 20.7.0
-      nvm use 20.7.0
-
-  - name: 'Run npm commands'
-    entrypoint: 'npm'
-    args:
-    - 'install'
-    dir: /Lytro2
-
-  - name: 'Run tests'
-    entrypoint: 'npm'
-    args:
-    - 'run'
-    - 'test'
-    dir: /Lytro2
-
-  - name: 'Start application'
-    entrypoint: 'npm'
-    args:
-    - 'start'
-    dir: /Lytro2
+      gcloud compute ssh lytro --ssh-key-file=~/root/.ssh/id_rsa --zone=us-west1-b --command="/bin/sh /home/areszee7/test.sh"
