@@ -41,7 +41,7 @@ module.exports = {
 			const animeID = await getJikanID('anime', animeName);
 
 			if (!animeID) {
-				await interaction.editReply({ content: 'Anime not Listed/Found.', ephemeral: true });
+				await interaction.editReply('Anime not Listed/Found. THIS APPEARS IF SSH WENT RIGHT');
 				return;
 			}
 
