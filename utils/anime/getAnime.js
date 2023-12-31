@@ -61,34 +61,7 @@ class AnimeSearch {
             console.error('Error in getAnime:', error.message);
         }
     }
-    /*
-    async createAnimeInfoEmbed() {
-        try {
 
-            const rec = await JIKAN_CLIENT.anime.getRecommendations(this.animeID);
-
-            const background = this.getBackground();
-
-            const recommendations = this.getRecommendations(rec);
-
-            this.animeInfoEmbed = createAnimeInfoEmbed(
-                this.anime.title.default,
-                this.anime.url,
-                background,
-                this.background2,
-                this.anime.year ?? YEAR_NOT_FOUND,
-                this.anime.studios[0]?.name ?? STUDIO_NOT_FOUND,
-                recommendations,
-                this.anime.image.webp.default
-            )
-
-            return this.animeInfoEmbed;
-
-        } catch (error) {
-            console.error('Error in getInfo:', error.message);
-        }
-    }
-    */
     getSynopsis() {
         let synopsis = '';
 
@@ -110,30 +83,6 @@ class AnimeSearch {
         }
 
         return synopsis;
-    }
-
-    getBackground() {
-        let background = '';
-
-        if (this.anime.background) {
-            if (this.anime.background.length > MAX_VALUE_LENGTH) {
-                const midPoint = this.anime.background.lastIndexOf('.', MAX_VALUE_LENGTH);
-                if (midPoint !== -1) {
-                    const backgroundFirstPart = this.anime.background.substring(0, midPoint + 1);
-                    const backgroundSecondPart = this.anime.background.substring(midPoint + 1);
-                    background = backgroundFirstPart;
-                    this.background2 = backgroundSecondPart;
-                }
-            }
-            else {
-                background = this.anime.background;
-            }
-        }
-        else {
-            background = BACKGROUND_NOT_FOUND;
-        }
-
-        return background;
     }
 
     getRatings(stats) {
@@ -159,10 +108,6 @@ class AnimeSearch {
 
     getAnimeEmbed() {
         return this.animeEmbed;
-    }
-
-    getAnimeInfoEmbed() {
-        return this.animeInfoEmbed;
     }
 
     getAnimeID() {

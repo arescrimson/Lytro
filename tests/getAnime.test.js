@@ -90,9 +90,6 @@ class AnimeSearchTests {
             expect(animeArray).toBeInstanceOf(Array);
         });
     }
-
-
-
 }
 
 const animeSearchTests = new AnimeSearchTests();
