@@ -16,42 +16,14 @@ module.exports = {
 
 			const animeSearch = new AnimeSearch(animeID);
 			const animeEmbed = await animeSearch.createAnimeEmbed();
-			await animeSearch.createAnimeInfoEmbed();
 
-			const right = new ButtonBuilder()
-				.setCustomId('right')
-				.setLabel(rightArrowText)
-				.setStyle(ButtonStyle.Primary);
-
-			const left = new ButtonBuilder()
-				.setCustomId('left')
-				.setLabel(leftArrowText)
-				.setStyle(ButtonStyle.Primary);
-
-			const row = new ActionRowBuilder()
-				.addComponents(left, right);
-
-			const response = await interaction.editReply({
+			if (!animeEmbed) {
+				await interaction.editReply("Something went wrong in getting random anime.");
+				return; 
+			}
+			
+			await interaction.editReply({
 				embeds: [animeEmbed],
-				components: [row],
-			});
-
-			const collector = response.createMessageComponentCollector({ time: 60000 });
-
-			collector.on('collect', async buttonInteraction => {
-				try {
-					await buttonInteraction.deferUpdate();
-
-					if (buttonInteraction.customId === 'right') {
-						const updatedEmbed = animeSearch.getAnimeInfoEmbed();
-						await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
-					} else if (buttonInteraction.customId === 'left') {
-						const updatedEmbed = animeSearch.getAnimeEmbed();
-						await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
-					}
-				} catch (error) {
-					console.error(error);
-				}
 			});
 
 		} catch (error) {

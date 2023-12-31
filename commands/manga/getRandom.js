@@ -16,42 +16,14 @@ module.exports = {
 
 			const mangaSearch = new MangaSearch(mangaID);
 			const mangaEmbed = await mangaSearch.createMangaEmbed();
-			const mangaInfoEmbed = await mangaSearch.createMangaInfoEmbed();
 
-			const right = new ButtonBuilder()
-				.setCustomId('right')
-				.setLabel(rightArrowText)
-				.setStyle(ButtonStyle.Primary);
+			if (!mangaEmbed) {
+				await interaction.editReply("Something went wrong in getting random manga.");
+				return; 
+			}
 
-			const left = new ButtonBuilder()
-				.setCustomId('left')
-				.setLabel(leftArrowText)
-				.setStyle(ButtonStyle.Primary);
-
-			const row = new ActionRowBuilder()
-				.addComponents(left, right);
-
-			const response = await interaction.editReply({
+			await interaction.editReply({
 				embeds: [mangaEmbed],
-				components: [row],
-			});
-
-			const collector = response.createMessageComponentCollector({ time: 60000 });
-
-			collector.on('collect', async buttonInteraction => {
-				try {
-					await buttonInteraction.deferUpdate();
-
-					if (buttonInteraction.customId === 'right') {
-						const updatedEmbed = mangaSearch.getMangaInfoEmbed();
-						await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
-					} else if (buttonInteraction.customId === 'left') {
-						const updatedEmbed = mangaSearch.getMangaEmbed();
-						await interaction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
-					}
-				} catch (error) {
-					console.error(error);
-				}
 			});
 
 		} catch (error) {
