@@ -63,7 +63,10 @@ function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENR
             { name: '\n', value: `${SYNOPSIS2}\n\u200b` },
             { name: 'Volumes:', value: `${VOLUMES}`, inline: true },
             { name: 'Genres:', value: `${GENRES}`, inline: true },
-            { name: 'Ratings:', value: `${RATINGS}`, inline: true }
+            { name: 'Ratings:', value: `${RATINGS}`, inline: true },
+            { name: 'Publish Date:', value: `${DATE}`, inline: true },
+            { name: 'Manga Serialization:', value: `${SERIAL}`, inline: true },
+            { name: 'Manga Rank:', value: `#${POPULARITY}`, inline: true }
         )
         .setImage(`${image}`)
         .setTimestamp()
