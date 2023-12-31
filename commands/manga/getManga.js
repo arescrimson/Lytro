@@ -44,17 +44,7 @@ module.exports = {
 			}
 			const mangaSearch = new MangaSearch(mangaID);
 			const mangaEmbed = await mangaSearch.createMangaEmbed();
-			const mangaInfoEmbed = await mangaSearch.createMangaInfoEmbed();
 
-			const right = new ButtonBuilder()
-				.setCustomId('right')
-				.setLabel('Page 2')
-				.setStyle(ButtonStyle.Primary);
-
-			const left = new ButtonBuilder()
-				.setCustomId('left')
-				.setLabel('Page 1')
-				.setStyle(ButtonStyle.Primary);
 
 			const chr = new ButtonBuilder()
 				.setCustomId('chr')
@@ -62,7 +52,7 @@ module.exports = {
 				.setStyle(ButtonStyle.Success);
 
 			const row = new ActionRowBuilder()
-				.addComponents(left, right, chr);
+				.addComponents(chr);
 
 			const response = await interaction.editReply({
 				embeds: [mangaEmbed],
@@ -75,58 +65,46 @@ module.exports = {
 				try {
 					await buttonInteraction.deferUpdate();
 
-					switch (buttonInteraction.customId) {
-						case 'left':
-							const mangaleftEmbed = mangaSearch.getMangaEmbed();
-							await buttonInteraction.editReply({ embeds: [mangaleftEmbed] }).catch(console.error)
-							break;
-						case 'right':
-							const mangaRightEmbed = mangaSearch.getMangaInfoEmbed();
-							await buttonInteraction.editReply({ embeds: [mangaRightEmbed] }).catch(console.error);
-							break;
-						case 'chr':
-							const mangaObj = mangaSearch.getMangaObj();
-							const mangaCharacterSearch = new MangaCharacterSearch('main');
-							mangaCharacterSearch.setSearchMain(true);
-							const mangaCharacterEmbed = await mangaCharacterSearch.createMainCharacterEmbed(mangaObj);
+					const mangaObj = mangaSearch.getMangaObj();
+					const mangaCharacterSearch = new MangaCharacterSearch('main');
+					mangaCharacterSearch.setSearchMain(true);
+					const mangaCharacterEmbed = await mangaCharacterSearch.createMainCharacterEmbed(mangaObj);
 
-							const right = new ButtonBuilder()
-								.setCustomId('right')
-								.setLabel(rightArrowText)
-								.setStyle(ButtonStyle.Primary);
+					const right = new ButtonBuilder()
+						.setCustomId('right')
+						.setLabel(rightArrowText)
+						.setStyle(ButtonStyle.Primary);
 
-							const left = new ButtonBuilder()
-								.setCustomId('left')
-								.setLabel(leftArrowText)
-								.setStyle(ButtonStyle.Primary);
+					const left = new ButtonBuilder()
+						.setCustomId('left')
+						.setLabel(leftArrowText)
+						.setStyle(ButtonStyle.Primary);
 
-							const row = new ActionRowBuilder()
-								.addComponents(left, right);
+					const row = new ActionRowBuilder()
+						.addComponents(left, right);
 
-							const response = await interaction.channel.send({
-								embeds: [mangaCharacterEmbed],
-								components: [row],
-							});
+					const response = await interaction.channel.send({
+						embeds: [mangaCharacterEmbed],
+						components: [row],
+					});
 
-							const collector = response.createMessageComponentCollector({ time: 60000 });
+					const collector = response.createMessageComponentCollector({ time: 60000 });
 
-							collector.on('collect', async buttonInteraction => {
-								try {
-									await buttonInteraction.deferUpdate();
+					collector.on('collect', async buttonInteraction => {
+						try {
+							await buttonInteraction.deferUpdate();
 
-									if (buttonInteraction.customId === 'right') {
-										const updatedEmbed = await mangaCharacterSearch.updateCharacterEmbed(true);
-										await buttonInteraction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
-									} else if (buttonInteraction.customId === 'left') {
-										const updatedEmbed = await mangaCharacterSearch.updateCharacterEmbed(false);
-										await buttonInteraction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
-									}
-								} catch (error) {
-									console.error(error);
-								}
-							});
-							break;
-					}
+							if (buttonInteraction.customId === 'right') {
+								const updatedEmbed = await mangaCharacterSearch.updateCharacterEmbed(true);
+								await buttonInteraction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
+							} else if (buttonInteraction.customId === 'left') {
+								const updatedEmbed = await mangaCharacterSearch.updateCharacterEmbed(false);
+								await buttonInteraction.editReply({ embeds: [updatedEmbed] }).catch(console.error)
+							}
+						} catch (error) {
+							console.error(error);
+						}
+					});
 				} catch (error) {
 					interaction.editReply('Something went wrong in getting manga main characters.');
 					console.error('Error in getManga: main characters', error);

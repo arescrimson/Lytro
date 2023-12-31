@@ -23,25 +23,6 @@ function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RAT
         .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
-function createAnimeInfoEmbed(TITLE, URL, BACKGROUND, BACKGROUND2, YEAR, STUDIO, RELATED, IMAGE) {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
-        .setTitle(`${TITLE}`)
-        .setURL(`${URL}`)
-        .setThumbnail(`${IMAGE}`)
-        .setAuthor({ name: `Currently Searching Anime: ${TITLE}`, iconURL: ICON_URL })
-        .addFields(
-            { name: 'Background: \n\u200b', value: `${BACKGROUND}` },
-            { name: '\n', value: `${BACKGROUND2}\n\u200b` },
-            { name: 'Release Date:', value: `${YEAR}`, inline: true },
-            { name: 'Studio:', value: `${STUDIO}`, inline: true },
-            { name: 'Related:', value: `${RELATED}`, inline: true }
-        )
-        .setImage(`${IMAGE}`)
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
-}
-
 function createCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, VOICEACTOR, IMAGE) {
     return new EmbedBuilder()
         .setColor(0x9966FF)
@@ -69,7 +50,7 @@ function createAnimeImageEmbed(title, image) {
         .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
-function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENRES, RATINGS, image) {
+function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENRES, RATINGS, DATE, SERIAL, POPULARITY, image) {
     return new EmbedBuilder()
         .setColor(0x9966FF)
         .setTitle(`${TITLE}`)
@@ -85,26 +66,6 @@ function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENR
             { name: 'Ratings:', value: `${RATINGS}`, inline: true }
         )
         .setImage(`${image}`)
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
-}
-
-function createMangaInfoEmbed(TITLE, URL, AUTHOR, BACKGROUND, BACKGROUND2, DATE, SERIAL, POPULARITY, IMAGE) {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
-        .setTitle(`${TITLE}`)
-        .setURL(`${URL}`)
-        .setAuthor({ name: `Currently Searching Manga: ${TITLE}`, iconURL: ICON_URL })
-        .setThumbnail(`${IMAGE}`)
-        .addFields(
-            { name: 'Author: \n\u200b', value: `**${AUTHOR}** \n\u200b` },
-            { name: 'Background: \n\u200b', value: `${BACKGROUND}` },
-            { name: '\n', value: `${BACKGROUND2}\n\u200b` },
-            { name: 'Publish Date:', value: `${DATE}`, inline: true },
-            { name: 'Manga Serialization:', value: `${SERIAL}`, inline: true },
-            { name: 'Manga Rank:', value: `#${POPULARITY}`, inline: true }
-        )
-        .setImage(`${IMAGE}`)
         .setTimestamp()
         .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
@@ -169,11 +130,9 @@ function createCatsEmbed(catsObj) {
 
 module.exports = {
     createAnimeEmbed,
-    createAnimeInfoEmbed,
     createCharacterEmbed,
     createAnimeImageEmbed,
     createMangaEmbed,
-    createMangaInfoEmbed,
     createMangaCharacterEmbed,
     createEmbedQuote,
     createHelpEmbed,

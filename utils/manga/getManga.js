@@ -39,6 +39,7 @@ class MangaSearch {
             }
 
             this.author = this.manga.authors[0].name ?? AUTHOR_NOT_FOUND
+            
             const synopsis = this.getSynopsis(this.manga.synopsis, true);
             const ratings = this.getRatings(stats);
             const volumes = this.manga.volumes?.toLocaleString() ?? VOLUMES_NOT_FOUND;
@@ -52,36 +53,15 @@ class MangaSearch {
                 volumes,
                 genres,
                 ratings,
-                this.manga.image.webp.default
-            )
-
-            return this.mangaEmbed;
-        } catch (error) {
-            console.error('Error in getManga:', error.message);
-        }
-    }
-
-    async createMangaInfoEmbed() {
-        try {
-
-            const background = this.getSynopsis(this.manga.background, false);
-
-            this.mangaInfoEmbed = createMangaInfoEmbed(
-                this.manga.title.default,
-                this.manga.url,
-                this.author,
-                background,
-                this.background2,
                 this.manga.publishInfo?.publishedFrom?.getFullYear() ?? YEAR_NOT_FOUND,
                 this.manga.serializations[0]?.name ?? SERIAL_NOT_FOUND,
                 this.manga.popularity?.toLocaleString() ?? POPULARITY_NOT_FOUND,
                 this.manga.image.webp.default
             )
 
-            return this.mangaInfoEmbed;
-
+            return this.mangaEmbed;
         } catch (error) {
-            console.error('Error in getMangaInfo:', error.message);
+            console.error('Error in getManga:', error.message);
         }
     }
 
