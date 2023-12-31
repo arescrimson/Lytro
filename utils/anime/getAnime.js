@@ -26,6 +26,7 @@ class AnimeSearch {
     async createAnimeEmbed() {
         try {
             this.anime = await JIKAN_CLIENT.anime.get(this.animeID);
+            const rec = await JIKAN_CLIENT.anime.getRecommendations(this.animeID);
 
             const stats = await JIKAN_CLIENT.anime.getStatistics(this.animeID);
             let genres = this.anime.genres?.map(genre => genre.name).join(', ');
@@ -38,6 +39,8 @@ class AnimeSearch {
             const ratings = this.getRatings(stats);
 
             const episodes = this.anime.episodes?.toLocaleString() ?? EPISODES_NOT_FOUND;
+            
+            const recommendations = this.getRecommendations(rec)
 
             this.animeEmbed = createAnimeEmbed(
                 this.anime.title?.default,
@@ -47,6 +50,9 @@ class AnimeSearch {
                 episodes,
                 genres,
                 ratings,
+                this.anime.year ?? YEAR_NOT_FOUND,
+                this.anime.studios[0]?.name ?? STUDIO_NOT_FOUND,
+                recommendations,
                 this.anime.image.webp.default
             )
 
@@ -55,7 +61,7 @@ class AnimeSearch {
             console.error('Error in getAnime:', error.message);
         }
     }
-
+    /*
     async createAnimeInfoEmbed() {
         try {
 
@@ -82,7 +88,7 @@ class AnimeSearch {
             console.error('Error in getInfo:', error.message);
         }
     }
-
+    */
     getSynopsis() {
         let synopsis = '';
 

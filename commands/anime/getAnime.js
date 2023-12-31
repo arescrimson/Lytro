@@ -47,7 +47,6 @@ module.exports = {
 
 			const animeSearch = new AnimeSearch(animeID);
 			const animeEmbed = await animeSearch.createAnimeEmbed();
-			const animeInfoEmbed = await animeSearch.createAnimeInfoEmbed();
 
 			const chr = new ButtonBuilder()
 				.setCustomId('chr')

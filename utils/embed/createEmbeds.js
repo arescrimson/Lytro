@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 const { THUMBNAIL, ICON_URL } = require('../../config');
 
-function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RATINGS, image) {
+function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RATINGS, YEAR, STUDIO, RELATED, image) {
     return new EmbedBuilder()
         .setColor(0x9966FF)
         .setTitle(`${TITLE}`)
@@ -13,7 +13,10 @@ function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RAT
             { name: '\n', value: `${SYNOPSIS2}\n\u200b` },
             { name: 'Episodes:', value: `${EPISODES}`, inline: true },
             { name: 'Genres:', value: `${GENRES}`, inline: true },
-            { name: 'Ratings:', value: `${RATINGS}`, inline: true }
+            { name: 'Ratings:', value: `${RATINGS}`, inline: true },
+            { name: 'Release Date:', value: `${YEAR}`, inline: true },
+            { name: 'Studio:', value: `${STUDIO}`, inline: true },
+            { name: 'Related:', value: `${RELATED}`, inline: true }
         )
         .setImage(`${image}`)
         .setTimestamp()
@@ -149,7 +152,7 @@ function createHelpEmbed() {
             { name: '/mrand', value: 'Gets manga information from a random manga.\n\u200b' },
             { name: 'Game Commands:', value: '\n\u200b' },
             { name: '/steam [game_name]', value: 'Gets steam game information from specified game.' },
-            { name: '/er [genre] [search]', value: 'Gets Elden Ring information about genre searches.\n\u200b'},
+            { name: '/er [genre] [search]', value: 'Gets Elden Ring information about genre searches.\n\u200b' },
             { name: 'Animal Commands:', value: '\n\u200b' },
             { name: '/cats', value: 'Gets random images of cats.' }
         )
