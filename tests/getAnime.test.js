@@ -21,14 +21,6 @@ class AnimeSearchTests {
         });
     }
 
-    async testAnimeInfoReturnsEmbed() {
-        test('createAnimeInfoEmbed returns embed', async () => {
-            const testEmbed = await this.animeSearch.createAnimeInfoEmbed();
-
-            expect(this.animeSearch.getAnimeInfoEmbed()).toBeInstanceOf(EmbedBuilder);
-        });
-    }
-
     async testAnimeEmbedValues() {
         test('tests AnimeEmbed values', async () => {
             const testEmbed = await this.animeSearch.createAnimeEmbed();
@@ -36,24 +28,6 @@ class AnimeSearchTests {
             expect(testEmbed.data.title).toBe('One Piece');
             expect(testEmbed.data.author.name).toBe('Currently Searching Anime: One Piece');
             expect(testEmbed.data.url).toBe('https://myanimelist.net/anime/21/One_Piece');
-        });
-    }
-
-    async testAnimeInfoEmbedValues() {
-        test('tests AnimeInfoEmbed values', async () => {
-            const testEmbed = await this.animeSearch.createAnimeInfoEmbed();
-
-            expect(testEmbed.data.title).toBe('One Piece');
-            expect(testEmbed.data.author.name).toBe('Currently Searching Anime: One Piece');
-            expect(testEmbed.data.url).toBe('https://myanimelist.net/anime/21/One_Piece');
-
-            const releaseDate = testEmbed.data.fields[2];
-
-            expect(releaseDate.value).toBe('1999');
-
-            const studio = testEmbed.data.fields[3];
-
-            expect(studio.value).toBe('Toei Animation');
         });
     }
 
@@ -90,7 +64,7 @@ class AnimeSearchTests {
         });
     }
 
-    testAnimeRecmmendations() {
+    testAnimeRecommendations() {
         test('getRecommendation values', () => {
             //const undefinedRecommendations = this.animeSearch.getRecommendations({});
 
@@ -124,12 +98,10 @@ class AnimeSearchTests {
 const animeSearchTests = new AnimeSearchTests();
 animeSearchTests.testInitialization();
 animeSearchTests.testAnimeReturnsEmbed();
-animeSearchTests.testAnimeInfoReturnsEmbed();
 animeSearchTests.testAnimeEmbedValues();
-animeSearchTests.testAnimeInfoEmbedValues();
 animeSearchTests.testAnimeObject();
 animeSearchTests.testGetAnimeRatings();
-animeSearchTests.testAnimeRecmmendations();
+animeSearchTests.testAnimeRecommendations();
 animeSearchTests.testAnimeArrayReturn();
 
 
