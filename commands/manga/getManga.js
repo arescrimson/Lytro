@@ -39,7 +39,7 @@ module.exports = {
 			const mangaID = await getJikanID('manga', mangaName);
 
 			if (!mangaID) {
-				await interaction.editReply('Manga not Found.');
+				await interaction.editReply(`${mangaName} not found/listed.`);
 				return;
 			}
 			const mangaSearch = new MangaSearch(mangaID);

@@ -43,7 +43,7 @@ module.exports = {
             const animeCharacterEmbed = await animeCharacterSearch.createAnimeCharactersEmbed();
 
             if (!animeCharacterEmbed) {
-                await interaction.editReply(`${characterName} not Found.`);
+                await interaction.editReply(`${characterName} not found.`);
                 return;
             }
 
