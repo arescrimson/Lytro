@@ -29,9 +29,6 @@ class SteamGameSearch {
 
             const categories = this.getCategories(details.categories);
             const developers = details?.developers;
-            const publishers = details?.publishers?.slice(0,2) ?? 'Publishers not listed.'; 
-            const recommendations = details?.recommendations?.total ?? 'Recommendations not listed.'; 
-            const releaseDate = details?.release_date?.date ?? 'Date not listed.'
 
             this.gameEmbed = createSteamGameEmbed(
                 details.name,
@@ -44,9 +41,9 @@ class SteamGameSearch {
                 details.metacritic?.score ?? 'Metacritic score not listed.',
                 categories,
                 details.header_image, 
-                publishers, 
-                recommendations,
-                releaseDate
+                details?.publishers?.slice(0,2) ?? 'Publishers not listed.', 
+                details?.recommendations?.total ?? 'Recommendations not listed.',
+                details?.release_date?.date ?? 'Date not listed.'
             )
 
             return this.gameEmbed;
