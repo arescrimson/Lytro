@@ -58,9 +58,9 @@ module.exports = {
 
 			const response = await interaction.editReply({
 				embeds: [animeEmbed],
-				components: [row],
+				//components: [row],
 			});
-
+			/*
 			const collector = response.createMessageComponentCollector({ time: 60000 });
 
 			collector.on('collect', async buttonInteraction => {
@@ -112,6 +112,7 @@ module.exports = {
 					console.error('Error in getAnime: main characters ', error);
 				}
 			});
+			*/
 		} catch (error) {
 			await interaction.editReply('Something went wrong with getting anime information.');
 			console.error('Error in getAnime: anime search', error);
