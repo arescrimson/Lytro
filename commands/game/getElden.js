@@ -82,7 +82,7 @@ module.exports = {
             const response = await fetch(url);
             const eldenData = await response.json();
             const eldenObj = eldenData?.data[0];
-            //console.log(eldenObj)
+            
 
             if (!eldenObj) {
                 await interaction.editReply('could not find elden ring search.')
@@ -124,7 +124,7 @@ module.exports = {
                     )
             }
 
-            //console.log(embed); 
+            
             await interaction.editReply({ embeds: [embed] });
 
         } catch (error) {
