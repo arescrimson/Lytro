@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { getBossData, getLocationsData, getNPCData } = require('../../utils/game/eldenAPI');
-const { createEldenBossEmbed, createEldenLocationEmbed, createEldenNPCEmbed } = require('../../utils/embed/createGameEmbeds');
+const { getBossData, getLocationsData, getNPCData, getSpiritData } = require('../../utils/game/eldenAPI');
+const { createEldenBossEmbed, createEldenLocationEmbed, createEldenNPCEmbed, createEldenSpritEmbed } = require('../../utils/embed/createGameEmbeds');
 
 module.exports = {
     data:
@@ -30,6 +30,7 @@ module.exports = {
                 { name: 'Locations' },
                 { name: 'Bosses' },
                 { name: 'NPCS' },
+                { name: 'Spirits' },
             ]
 
             if (focusedValue.name === 'genre') {
@@ -42,16 +43,20 @@ module.exports = {
                 switch (interaction.options.getString('genre')) {
                     case 'Locations':
                         eldenObj = await getLocationsData();
-                        choices = eldenObj.data;
+                        choices = eldenObj.data; 
                         break;
                     case 'Bosses':
                         eldenObj = await getBossData();
-                        choices = eldenObj.data;
+                        choices = eldenObj.data; 
                         break;
                     case 'NPCS':
                         eldenObj = await getNPCData();
-                        choices = eldenObj.data;
+                        choices = eldenObj.data; 
                         break;
+                    case 'Spirits': 
+                        eldenObj = await getSpiritData(); 
+                        choices = eldenObj.data; 
+                        break; 
                 }
             }
 
@@ -82,7 +87,7 @@ module.exports = {
             const response = await fetch(url);
             const eldenData = await response.json();
             const eldenObj = eldenData?.data[0];
-            
+
 
             if (!eldenObj) {
                 await interaction.editReply('could not find elden ring search.')
@@ -122,9 +127,17 @@ module.exports = {
                         eldenObj?.location ?? 'Location not listed.',
                         eldenObj?.role ?? 'Role not listed.',
                     )
+                case 'Spirits':
+                    embed = createEldenSpritEmbed(
+                        eldenObj?.name ?? 'Name not listed.',
+                        eldenObj?.image,
+                        eldenObj?.description ?? 'Description not listed.',
+                        eldenObj?.fpCost ?? 'FP Cost not listed.',
+                        eldenObj?.hpCost ?? 'HP Cost not listed.',
+                        eldenObj?.effect ?? 'Effect not listed.'
+                    )
             }
 
-            
             await interaction.editReply({ embeds: [embed] });
 
         } catch (error) {
