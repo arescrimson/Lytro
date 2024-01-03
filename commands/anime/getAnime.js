@@ -41,7 +41,7 @@ module.exports = {
 			const animeID = await getJikanID('anime', animeName);
 
 			if (!animeID) {
-				await interaction.editReply(`${animeName} not found/listed. DEPLOY`);
+				await interaction.editReply(`${animeName} not found/listed`);
 				return;
 			}
 
