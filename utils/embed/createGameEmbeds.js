@@ -113,7 +113,7 @@ function createEldenSpritEmbed(name, image, description, fpCost, hpCost, effect)
     embed
         .setColor(0x9966FF)
         .setTitle(`${name}`)
-        .setAuthor({ name: `Searching Elden Ring Spirit: ${name}`, iconURL: ICON_URL })
+        .setAuthor({ name: `Searching Elden Ring Spirits: ${name}`, iconURL: ICON_URL })
         .addFields(
             { name: 'Description: \n\u200b', value: `${description}\n\u200b` },
             { name: 'FP Cost:', value: `${fpCost}`, inline: true },
