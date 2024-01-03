@@ -42,6 +42,12 @@ class EldenSearchAPI {
         const cacheKey = 'npcData'; 
         return this.fetchData(apiUrl, cacheKey); 
     }
+
+    async createSpiritData() { 
+        const apiUrl = 'https://eldenring.fanapis.com/api/spirits?limit=100';
+        const cacheKey = 'spiritData'; 
+        return this.fetchData(apiUrl, cacheKey); 
+    }
 }
 
 const eldenAPI = new EldenSearchAPI();
@@ -58,8 +64,13 @@ async function getNPCData() {
     return await eldenAPI.createNPCData();
 }
 
+async function getSpiritData() { 
+    return await eldenAPI.createSpiritData(); 
+}
+
 module.exports = {
     getBossData,
     getLocationsData,
-    getNPCData
+    getNPCData,
+    getSpiritData
 };
