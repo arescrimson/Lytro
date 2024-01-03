@@ -7,15 +7,15 @@ class AnimeCharacterSearchTests {
         this.characterArr = [];
     }
 
-    testInitialization() {
-        test('AnimeSearch initialization', () => {
+    testMainCharacterInitialization() {
+        test('AnimeCharacterSearch initialization', () => {
             expect(this.animeCharacterSearch.getCharacterName()).toBe('main');
         });
     }
 
     testCharacterArr() {
-        test('CharacterArr', async () => {
-            const jikanCharacterArr = await JIKAN_CLIENT.anime.getCharacters(1)
+        test('Character Array Length', async () => {
+            const jikanCharacterArr = await JIKAN_CLIENT.anime.getCharacters(1) //Tests the main characters of Monster 
 
             this.characterArr = this.animeCharacterSearch.createCharacterArray(jikanCharacterArr);
 
