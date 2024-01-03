@@ -22,7 +22,7 @@ class AnimeCharacterSearch {
         this.characterArr = [];
         this.characterObj = null;
         this.characterEmbed = null;
-        this.characterName = characterName;
+        this.characterName = sjhfjsf;
         this.characterCounter = 0;
         this.searchMain = true;
     }
