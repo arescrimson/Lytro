@@ -26,7 +26,7 @@ class AnimeCharacterSearchTests {
 }
 
 const animeCharacterSearchTests = new AnimeCharacterSearchTests();
-animeCharacterSearchTests.testInitialization();
+animeCharacterSearchTests.testMainCharacterInitialization();
 animeCharacterSearchTests.testCharacterArr();
 
 
