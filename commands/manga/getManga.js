@@ -42,6 +42,7 @@ module.exports = {
 				await interaction.editReply(`${mangaName} not found/listed.`);
 				return;
 			}
+			
 			const mangaSearch = new MangaSearch(mangaID);
 			const mangaEmbed = await mangaSearch.createMangaEmbed();
 
