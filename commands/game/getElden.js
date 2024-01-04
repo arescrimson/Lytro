@@ -43,20 +43,20 @@ module.exports = {
                 switch (interaction.options.getString('genre')) {
                     case 'Locations':
                         eldenObj = await getLocationsData();
-                        choices = eldenObj.data; 
+                        choices = eldenObj.data;
                         break;
                     case 'Bosses':
                         eldenObj = await getBossData();
-                        choices = eldenObj.data; 
+                        choices = eldenObj.data;
                         break;
                     case 'NPCS':
                         eldenObj = await getNPCData();
-                        choices = eldenObj.data; 
+                        choices = eldenObj.data;
                         break;
-                    case 'Spirits': 
-                        eldenObj = await getSpiritData(); 
-                        choices = eldenObj.data; 
-                        break; 
+                    case 'Spirits':
+                        eldenObj = await getSpiritData();
+                        choices = eldenObj.data;
+                        break;
                 }
             }
 
@@ -127,6 +127,7 @@ module.exports = {
                         eldenObj?.location ?? 'Location not listed.',
                         eldenObj?.role ?? 'Role not listed.',
                     )
+                    break;
                 case 'Spirits':
                     embed = createEldenSpritEmbed(
                         eldenObj?.name ?? 'Name not listed.',
@@ -136,6 +137,7 @@ module.exports = {
                         eldenObj?.hpCost ?? 'HP Cost not listed.',
                         eldenObj?.effect ?? 'Effect not listed.'
                     )
+                    break;
             }
 
             await interaction.editReply({ embeds: [embed] });
