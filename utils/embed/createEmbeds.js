@@ -1,9 +1,8 @@
-const { EmbedBuilder } = require('discord.js');
+const { createBaseEmbed } = require('../embed/createBaseEmbed');
 const { THUMBNAIL, ICON_URL } = require('../../config');
 
 function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RATINGS, YEAR, STUDIO, RELATED, image) {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
+    return createBaseEmbed()
         .setTitle(`${TITLE}`)
         .setThumbnail(`${image}`)
         .setURL(`${URL}`)
@@ -19,13 +18,10 @@ function createAnimeEmbed(TITLE, URL, SYNOPSIS, SYNOPSIS2, EPISODES, GENRES, RAT
             { name: 'Related:', value: `${RELATED}`, inline: true }
         )
         .setImage(`${image}`)
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
 function createCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, VOICEACTOR, IMAGE) {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
+    return createBaseEmbed()
         .setTitle(`${NAME}`)
         .setThumbnail(THUMBNAIL)
         .setURL(`${URL}`)
@@ -36,23 +32,17 @@ function createCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, VOICEACTOR, IMA
             { name: 'Japanese Voice Actor:', value: `${VOICEACTOR}`, inline: true },
         )
         .setImage(`${IMAGE}`)
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
 function createAnimeImageEmbed(title, image) {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
-        .setAuthor({ name: `Currently Searching Anime: ${title}`, iconURL: ICON_URL })
+    return createBaseEmbed()
+        .setAuthor({ name: `Currently Searching Images: ${title}`, iconURL: ICON_URL })
         .setThumbnail(THUMBNAIL)
-        .setTimestamp()
         .setImage(image)
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
 function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENRES, RATINGS, DATE, SERIAL, POPULARITY, image) {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
+    return createBaseEmbed()
         .setTitle(`${TITLE}`)
         .setURL(`${URL}`)
         .setAuthor({ name: `Currently Searching Manga: ${TITLE}`, iconURL: ICON_URL })
@@ -69,13 +59,10 @@ function createMangaEmbed(TITLE, URL, AUTHOR, SYNOPSIS, SYNOPSIS2, VOLUMES, GENR
             { name: 'Manga Rank:', value: `#${POPULARITY}`, inline: true }
         )
         .setImage(`${image}`)
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
 function createMangaCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, IMAGE) {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
+    return createBaseEmbed()
         .setTitle(`${NAME}`)
         .setThumbnail(THUMBNAIL)
         .setURL(`${URL}`)
@@ -85,26 +72,21 @@ function createMangaCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, IMAGE) {
             { name: 'Description:', value: `${DESCRIPTION}` },
         )
         .setImage(`${IMAGE}`)
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
 function createEmbedQuote(quoteAuthor, quoteBody, quoteAnime) {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
+    return createBaseEmbed()
         .addFields({
             name: '\n',
             value: `"${quoteBody}" - **${quoteAuthor}**, **${quoteAnime}**`,
         })
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
 function createHelpEmbed() {
-    return new EmbedBuilder()
-        .setColor(0x9966FF)
-        .setAuthor({ name: 'List of Commands', iconURL: ICON_URL })
+    return createBaseEmbed()
+        .setAuthor({ name: 'Command Help', iconURL: ICON_URL })
         .addFields(
+            { name: '\n', value: '\n' },
             { name: 'Anime Commands:', value: '\n\u200b' },
             { name: '/a [anime_name]', value: 'Gets anime information from specified anime.' },
             { name: '/chr [character_name]', value: 'Gets anime character information from specified character.' },
@@ -120,15 +102,11 @@ function createHelpEmbed() {
             { name: 'Animal Commands:', value: '\n\u200b' },
             { name: '/cats', value: 'Gets random images of cats.' }
         )
-        .setTimestamp()
-        .setFooter({ text: 'Command Help', iconURL: ICON_URL })
 }
 
 function createCatsEmbed(catsObj) {
-    return new EmbedBuilder()
+    return createBaseEmbed()
         .setImage(`${catsObj[0].url}`)
-        .setTimestamp()
-        .setFooter({ text: 'Cats', iconURL: ICON_URL })
 }
 
 module.exports = {
