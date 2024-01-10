@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { createBaseEmbed } = require('../embed/createBaseEmbed');
 const { ICON_URL } = require('../../config');
 
 function createSteamGameEmbed(
@@ -16,11 +16,10 @@ function createSteamGameEmbed(
     recs,
     releaseDate
 ) {
-    const embed = new EmbedBuilder()
+    const embed = createBaseEmbed();
     if (gameURL) embed.setURL(`${gameURL}`)
 
     embed
-        .setColor(0x9966FF)
         .setTitle(`${gameTitle}`)
         .setAuthor({ name: `Searching Steam Game: ${gameTitle}`, iconURL: ICON_URL })
         .setThumbnail(`${image}`)
@@ -38,19 +37,16 @@ function createSteamGameEmbed(
             { name: 'Player Count:', value: `${playerCount}`, inline: true },
         )
         .setImage(`${image}`)
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 
     return embed;
 }
 
 function createEldenBossEmbed(name, image, region, description, location, hp, drops) {
-    const embed = new EmbedBuilder()
+    const embed = createBaseEmbed();
 
     if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
 
     embed
-        .setColor(0x9966FF)
         .setTitle(`${name}`)
         .setAuthor({ name: `Searching Elden Ring Boss: ${name}`, iconURL: ICON_URL })
         .addFields(
@@ -60,38 +56,32 @@ function createEldenBossEmbed(name, image, region, description, location, hp, dr
             { name: 'Hitpoints:', value: `${hp}`, inline: true },
             { name: 'Drops:', value: `${drops}`, inline: true }
         )
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 
     return embed;
 }
 
 function createEldenLocationEmbed(name, image, region, description) {
-    const embed = new EmbedBuilder()
+    const embed = createBaseEmbed();
 
     if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
 
     embed
-        .setColor(0x9966FF)
         .setTitle(`${name}`)
         .setAuthor({ name: `Searching Elden Ring Location: ${name}`, iconURL: ICON_URL })
         .addFields(
             { name: 'Description: \n\u200b', value: `${description}\n\u200b` },
             { name: 'Region:', value: `${region}`, inline: true },
         )
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 
     return embed;
 }
 
 function createEldenNPCEmbed(name, image, quote, location, role) {
-    const embed = new EmbedBuilder()
+    const embed = createBaseEmbed();
 
     if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
 
     embed
-        .setColor(0x9966FF)
         .setTitle(`${name}`)
         .setAuthor({ name: `Searching Elden Ring NPC: ${name}`, iconURL: ICON_URL })
         .addFields(
@@ -99,19 +89,16 @@ function createEldenNPCEmbed(name, image, quote, location, role) {
             { name: 'Location:', value: `${location}`, inline: true },
             { name: 'Role:', value: `${role}`, inline: true },
         )
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 
     return embed;
 }
 
 function createEldenSpritEmbed(name, image, description, fpCost, hpCost, effect) {
-    const embed = new EmbedBuilder()
+    const embed = createBaseEmbed()
 
     if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
 
     embed
-        .setColor(0x9966FF)
         .setTitle(`${name}`)
         .setAuthor({ name: `Searching Elden Ring Spirits: ${name}`, iconURL: ICON_URL })
         .addFields(
@@ -120,15 +107,13 @@ function createEldenSpritEmbed(name, image, description, fpCost, hpCost, effect)
             { name: 'HP Cost:', value: `${hpCost}`, inline: true },
             { name: 'Effect:', value: `${effect}`, inline: true }
         )
-        .setTimestamp()
-        .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 
     return embed;
 }
 
 
 module.exports = {
-    createSteamGameEmbed,
+    createSteamGameEmbed,   
     createEldenBossEmbed,
     createEldenLocationEmbed,
     createEldenNPCEmbed,
