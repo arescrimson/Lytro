@@ -13,7 +13,7 @@ module.exports = {
             const quoteEmbed = await getQuote();
 
             if (!quoteEmbed) {
-                await interaction.editReply('Something went wrong getting that quote.')
+                await interaction.editReply('Something went wrong getting that quote - quote functionality is currently down :((')
             }
 
             await interaction.editReply({
@@ -21,7 +21,7 @@ module.exports = {
             })
 
         } catch (error) {
-            await interaction.editReply('Something went wrong getting that quote.');
+            //await interaction.editReply('Something went wrong getting that quote.');
             console.error('Error in getQuote', error);
         }
     }
