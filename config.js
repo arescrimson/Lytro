@@ -12,7 +12,7 @@ module.exports = {
     STEAM_KEY,
     QUOTE_TOKEN,
     CATS_TOKEN,
-    QUOTE_URL: "https://waifu.it/api/quote",
+    QUOTE_URL: "https://waifu.it/api/v4/quote",
     THUMBNAIL: 'https://github.com/arescrimson/Lytro/blob/master/media/profile.jpg?raw=true',
     ICON_URL: 'https://github.com/arescrimson/Lytro/blob/master/media/icon.png?raw=true',
     MAX_VALUE_LENGTH: 1020,
