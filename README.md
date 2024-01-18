@@ -66,7 +66,7 @@ https://github.com/arescrimson/Lytro/assets/66581240/c7e96893-239e-4649-a510-812
 
 https://github.com/arescrimson/Lytro/assets/66581240/af92e482-54e8-4696-96df-4d5611cbab42
 
-## Cats
+## Animals
 
 https://github.com/arescrimson/Lytro/assets/66581240/416a7394-2a02-4b73-911e-191358a32ed6
 
