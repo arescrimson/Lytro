@@ -1,17 +1,15 @@
-const { JIKAN_CLIENT } = require('../jikan/jikanClient');
+const { JIKAN_CLIENT } = require('../jikan/jikanClient')
 
 async function getRandomMangaID() {
-    try {
-        
-        const random = await JIKAN_CLIENT.manga.random(false);
+  try {
+    const random = await JIKAN_CLIENT.manga.random(false)
 
-        return random.id;
-
-    } catch (error) {
-        console.error(error);
-    }
+    return random.id
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 module.exports = {
-    getRandomMangaID
+  getRandomMangaID,
 }

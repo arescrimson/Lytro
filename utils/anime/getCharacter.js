@@ -7,168 +7,179 @@
 
 const { JIKAN_CLIENT } = require('../jikan/jikanClient')
 
-const { createCharacterEmbed } = require('../embed/createEmbeds');
+const { createCharacterEmbed } = require('../embed/createEmbeds')
 
 const {
-    NICKNAMES_NOT_FOUND,
-    VA_NOT_FOUND,
-    DESCRIPTION_NOT_FOUND,
-    MAX_VALUE_LENGTH,
+  NICKNAMES_NOT_FOUND,
+  VA_NOT_FOUND,
+  DESCRIPTION_NOT_FOUND,
+  MAX_VALUE_LENGTH,
 } = require('../../config')
 
 class AnimeCharacterSearch {
+  constructor(characterName) {
+    this.characterArr = []
+    this.characterObj = null
+    this.characterEmbed = null
+    this.characterName = characterName
+    this.characterCounter = 0
+    this.searchMain = true
+  }
 
-    constructor(characterName) {
-        this.characterArr = [];
-        this.characterObj = null;
-        this.characterEmbed = null;
-        this.characterName = characterName;
-        this.characterCounter = 0;
-        this.searchMain = true;
+  async createAnimeCharactersEmbed() {
+    try {
+      if (this.searchMain) {
+        this.characterObj = await JIKAN_CLIENT.characters.getFull(
+          this.characterArr[this.characterCounter].character.id,
+        )
+      } else {
+        const characterArray = await searchCharacterArray(this.characterName)
+        this.characterArr = characterArray.filter(
+          (name) => name.name === this.characterName,
+        )
+
+        if (this.characterArr.length === 0) return null
+
+        this.characterObj = await JIKAN_CLIENT.characters.getFull(
+          this.characterArr[this.characterCounter].id,
+        )
+      }
+
+      if (!this.characterObj) return null
+
+      const voiceActors = this.characterObj.voices[0]?.person.name
+
+      const characterAbout = this.getDescription(this.characterObj.about)
+
+      let nicknames
+
+      if (this.characterObj.nicknames.length === 0)
+        nicknames = NICKNAMES_NOT_FOUND
+      else nicknames = this.characterObj?.nicknames?.slice(0, 3)
+
+      this.characterEmbed = createCharacterEmbed(
+        this.characterObj.name,
+        this.characterObj.url,
+        nicknames,
+        characterAbout,
+        voiceActors ?? VA_NOT_FOUND,
+        this.characterObj?.image.webp.default,
+      )
+
+      return this.characterEmbed
+    } catch (error) {
+      console.error('Error in createAnimeCharactersEmbed:', error.message)
     }
+  }
 
-    async createAnimeCharactersEmbed() {
-        try {
-            if (this.searchMain) {
-                this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].character.id);
-            } else {
+  async createMainCharacterEmbed(animeObj) {
+    const jikanCharacterArr = await JIKAN_CLIENT.anime.getCharacters(
+      animeObj.id,
+    )
 
-                const characterArray = await searchCharacterArray(this.characterName);
-                this.characterArr = characterArray.filter(name => name.name === this.characterName);
+    this.characterArr = this.createCharacterArray(jikanCharacterArr)
 
-                if (this.characterArr.length === 0) return null;
+    this.characterEmbed = await this.createAnimeCharactersEmbed(true)
 
-                this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].id);
-            }
+    return this.characterEmbed
+  }
 
-            if (!this.characterObj) return null;
+  createCharacterArray(jikanCharacterArr) {
+    this.characterArr = jikanCharacterArr.filter((ch) => ch.role === 'Main')
+    return this.characterArr
+  }
 
-            const voiceActors = this.characterObj.voices[0]?.person.name;
+  getDescription(characterDescription) {
+    let description
 
-            const characterAbout = this.getDescription(this.characterObj.about);
+    if (!characterDescription) {
+      return (description = DESCRIPTION_NOT_FOUND)
+    } else {
+      if (characterDescription.length > MAX_VALUE_LENGTH) {
+        const midPoint = characterDescription.lastIndexOf('.', MAX_VALUE_LENGTH)
 
-            let nicknames;
-
-            if (this.characterObj.nicknames.length === 0) nicknames = NICKNAMES_NOT_FOUND;
-            else nicknames = this.characterObj?.nicknames?.slice(0, 3);
-
-            this.characterEmbed = createCharacterEmbed(
-                this.characterObj.name,
-                this.characterObj.url,
-                nicknames,
-                characterAbout,
-                voiceActors ?? VA_NOT_FOUND,
-                this.characterObj?.image.webp.default
-            );
-
-            return this.characterEmbed;
-
-        } catch (error) {
-            console.error('Error in createAnimeCharactersEmbed:', error.message);
+        if (midPoint !== -1) {
+          const descriptionFirstPart = characterDescription.substring(
+            0,
+            midPoint + 1,
+          )
+          description = descriptionFirstPart
         }
+      } else {
+        description = characterDescription
+      }
     }
 
-    async createMainCharacterEmbed(animeObj) {
-        const jikanCharacterArr = await JIKAN_CLIENT.anime.getCharacters(animeObj.id)
+    return description
+  }
 
-        this.characterArr = this.createCharacterArray(jikanCharacterArr);
-
-        this.characterEmbed = await this.createAnimeCharactersEmbed(true);
-
-        return this.characterEmbed;
+  async updateCharacterEmbed(updateRight) {
+    if (updateRight) {
+      this.characterCounter =
+        (this.characterCounter + 1) % this.characterArr.length
+    } else {
+      this.characterCounter =
+        (this.characterCounter - 1 + this.characterArr.length) %
+        this.characterArr.length
     }
 
-    createCharacterArray(jikanCharacterArr) {
-        this.characterArr = jikanCharacterArr.filter(ch => ch.role === 'Main');
-        return this.characterArr;
+    if (this.searchMain) {
+      this.characterObj = await JIKAN_CLIENT.characters.getFull(
+        this.characterArr[this.characterCounter].character.id,
+      )
+    } else {
+      this.characterObj = await JIKAN_CLIENT.characters.getFull(
+        this.characterArr[this.characterCounter].id,
+      )
     }
 
-    getDescription(characterDescription) {
-        let description;
+    if (!this.characterObj) return null
 
-        if (!characterDescription) {
-            return description = DESCRIPTION_NOT_FOUND;
-        }
+    const voiceActors = this.characterObj.voices[0]?.person.name
 
-        else {
-            if (characterDescription.length > MAX_VALUE_LENGTH) {
-                const midPoint = characterDescription.lastIndexOf('.', MAX_VALUE_LENGTH);
+    const characterAbout = this.getDescription(this.characterObj.about)
 
-                if (midPoint !== -1) {
-                    const descriptionFirstPart = characterDescription.substring(0, midPoint + 1);
-                    description = descriptionFirstPart;
-                }
-            }
-            else {
-                description = characterDescription
-            }
-        }
+    let nicknames
 
-        return description;
-    }
+    if (this.characterObj.nicknames.length === 0)
+      nicknames = NICKNAMES_NOT_FOUND
+    else nicknames = this.characterObj?.nicknames?.slice(0, 3)
 
-    async updateCharacterEmbed(updateRight) {
-        if (updateRight) {
-            this.characterCounter = (this.characterCounter + 1) % this.characterArr.length;
-        } else {
-            this.characterCounter = (this.characterCounter - 1 + this.characterArr.length) % this.characterArr.length;
-        }
+    this.characterEmbed = createCharacterEmbed(
+      this.characterObj.name,
+      this.characterObj.url,
+      nicknames,
+      characterAbout,
+      voiceActors ?? VA_NOT_FOUND,
+      this.characterObj?.image.webp.default,
+    )
 
-        if (this.searchMain) {
-            this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].character.id);
-        } else {
-            this.characterObj = await JIKAN_CLIENT.characters.getFull(this.characterArr[this.characterCounter].id);
-        }
+    return this.characterEmbed
+  }
 
-        if (!this.characterObj) return null;
+  setSearchMain(isMain) {
+    this.searchMain = isMain
+  }
 
-        const voiceActors =
-            this.characterObj.voices[0]?.person.name;
+  getCharacterArr() {
+    return this.characterArr
+  }
 
-        const characterAbout =
-            this.getDescription(this.characterObj.about);
+  getCharacterName() {
+    return this.characterName
+  }
 
-        let nicknames;
-
-        if (this.characterObj.nicknames.length === 0) nicknames = NICKNAMES_NOT_FOUND
-        else nicknames = this.characterObj?.nicknames?.slice(0, 3);
-
-        this.characterEmbed = createCharacterEmbed(
-            this.characterObj.name,
-            this.characterObj.url,
-            nicknames,
-            characterAbout,
-            voiceActors ?? VA_NOT_FOUND,
-            this.characterObj?.image.webp.default
-        );
-
-        return this.characterEmbed;
-    }
-
-    setSearchMain(isMain) {
-        this.searchMain = isMain;
-    }
-
-    getCharacterArr() {
-        return this.characterArr;
-    }
-
-    getCharacterName() {
-        return this.characterName;
-    }
-
-    getCharacterEmbed() {
-        return this.characterEmbed;
-    }
+  getCharacterEmbed() {
+    return this.characterEmbed
+  }
 }
 
 async function searchCharacterArray(characterName) {
-    const characterArray = await JIKAN_CLIENT.characters.search(characterName)
-    return characterArray;
+  const characterArray = await JIKAN_CLIENT.characters.search(characterName)
+  return characterArray
 }
 
-
 module.exports = {
-    AnimeCharacterSearch,
-    searchCharacterArray
+  AnimeCharacterSearch,
+  searchCharacterArray,
 }

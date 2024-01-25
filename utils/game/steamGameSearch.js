@@ -1,104 +1,108 @@
-require('dotenv').config();
-const SteamAPI = require('steamapi');
-const { STEAM_KEY } = require('../../config');
-const { createSteamGameEmbed } = require('../embed/createGameEmbeds');
-const steam = new SteamAPI(STEAM_KEY);
+require('dotenv').config()
+const SteamAPI = require('steamapi')
+const { STEAM_KEY } = require('../../config')
+const { createSteamGameEmbed } = require('../embed/createGameEmbeds')
+const steam = new SteamAPI(STEAM_KEY)
 
 class SteamGameSearch {
+  constructor(gameName) {
+    this.gameObj = null
+    this.gameName = gameName
+    this.gameID = 0
+    this.gameEmbed = null
+  }
 
-    constructor(gameName) {
-        this.gameObj = null;
-        this.gameName = gameName;
-        this.gameID = 0;
-        this.gameEmbed = null;
+  async createGameEmbed() {
+    try {
+      const steamGameArray = await getSteamGameArray()
+      this.gameObj = steamGameArray.find((game) => game.name === this.gameName)
+
+      if (!this.gameObj) return null
+
+      this.gameID = this.gameObj.appid
+
+      const activePlayers = await steam.getGamePlayers(this.gameID)
+      const details = await steam.getGameDetails(this.gameID)
+
+      const genres = this.getGenres(details.genres)
+
+      const categories = this.getCategories(details.categories)
+      const developers = details?.developers
+
+      this.gameEmbed = createSteamGameEmbed(
+        details.name,
+        details.website ? details.website : undefined,
+        activePlayers ?? 'Active Players not listed,',
+        details?.short_description ?? 'Description not listed.',
+        details.price_overview?.final_formatted ?? 'Free to Play',
+        developers?.length > 0 ? developers[0] : 'Developers not listed.',
+        genres,
+        details.metacritic?.score ?? 'Metacritic score not listed.',
+        categories,
+        details.header_image,
+        details?.publishers?.slice(0, 2) ?? 'Publishers not listed.',
+        details?.recommendations?.total ?? 'Recommendations not listed.',
+        details?.release_date?.date ?? 'Date not listed.',
+      )
+
+      return this.gameEmbed
+    } catch (error) {
+      console.error(error)
     }
+  }
 
-    async createGameEmbed() {
-        try {
-            const steamGameArray = await getSteamGameArray(); 
-            this.gameObj = steamGameArray.find(game => game.name === this.gameName);
-            
-            if (!this.gameObj) return null;
-            
-            this.gameID = this.gameObj.appid;
+  getGenres(genresArray) {
+    if (!genresArray || genresArray.length === 0) return 'Genres not listed.'
 
-            const activePlayers = await steam.getGamePlayers(this.gameID);
-            const details = await steam.getGameDetails(this.gameID);
-            
-            const genres = this.getGenres(details.genres);
+    const genreDescriptions = genresArray
+      .slice(0, 3)
+      .map((genre) => genre.description)
 
-            const categories = this.getCategories(details.categories);
-            const developers = details?.developers;
+    const genres = genreDescriptions.join(', ')
 
-            this.gameEmbed = createSteamGameEmbed(
-                details.name,
-                details.website ? details.website : undefined,
-                activePlayers ?? 'Active Players not listed,',
-                details?.short_description ?? 'Description not listed.',
-                details.price_overview?.final_formatted ?? 'Free to Play',
-                developers?.length > 0 ? developers[0] : 'Developers not listed.',
-                genres,
-                details.metacritic?.score ?? 'Metacritic score not listed.',
-                categories,
-                details.header_image, 
-                details?.publishers?.slice(0,2) ?? 'Publishers not listed.', 
-                details?.recommendations?.total ?? 'Recommendations not listed.',
-                details?.release_date?.date ?? 'Date not listed.'
-            )
+    return genres
+  }
 
-            return this.gameEmbed;
-        } catch (error) {
-            console.error(error);
-        }
-    }
+  getCategories(categoryArray) {
+    if (!categoryArray || categoryArray.length === 0)
+      return 'Categories not listed.'
 
-    getGenres(genresArray) {
-        if (!genresArray || genresArray.length === 0) return 'Genres not listed.'
+    const categoryDescriptions = categoryArray
+      .slice(0, 3)
+      .map((category) => category.description)
 
-        const genreDescriptions = genresArray.slice(0, 3).map(genre => genre.description);
+    const categories = categoryDescriptions.join(', ')
 
-        const genres = genreDescriptions.join(', ');
+    return categories
+  }
 
-        return genres;
-    }
+  getGameEmbed() {
+    return this.gameEmbed
+  }
 
-    getCategories(categoryArray) {
-        if (!categoryArray || categoryArray.length === 0) return 'Categories not listed.'
+  getGameName() {
+    return this.gameName
+  }
 
-        const categoryDescriptions = categoryArray.slice(0, 3).map(category => category.description);
-
-        const categories = categoryDescriptions.join(', ');
-
-        return categories;
-    }
-
-    getGameEmbed() {
-        return this.gameEmbed;
-    }
-
-    getGameName() {
-        return this.gameName;
-    }
-
-    getGameID() {
-        return this.gameID;
-    }
+  getGameID() {
+    return this.gameID
+  }
 }
 
-let cachedGameArray = null;
+let cachedGameArray = null
 
 async function getSteamGameArray() {
-    if (cachedGameArray) {
-        return cachedGameArray;
-    }
+  if (cachedGameArray) {
+    return cachedGameArray
+  }
 
-    const steamGameArray = await steam.getAppList();
-    cachedGameArray = steamGameArray;
+  const steamGameArray = await steam.getAppList()
+  cachedGameArray = steamGameArray
 
-    return steamGameArray;
+  return steamGameArray
 }
 
 module.exports = {
-    SteamGameSearch,
-    getSteamGameArray
+  SteamGameSearch,
+  getSteamGameArray,
 }
