@@ -16,6 +16,8 @@ Add to your server [here](https://discord.com/api/oauth2/authorize?client_id=118
 
 # 🚀 Updates
 
+**UPDATE: As of 3/24/2024, Lytro will have maintenance stopped until summer. This is because of pricing/time constraints/new Google Cloud policies, but development will be (hopefully) resumed come summer. Lytro will be online until April.**
+
 **IMPORTANT:** As of **12/19/2023**, this is the new version of Lytro, which has been completely rewritten and improved. The old repository can be found [here](https://github.com/arescrimson/LytroOld/tree/master).
 
 ### Exciting updates and improvements from the old version include:
