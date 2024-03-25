@@ -5,7 +5,7 @@ function createBaseEmbed() {
   return new EmbedBuilder()
     .setColor(0x9966ff)
     .setTimestamp()
-    .setFooter({ text: 'Information from Lytrotest', iconURL: ICON_URL });
+    .setFooter({ text: 'Information from Lytro', iconURL: ICON_URL });
 }
 
 module.exports = {
