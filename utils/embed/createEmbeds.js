@@ -1,5 +1,5 @@
-const { createBaseEmbed } = require('../embed/createBaseEmbed')
-const { THUMBNAIL, ICON_URL } = require('../../config')
+const { createBaseEmbed } = require('../embed/createBaseEmbed');
+const { THUMBNAIL, ICON_URL } = require('../../config');
 
 function createAnimeEmbed(
   TITLE,
@@ -32,7 +32,7 @@ function createAnimeEmbed(
       { name: 'Studio:', value: `${STUDIO}`, inline: true },
       { name: 'Related:', value: `${RELATED}`, inline: true },
     )
-    .setImage(`${image}`)
+    .setImage(`${image}`);
 }
 
 function createCharacterEmbed(
@@ -60,7 +60,7 @@ function createCharacterEmbed(
         inline: true,
       },
     )
-    .setImage(`${IMAGE}`)
+    .setImage(`${IMAGE}`);
 }
 
 function createAnimeImageEmbed(title, image) {
@@ -70,7 +70,7 @@ function createAnimeImageEmbed(title, image) {
       iconURL: ICON_URL,
     })
     .setThumbnail(THUMBNAIL)
-    .setImage(image)
+    .setImage(image);
 }
 
 function createMangaEmbed(
@@ -106,7 +106,7 @@ function createMangaEmbed(
       { name: 'Manga Serialization:', value: `${SERIAL}`, inline: true },
       { name: 'Manga Rank:', value: `#${POPULARITY}`, inline: true },
     )
-    .setImage(`${image}`)
+    .setImage(`${image}`);
 }
 
 function createMangaCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, IMAGE) {
@@ -122,14 +122,14 @@ function createMangaCharacterEmbed(NAME, URL, Nicknames, DESCRIPTION, IMAGE) {
       { name: 'Nicknames:', value: `${Nicknames}` },
       { name: 'Description:', value: `${DESCRIPTION}` },
     )
-    .setImage(`${IMAGE}`)
+    .setImage(`${IMAGE}`);
 }
 
 function createEmbedQuote(quoteAuthor, quoteBody, quoteAnime) {
   return createBaseEmbed().addFields({
     name: '\n',
     value: `"${quoteBody}" - **${quoteAuthor}**, **${quoteAnime}**`,
-  })
+  });
 }
 
 function createHelpEmbed() {
@@ -175,11 +175,11 @@ function createHelpEmbed() {
       },
       { name: 'Animal Commands:', value: '\n\u200b' },
       { name: '/cats', value: 'Gets random images of cats.' },
-    )
+    );
 }
 
 function createCatsEmbed(catsObj) {
-  return createBaseEmbed().setImage(`${catsObj[0].url}`)
+  return createBaseEmbed().setImage(`${catsObj[0].url}`);
 }
 
 module.exports = {
@@ -191,4 +191,4 @@ module.exports = {
   createEmbedQuote,
   createHelpEmbed,
   createCatsEmbed,
-}
+};

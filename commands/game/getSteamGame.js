@@ -1,8 +1,8 @@
-const { SlashCommandBuilder } = require('discord.js')
+const { SlashCommandBuilder } = require('discord.js');
 const {
   SteamGameSearch,
   getSteamGameArray,
-} = require('../../utils/game/steamGameSearch')
+} = require('../../utils/game/steamGameSearch');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,43 +17,45 @@ module.exports = {
     ),
   async autocomplete(interaction) {
     try {
-      const focusedValue = await interaction.options.getFocused()
+      const focusedValue = await interaction.options.getFocused();
 
-      const steamGameArray = await getSteamGameArray()
+      const steamGameArray = await getSteamGameArray();
 
       const gameNames = steamGameArray.filter((gameName) =>
         gameName.name.toLowerCase().startsWith(focusedValue.toLowerCase()),
-      )
+      );
 
-      const limitedGameList = gameNames.slice(0, 24)
+      const limitedGameList = gameNames.slice(0, 24);
 
       await interaction.respond(
         limitedGameList.map((games) => ({
           name: games.name,
           value: games.name,
         })),
-      )
+      );
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   },
   async execute(interaction) {
     try {
-      await interaction.deferReply()
-      const gameName = interaction.options.getString('game')
+      await interaction.deferReply();
+      const gameName = interaction.options.getString('game');
 
-      const steamGameSearch = new SteamGameSearch(gameName)
-      const gameEmbed = await steamGameSearch.createGameEmbed()
+      const steamGameSearch = new SteamGameSearch(gameName);
+      const gameEmbed = await steamGameSearch.createGameEmbed();
 
       if (!gameEmbed) {
-        interaction.editReply(`${gameName} not found/listed.`)
-        return
+        interaction.editReply(`${gameName} not found/listed.`);
+        return;
       }
 
-      await interaction.editReply({ embeds: [gameEmbed] })
+      await interaction.editReply({ embeds: [gameEmbed] });
     } catch (error) {
-      await interaction.editReply('Something went wrong in getting steam game.')
-      console.error('Error in getSteamGame', error)
+      await interaction.editReply(
+        'Something went wrong in getting steam game.',
+      );
+      console.error('Error in getSteamGame', error);
     }
   },
-}
+};

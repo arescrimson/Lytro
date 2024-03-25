@@ -1,5 +1,5 @@
-const { createBaseEmbed } = require('../embed/createBaseEmbed')
-const { ICON_URL } = require('../../config')
+const { createBaseEmbed } = require('../embed/createBaseEmbed');
+const { ICON_URL } = require('../../config');
 
 function createSteamGameEmbed(
   gameTitle,
@@ -16,8 +16,8 @@ function createSteamGameEmbed(
   recs,
   releaseDate,
 ) {
-  const embed = createBaseEmbed()
-  if (gameURL) embed.setURL(`${gameURL}`)
+  const embed = createBaseEmbed();
+  if (gameURL) embed.setURL(`${gameURL}`);
 
   embed
     .setTitle(`${gameTitle}`)
@@ -39,9 +39,9 @@ function createSteamGameEmbed(
       { name: 'Metacritic Score:', value: `${score}`, inline: true },
       { name: 'Player Count:', value: `${playerCount}`, inline: true },
     )
-    .setImage(`${image}`)
+    .setImage(`${image}`);
 
-  return embed
+  return embed;
 }
 
 function createEldenBossEmbed(
@@ -53,9 +53,9 @@ function createEldenBossEmbed(
   hp,
   drops,
 ) {
-  const embed = createBaseEmbed()
+  const embed = createBaseEmbed();
 
-  if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
+  if (image) embed.setImage(`${image}`).setThumbnail(`${image}`);
 
   embed
     .setTitle(`${name}`)
@@ -69,15 +69,15 @@ function createEldenBossEmbed(
       { name: 'Location:', value: `${location}`, inline: true },
       { name: 'Hitpoints:', value: `${hp}`, inline: true },
       { name: 'Drops:', value: `${drops}`, inline: true },
-    )
+    );
 
-  return embed
+  return embed;
 }
 
 function createEldenLocationEmbed(name, image, region, description) {
-  const embed = createBaseEmbed()
+  const embed = createBaseEmbed();
 
-  if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
+  if (image) embed.setImage(`${image}`).setThumbnail(`${image}`);
 
   embed
     .setTitle(`${name}`)
@@ -88,15 +88,15 @@ function createEldenLocationEmbed(name, image, region, description) {
     .addFields(
       { name: 'Description: \n\u200b', value: `${description}\n\u200b` },
       { name: 'Region:', value: `${region}`, inline: true },
-    )
+    );
 
-  return embed
+  return embed;
 }
 
 function createEldenNPCEmbed(name, image, quote, location, role) {
-  const embed = createBaseEmbed()
+  const embed = createBaseEmbed();
 
-  if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
+  if (image) embed.setImage(`${image}`).setThumbnail(`${image}`);
 
   embed
     .setTitle(`${name}`)
@@ -108,9 +108,9 @@ function createEldenNPCEmbed(name, image, quote, location, role) {
       { name: 'Quote: \n\u200b', value: `${quote}\n\u200b` },
       { name: 'Location:', value: `${location}`, inline: true },
       { name: 'Role:', value: `${role}`, inline: true },
-    )
+    );
 
-  return embed
+  return embed;
 }
 
 function createEldenSpritEmbed(
@@ -121,9 +121,9 @@ function createEldenSpritEmbed(
   hpCost,
   effect,
 ) {
-  const embed = createBaseEmbed()
+  const embed = createBaseEmbed();
 
-  if (image) embed.setImage(`${image}`).setThumbnail(`${image}`)
+  if (image) embed.setImage(`${image}`).setThumbnail(`${image}`);
 
   embed
     .setTitle(`${name}`)
@@ -136,9 +136,9 @@ function createEldenSpritEmbed(
       { name: 'FP Cost:', value: `${fpCost}`, inline: true },
       { name: 'HP Cost:', value: `${hpCost}`, inline: true },
       { name: 'Effect:', value: `${effect}`, inline: true },
-    )
+    );
 
-  return embed
+  return embed;
 }
 
 module.exports = {
@@ -147,4 +147,4 @@ module.exports = {
   createEldenLocationEmbed,
   createEldenNPCEmbed,
   createEldenSpritEmbed,
-}
+};

@@ -3,10 +3,10 @@ const {
   ButtonBuilder,
   ActionRowBuilder,
   ButtonStyle,
-} = require('discord.js')
-const { AnimeSearch } = require('../../utils/anime/getAnime')
-const { getRandomID } = require('../../utils/anime/getRandom')
-const { rightArrowText, leftArrowText } = require('../../config')
+} = require('discord.js');
+const { AnimeSearch } = require('../../utils/anime/getAnime');
+const { getRandomID } = require('../../utils/anime/getRandom');
+const { rightArrowText, leftArrowText } = require('../../config');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,26 +14,26 @@ module.exports = {
     .setDescription('gets random anime.'),
   async execute(interaction) {
     try {
-      await interaction.deferReply()
+      await interaction.deferReply();
 
-      const animeID = await getRandomID()
+      const animeID = await getRandomID();
 
-      const animeSearch = new AnimeSearch(animeID)
-      const animeEmbed = await animeSearch.createAnimeEmbed()
+      const animeSearch = new AnimeSearch(animeID);
+      const animeEmbed = await animeSearch.createAnimeEmbed();
 
       if (!animeEmbed) {
         await interaction.editReply(
           'Something went wrong in getting random anime.',
-        )
-        return
+        );
+        return;
       }
 
       await interaction.editReply({
         embeds: [animeEmbed],
-      })
+      });
     } catch (error) {
-      await interaction.editReply('Error with getting random anime.')
-      console.error('Error in anime getRandom', error)
+      await interaction.editReply('Error with getting random anime.');
+      console.error('Error in anime getRandom', error);
     }
   },
-}
+};

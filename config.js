@@ -1,9 +1,9 @@
-const DISCORD_TOKEN = process.env.DISCORD_TOKEN
-const CLIENT_ID = process.env.CLIENT_ID
-const GUILD_ID = process.env.GUILD_ID
-const STEAM_KEY = process.env.STEAM_KEY
-const QUOTE_TOKEN = process.env.QUOTE_TOKEN
-const CATS_TOKEN = process.env.CATS_TOKEN
+const DISCORD_TOKEN = process.env.DISCORD_TOKEN;
+const CLIENT_ID = process.env.CLIENT_ID;
+const GUILD_ID = process.env.GUILD_ID;
+const STEAM_KEY = process.env.STEAM_KEY;
+const QUOTE_TOKEN = process.env.QUOTE_TOKEN;
+const CATS_TOKEN = process.env.CATS_TOKEN;
 
 module.exports = {
   DISCORD_TOKEN,
@@ -39,4 +39,4 @@ module.exports = {
   rightArrowText: '⋙',
   leftArrowText: '⋘',
   newImageText: '➕',
-}
+};
