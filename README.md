@@ -6,9 +6,7 @@
 
 # 💡 About
 
-A Discord Bot that features commands mainly about anime/manga, but also returns information about video games, cats, and more. Fully built, maintained, and hosted by Ares. Feel free to send me a dm @arescrimson on Discord for anything relating to your experience using the bot :)
-
-Add to your server [here](https://discord.com/api/oauth2/authorize?client_id=1185754463907086367&permissions=2147510272&scope=bot+applications.commands). Please note that this is still a work in progress, and do let me know if you run into any issues.
+A Discord Bot that features commands mainly about anime/manga, but also returns information about video games, cats, and more. 
 
 # ⚒️ Using
 
